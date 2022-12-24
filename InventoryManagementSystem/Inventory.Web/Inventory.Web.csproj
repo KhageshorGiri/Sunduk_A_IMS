@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Repositories\repoImplementation\" />
+    <Folder Include="Repositories\RepoInterface\" />
+    <Folder Include="Services\ServiceImplementation\" />
+    <Folder Include="Services\ServiceInterface\" />
+  </ItemGroup>
+
+</Project>
