@@ -1,7 +1,26 @@
+using Inventory.Web.Data;
+using Inventory.Web.Repositories.repoImplementation;
+using Inventory.Web.Repositories.RepoInterface;
+using Inventory.Web.Services.ServiceImplementation;
+using Inventory.Web.Services.ServiceInterface;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// adding database throug connection string
+builder.Services.AddDbContext<InventorySystemDbContext>(option =>
+        option.UseSqlServer(builder.Configuration.GetConnectionString("DataBaseConnection")));
+
+// adding services as a DI
+builder.Services.AddSingleton<IUnit, UnitService>();
+builder.Services.AddSingleton<IUnitRepository, UnitRepository>();
+builder.Services.AddSingleton<ICategory, CategoryService>();
+builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
+
+
 
 var app = builder.Build();
 
