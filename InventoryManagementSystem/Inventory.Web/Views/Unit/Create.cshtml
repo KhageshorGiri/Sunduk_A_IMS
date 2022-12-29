@@ -1,0 +1,98 @@
+﻿@model Inventory.Entities.Entities.Unit
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@{
+    string responseMessage = "Nothing";
+    if (TempData["Message"] != null)
+    {
+        responseMessage = TempData["Message"] as string;
+    }
+}
+    
+
+
+<ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#unitCreationTab" type="button" role="tab" aria-controls="unitCreationTab" aria-selected="true">Create Unit</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#unitDetailTab" type="button" role="tab" aria-controls="unitDetailTab" aria-selected="false">Details</button>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="unitCreationTab" role="tabpanel" aria-labelledby="home-tab">
+        <div class="row">
+            
+            <div class="card mt-5">
+                <div class="card-header">
+                    <h6>Unit Creating Form</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form asp-action="Create">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="UnitName" class="control-label">Unit Name <span class="text-danger">*</span></label>
+                                        <input asp-for="UnitName" class="form-control" required />
+                                        <span asp-validation-for="UnitName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="ShortForm" class="control-label">Short Form <span class="text-danger">*</span></label>
+                                        <input asp-for="ShortForm" class="form-control" required />
+                                        <span asp-validation-for="ShortForm" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group d-flex justify-content-end me-md-5 mt-4">
+                                    <input type="submit" value="Create" class="btn btn-success" />
+                                    <input type="reset" value="Clear" class="btn btn-secondary ms-1" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>
+    </div>
+    <div class="tab-pane fade" id="unitDetailTab" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="mt-5">
+            @await Component.InvokeAsync("UnitIndex")
+        </div>
+      
+    </div>
+</div>
+
+
+<button class="btn btn-success" id="notificationBtn2">Success</button>
+
+
+<hr>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        var responseMessage = "@responseMessage";
+        console.log(responseMessage);
+        debugger
+        if (responseMessage == "Sucess") {
+            successNotification("Sucess!!", "Unit Created Sucessifyly.");
+        }
+        if (responseMessage == "Error") {
+            successNotification("Error!!", "Unit is not Created Sucessifyly.");
+        }
+
+    </script>
+
+}

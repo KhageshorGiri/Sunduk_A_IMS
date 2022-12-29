@@ -1,41 +1,44 @@
 ﻿
 using Inventory.Entities.Entities;
+using Inventory.Web.Repositories.RepoInterface;
 using Inventory.Web.Services.ServiceInterface;
 
 namespace Inventory.Web.Services.ServiceImplementation
 {
     public class CategoryService : ICategory
     {
-        private readonly ICategory _categoryService;
-        public CategoryService(ICategory categoryService)
+        private readonly ICategoryRepository _categoryRepository;
+        public CategoryService(ICategoryRepository categoryRepository)
         {
-            this._categoryService = categoryService;
+            this._categoryRepository = categoryRepository;
         }
 
-        public Task CreateCategoryAsync(Category category)
+        public async Task CreateCategoryAsync(Category category)
         {
-            throw new NotImplementedException();
+            await _categoryRepository.CreateCategoryAsync(category);
         }
 
-        public Task<IEnumerable<Category?>> GetAllCategoriesAsync()
+        public async Task<IEnumerable<Category?>> GetAllCategoriesAsync()
         {
-            throw new NotImplementedException();
+            var categories = await _categoryRepository.GetAllCategoriesAsync();
+            return categories;
         }
 
-        public Task<Category?> GetCategoryAsync(int Id)
+        public async Task<Category?> GetCategoryAsync(int Id)
         {
-            throw new NotImplementedException();
+            var category = await _categoryRepository.GetCategoryAsync(Id);
+            return category;
         }
 
 
-        public Task UpdateCategoryAsync(Category exestingCategory)
+        public async Task UpdateCategoryAsync(Category exestingCategory)
         {
-            throw new NotImplementedException();
+            await _categoryRepository.UpdateCategoryAsync(exestingCategory);
         }
 
-        public Task DeleteCategoryAsync(int Id)
+        public async Task DeleteCategoryAsync(int Id)
         {
-            throw new NotImplementedException();
+            await _categoryRepository.DeleteCategoryAsync(Id);
         }
 
 

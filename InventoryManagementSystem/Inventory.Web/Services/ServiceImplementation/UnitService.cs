@@ -1,28 +1,30 @@
 ﻿
 using Inventory.Entities.Entities;
+using Inventory.Web.Repositories.RepoInterface;
 using Inventory.Web.Services.ServiceInterface;
 
 namespace Inventory.Web.Services.ServiceImplementation
 {
     public class UnitService : IUnit
     {
-        private readonly IUnit _unitService;
-        public UnitService(IUnit unitService)
+        private readonly IUnitRepository _unitRepository;
+        public UnitService(IUnitRepository unitRepository)
         {
-            this._unitService = unitService;
+            this._unitRepository = unitRepository;
         }
 
-        public Task CreateUnitAsync(Unit unit)
+        public async Task CreateUnitAsync(Unit unit)
         {
-            throw new NotImplementedException();
+            await _unitRepository.CreateUnitAsync(unit);
         }
 
-        public Task<IEnumerable<Category?>> GetAllUnitsAsync()
+        public async Task<IEnumerable<Unit?>> GetAllUnitsAsync()
         {
-            throw new NotImplementedException();
+            var allUnitsDetails = await _unitRepository.GetAllUnitsAsync();
+            return allUnitsDetails;
         }
 
-        public Task<Category?> GetUnitAsync(int Id)
+        public Task<Unit?> GetUnitAsync(int Id)
         {
             throw new NotImplementedException();
         }

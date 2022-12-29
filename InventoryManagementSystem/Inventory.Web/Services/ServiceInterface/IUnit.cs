@@ -6,9 +6,9 @@ namespace Inventory.Web.Services.ServiceInterface
     {
         Task CreateUnitAsync(Unit unit);
 
-        Task<IEnumerable<Category?>> GetAllUnitsAsync();
+        Task<IEnumerable<Unit?>> GetAllUnitsAsync();
 
-        Task<Category?> GetUnitAsync(int Id);
+        Task<Unit?> GetUnitAsync(int Id);
 
         Task UpdateUnitAsync(Unit existingUnit);
 

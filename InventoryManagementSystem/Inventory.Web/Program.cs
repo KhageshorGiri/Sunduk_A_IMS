@@ -15,10 +15,10 @@ builder.Services.AddDbContext<InventorySystemDbContext>(option =>
         option.UseSqlServer(builder.Configuration.GetConnectionString("DataBaseConnection")));
 
 // adding services as a DI
-builder.Services.AddSingleton<IUnit, UnitService>();
-builder.Services.AddSingleton<IUnitRepository, UnitRepository>();
-builder.Services.AddSingleton<ICategory, CategoryService>();
-builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IUnit, UnitService>();
+builder.Services.AddScoped<IUnitRepository, UnitRepository>();
+builder.Services.AddScoped<ICategory, CategoryService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 
 
