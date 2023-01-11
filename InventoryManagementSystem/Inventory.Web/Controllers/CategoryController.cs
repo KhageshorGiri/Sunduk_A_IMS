@@ -1,21 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Inventory.Entities.Entities;
+using Inventory.Web.Services.ServiceInterface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        // GET: CategoryController
-        public ActionResult Index()
+
+        private readonly ICategory _categoryService;
+
+        public CategoryController(ICategory categoryService)
         {
-            return View();
+            _categoryService = categoryService;
         }
 
-        // GET: CategoryController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
         // GET: CategoryController/Create
         public ActionResult Create()
@@ -26,35 +25,50 @@ namespace Inventory.Web.Controllers
         // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create([Bind] Category category)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    await _categoryService.CreateCategoryAsync(category);
+                    TempData["Success"] = "Create Sucess";                    
+                }
+                TempData["Error"] = "Create Error";
+                return RedirectToAction("Create");
             }
             catch
             {
+                TempData["Error"] = "Create Error";
                 return View();
             }
         }
 
         // GET: CategoryController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            var existingCategory = await _categoryService.GetCategoryAsync(id);
+            if(existingCategory == null)
+            {
+                return NotFound();
+            }
+            return View(existingCategory);
         }
 
         // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, [Bind] Category existingCateory)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                await _categoryService.UpdateCategoryAsync(id, existingCateory);
+                TempData["Sucess"] = "Edit Sucess";
+                return RedirectToAction(nameof(Create));
             }
             catch
             {
+                TempData["Error"] = "Edit Error";
                 return View();
             }
         }
@@ -62,22 +76,18 @@ namespace Inventory.Web.Controllers
         // GET: CategoryController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: CategoryController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _categoryService.DeleteCategoryAsync(id);
+                TempData["Sucess"] = "Delete Sucess";
+                return RedirectToAction(nameof(Create));
             }
             catch
             {
+                TempData["Error"] = "Delete Error";
                 return View();
             }
         }
+       
     }
 }

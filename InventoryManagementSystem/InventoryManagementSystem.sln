@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Web", "Inventory.Web\Inventory.Web.csproj", "{2621F821-8846-4D44-BCED-2A0E7C4C3F21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Web", "Inventory.Web\Inventory.Web.csproj", "{2621F821-8846-4D44-BCED-2A0E7C4C3F21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Entities", "Inventory.Entities\Inventory.Entities.csproj", "{324E1BB2-068D-4C8B-95F6-FF0BC662A232}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Entities", "Inventory.Entities\Inventory.Entities.csproj", "{324E1BB2-068D-4C8B-95F6-FF0BC662A232}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Utilities", "Inventory.Utilities\Inventory.Utilities.csproj", "{A023EAA8-7A7B-4627-9D2B-0A1464EF31AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Utilities", "Inventory.Utilities\Inventory.Utilities.csproj", "{A023EAA8-7A7B-4627-9D2B-0A1464EF31AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

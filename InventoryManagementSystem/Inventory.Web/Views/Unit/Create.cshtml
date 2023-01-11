@@ -5,7 +5,7 @@
 }
 
 @{
-    string responseMessage = "Nothing";
+    string? responseMessage = "Nothing";
     if (TempData["Message"] != null)
     {
         responseMessage = TempData["Message"] as string;
@@ -70,29 +70,39 @@
 </div>
 
 
-<button class="btn btn-success" id="notificationBtn2">Success</button>
-
-
-<hr>
-
-
 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
+        $(document).ready(function(){
 
-        var responseMessage = "@responseMessage";
-        console.log(responseMessage);
-        debugger
-        if (responseMessage == "Sucess") {
-            successNotification("Sucess!!", "Unit Created Sucessifyly.");
-        }
-        if (responseMessage == "Error") {
-            successNotification("Error!!", "Unit is not Created Sucessifyly.");
-        }
+            $("#unitDetailsIndexTable").DataTable();
 
+            var responseMessage = "@responseMessage";
+
+            if (responseMessage == "Create Sucess") {
+                successNotification("Sucess!!", "Unit Created Sucessifyly.");
+            }
+            else if (responseMessage == "Create Error") {
+                successNotification("Error!!", "Unit is not Created Sucessifyly.");
+            }
+            else if (responseMessage == "Edit Sucess") {
+                successNotification("Sucess!!", "Unit Edited Sucessifyly.");
+            }
+            else if (responseMessage == "Edit Error") {
+                successNotification("Error!!", "Unit is not Edited Sucessifyly.");
+            }
+            else if (responseMessage == "Delete Sucess") {
+                successNotification("Sucess!!", "Unit Deleted Sucessifyly.");
+            }
+            else if (responseMessage == "Delete Error") {
+                successNotification("Error!!", "Unit is not Deleted Sucessifyly.");
+            }
+
+        });
+   
     </script>
 
 }

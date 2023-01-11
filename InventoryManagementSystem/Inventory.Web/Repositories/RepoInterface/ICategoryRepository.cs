@@ -12,6 +12,6 @@ namespace Inventory.Web.Repositories.RepoInterface
 
         Task UpdateCategoryAsync(Category exestingCategory);
 
-        Task DeleteCategoryAsync(int Id);
+        Task DeleteCategoryAsync(Category exestingCategory);
     }
 }

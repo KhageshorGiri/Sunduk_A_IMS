@@ -1,35 +1,49 @@
 ﻿
 using Inventory.Entities.Entities;
+using Inventory.Web.Data;
 using Inventory.Web.Repositories.RepoInterface;
+using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Web.Repositories.repoImplementation
 {
     public class CategoryRepository : ICategoryRepository
     {
-        public Task CreateCategoryAsync(Category category)
+        string configuration = new ConfigurationManager().GetConnectionString("DataBaseConnection");
+
+        private readonly InventorySystemDbContext dbContext;
+        public CategoryRepository(InventorySystemDbContext context)
         {
-            throw new NotImplementedException();
+            this.dbContext = context;
+        }
+        public async Task CreateCategoryAsync(Category category)
+        {
+            dbContext.Categories.Add(category);
+            await dbContext.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Category?>> GetAllCategoriesAsync()
+        public async Task<IEnumerable<Category?>> GetAllCategoriesAsync()
         {
-            throw new NotImplementedException();
+            var categoryList = dbContext.Categories;
+            return await categoryList.ToListAsync();
         }
 
-        public Task<Category?> GetCategoryAsync(int Id)
+        public async Task<Category?> GetCategoryAsync(int Id)
         {
-            throw new NotImplementedException();
+            var category = await dbContext.Categories.FindAsync(Id);
+            return category;
         }
 
 
-        public Task UpdateCategoryAsync(Category exestingCategory)
+        public async Task UpdateCategoryAsync(Category exestingCategory)
         {
-            throw new NotImplementedException();
+            dbContext.Categories.Update(exestingCategory);
+            await dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteCategoryAsync(int Id)
+        public async Task DeleteCategoryAsync(Category exestingCategory)
         {
-            throw new NotImplementedException();
+            dbContext.Categories.Remove(exestingCategory);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

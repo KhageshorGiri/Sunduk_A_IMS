@@ -31,14 +31,24 @@ namespace Inventory.Web.Services.ServiceImplementation
         }
 
 
-        public async Task UpdateCategoryAsync(Category exestingCategory)
+        public async Task UpdateCategoryAsync(int id, Category category)
         {
+            var exestingCategory = new Category()
+            {
+                CategoryId = id,
+                CategoryName = category.CategoryName,
+                Description = category.Description
+            };
             await _categoryRepository.UpdateCategoryAsync(exestingCategory);
         }
 
         public async Task DeleteCategoryAsync(int Id)
         {
-            await _categoryRepository.DeleteCategoryAsync(Id);
+            var existingCategory = await _categoryRepository.GetCategoryAsync(Id);
+            if(existingCategory != null)
+            {
+                await _categoryRepository.DeleteCategoryAsync(existingCategory);
+            }           
         }
 
 

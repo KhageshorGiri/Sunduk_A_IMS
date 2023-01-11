@@ -24,18 +24,19 @@ namespace Inventory.Web.Services.ServiceImplementation
             return allUnitsDetails;
         }
 
-        public Task<Unit?> GetUnitAsync(int Id)
+        public async Task<Unit?> GetUnitAsync(int Id)
         {
-            throw new NotImplementedException();
+            var existingUnit = await _unitRepository.GetUnitAsync(Id);
+            return existingUnit;
         }
       
-        public Task UpdateUnitAsync(Unit existingUnit)
+        public async Task UpdateUnitAsync(Unit existingUnit)
         {
-            throw new NotImplementedException();
+            await _unitRepository.UpdateUnitAsync(existingUnit);
         }
-        public Task DeleteUnitAsync(int Id)
+        public async Task DeleteUnitAsync(int Id)
         {
-            throw new NotImplementedException();
+            await _unitRepository.DeleteUnitAsync(Id);
         }
 
     }

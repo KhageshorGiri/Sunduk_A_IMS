@@ -1,5 +1,6 @@
 ﻿using Inventory.Entities.Entities;
 using Inventory.Web.Data;
+using Inventory.Web.Repositories.RepoInterface;
 using Inventory.Web.Services.ServiceInterface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,16 +11,13 @@ namespace Inventory.Web.Controllers
     public class UnitController : Controller
     {
         private readonly IUnit unitService;
-        public UnitController(IUnit unit)
+        private readonly IUnitRepository unitRepo;
+        public UnitController(IUnit unit, IUnitRepository unitRepository)
         {
             this.unitService = unit;
+            this.unitRepo = unitRepository;
         }
 
-        public async Task<ActionResult> PartialIndex()
-        {
-            var unitDetails = await unitService.GetAllUnitsAsync();
-            return View(unitDetails);
-        }
 
         // GET: UnitController/Details/5
         public ActionResult Details(int id)
@@ -36,62 +34,90 @@ namespace Inventory.Web.Controllers
         // POST: UnitController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind] Unit newUnit)
+        public async Task<ActionResult> Create([Bind] Unit newUnit)
         {
             
             try
             {
-                unitService.CreateUnitAsync(newUnit);
-                TempData["Message"] = "Sucess";
+                await unitService.CreateUnitAsync(newUnit);
+                TempData["Message"] = "Create Sucess";
                 return RedirectToAction(nameof(Create));
             }
             catch
             {
-                TempData["Message"] = "Error";
+                TempData["Message"] = "Create Error";
                 return View();
             }
         }
 
         // GET: UnitController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            var existingUnit =  await unitService.GetUnitAsync(id);
+            if(existingUnit == null)
+            {               
+                return NotFound();
+            }
+           
+            return View(existingUnit);
         }
 
         // POST: UnitController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, [Bind] Unit collection)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var existingUnit = new Unit()
+                {
+                    UnitId = id,
+                    UnitName = collection.UnitName,
+                    ShortForm = collection.ShortForm
+                };
+
+                await unitService.UpdateUnitAsync(existingUnit);
+
+                TempData["Message"] = "Edit Sucess";               
+                return RedirectToAction(nameof(Create));
             }
             catch
             {
+                TempData["Message"] = "Edit Error";
                 return View();
             }
         }
 
         // GET: UnitController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UnitController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id)
         {
             try
-            {
-                return RedirectToAction(nameof(Index));
+            {              
+                await unitService.DeleteUnitAsync(id);
+                TempData["Message"] = "Delete Sucess";
+                return RedirectToAction("Create");
             }
             catch
             {
+                TempData["Message"] = "Delete Error";
                 return View();
             }
         }
+
+        // POST: UnitController/Delete/5
+        /* [HttpPost]
+         [ValidateAntiForgeryToken]
+         public ActionResult Delete(int id, IFormCollection collection)
+         {
+             try
+             {
+                 var existing 
+                 return RedirectToAction("Create");
+             }
+             catch
+             {
+                 return View();
+             }
+         }*/
     }
 }

@@ -1,0 +1,106 @@
+﻿@model Inventory.Entities.Entities.Category
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@{
+    string? responseMessage = "Nothing";
+    if (TempData["Message"] != null)
+    {
+        responseMessage = TempData["Message"] as string;
+    }
+}
+
+
+<ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#categoryCreationTab" type="button" role="tab" aria-controls="categoryCreationTab" aria-selected="true">Create Category</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#categoryDetailTab" type="button" role="tab" aria-controls="categoryDetailTab" aria-selected="false">Details</button>
+    </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="categoryCreationTab" role="tabpanel" aria-labelledby="home-tab">
+        <div class="row">
+
+            <div class="card mt-5">
+                <div class="card-header">
+                    <h6>Category Creating Form</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form asp-action="Create" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="CategoryName" class="control-label">Category Name <span class="text-danger">*</span></label>
+                                        <input asp-for="CategoryName" class="form-control" required/>
+                                        <span asp-validation-for="CategoryName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Description" class="control-label">Description <span class="text-danger">*</span></label>
+                                        <input asp-for="Description" class="form-control" required/>
+                                        <span asp-validation-for="Description" class="text-danger"></span>
+                                    </div>
+                                </div>                              
+                                <div class="form-group d-flex justify-content-end me-md-5 mt-4">
+                                    <input type="submit" value="Create" class="btn btn-success" />
+                                    <input type="reset" value="Clear" class="btn btn-secondary ms-1" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="tab-pane fade" id="categoryDetailTab" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="mt-5">
+            @await Component.InvokeAsync("CategoryIndex")
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        $(document).ready(function () {
+            $("#categoryDetailsIndexTable").DataTable();
+        });
+
+        $(document).ready(function(){
+            var responseMessage = "@responseMessage";
+
+            if (responseMessage == "Create Sucess") {
+                successNotification("Sucess!!", "Category Created Sucessifyly.");
+            }
+            else if (responseMessage == "Create Error") {
+                successNotification("Error!!", "Category is not Created Sucessifyly.");
+            }
+            else if (responseMessage == "Edit Sucess") {
+                successNotification("Sucess!!", "Category Edited Sucessifyly.");
+            }
+            else if (responseMessage == "Edit Error") {
+                successNotification("Error!!", "Category is not Edited Sucessifyly.");
+            }
+            else if (responseMessage == "Delete Sucess") {
+                successNotification("Sucess!!", "Category Deleted Sucessifyly.");
+            }
+            else if (responseMessage == "Delete Error") {
+                successNotification("Error!!", "Category is not Deleted Sucessifyly.");
+            }
+        
+        });
+
+    </script>
+
+ }

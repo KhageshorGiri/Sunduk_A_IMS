@@ -10,7 +10,7 @@ namespace Inventory.Web.Services.ServiceInterface
 
         Task<Category?> GetCategoryAsync(int Id);
 
-        Task UpdateCategoryAsync(Category exestingCategory);
+        Task UpdateCategoryAsync(int Id , Category existingCategory);
 
         Task DeleteCategoryAsync(int Id);
 
