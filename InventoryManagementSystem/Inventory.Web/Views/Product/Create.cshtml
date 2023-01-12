@@ -1,0 +1,199 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+
+<style>
+    
+    #supplierSection {
+        border-radius: 15px;
+        padding: 30px;
+        padding-top: 40px;
+    }
+
+        #supplierSection input {
+            outline: 0;
+            border-width: 0 0 1px;
+            border-color: #000;
+            background-color: transparent;
+            justify-content: center;
+        }
+
+            #supplierSection input:focus {
+                border-color: deepskyblue;
+            }
+</style>
+
+<div class="row mt-3">
+
+    <div class="card">
+        <div class="card-header">
+            <h6>Unit Creating Form</h6>
+        </div>
+        <div class="card-body">
+
+            <div class="row">
+                <div>
+                    <div class="row">
+                        <div class="col-md-6 mt-1 mb-2 shadow" id="supplierSection">
+                            <input required style="font-size: 25px;" id="buyernameinbill" list="Suppliers" class="col-md-11 text-left" placeholder="Debtor's Name" autocomplete="off" />
+                            <button id="removeSupplierName" class="btn-sm bg-transparent" style="border:none;">
+                                <i class="fa fa-times" style="color:#0dad1a; font-size:16px;"></i>
+                            </button>
+                            <datalist class="col-md-8" id="Suppliers">
+
+                                @foreach (var item in ViewBag.SupplierList)
+                                {
+                                    <option class="selectSuppliername" data-contactperson="@item.Other_Info" data-address="@item.Address" data-vat="@item.PanNo" data-phone="@item.Contact" data-value="@item.Supplier_Id">@item.Name.Trim()</option>
+                                }
+                            </datalist>
+
+                            <input id="supplierID-hidden" hidden />
+
+
+                            <div class="row mt-lg-1 p-3 mt-2" id="contactsection">                              
+                                <div class="col-md-12 text-left" style="font-size:13px;">
+                                    <label>PAN No:</label> <lable id="buyervatinbill"></lable>
+                                </div>
+                                <div class=" col-md-12 text-left" style="font-size:13px;">
+                                    <label>Contact:</label> <label id="buyerphoneinbill"></label>
+                                </div>
+                                <div class="col-md-12 text-left" style="font-size:13px;">
+                                    <label>Address:</label> <label id="buyeraddressinbill"></label>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-5 mt-4 ms-4">
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="form-label">Voucher Date</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-4">
+                                    <label class="form-label">Sell Date</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-4">
+                                    <label class="form-label">Bill Number</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control" />
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-2">
+                                <div class="col-md-4">
+                                    <input id="issubillcheckbox" type="checkbox" style="width:17px; height:17px;" class="col-md-1" />
+                                    <label class="form-label">Bill Issue Date</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-label">Product Name</label>
+                            <input name="ProductName" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label  class="form-label">Short Description</label>
+                            <input name="ProductDescription" class="form-control" />
+                            <span  class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label  class="form-label">Unit</label>
+                            <select name="UnitId" class="form-control" asp-items="ViewBag.UnitId"></select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label  class="form-label">Category</label>
+                            <select name="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label  class="form-label">Rate</label>
+                            <input name="Rate" class="form-control" />
+                            <span  class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label  class="form-label">Quantity</label>
+                            <input name="Quantity" class="form-control" />
+                            <span  class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-2">
+                            <button class="btn btn-info" id="addProductToTable">Add Product</button>
+                        </div>
+                    </div>
+
+                    <!-- Product Bill Table-->
+                    <div class="row  mt-3">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>S.N</th>
+                                        <th>Product Name</th>
+                                        <th>Desceiption</th>
+                                        <th>Category</th>
+                                        <th>Unit</th>
+                                        <th>Rate</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                  
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Comment</label>
+                            <input class="form-control" id="buyBillComment"/>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="row">
+                        <div class="form-group d-flex justify-content-end me-md-5 mt-4">
+                            <input type="submit" value="Create" class="btn btn-success" />
+                            <input type="reset" value="Clear" class="btn btn-secondary ms-1" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+

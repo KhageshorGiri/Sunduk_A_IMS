@@ -19,6 +19,9 @@ namespace Inventory.Entities.Entities
         [StringLength(30, ErrorMessage = "Email Should be Under 30 Characters.")]
         public string? Email { get; set; }
 
+        [StringLength(9, ErrorMessage = "Other Details Should be 9 Characters.")]
+        public string? PanNumber { get; set; }
+
         [StringLength(200, ErrorMessage = "Other Details Should be Under 100 Characters.")]
         public string? OtherDetails { get; set; }
 

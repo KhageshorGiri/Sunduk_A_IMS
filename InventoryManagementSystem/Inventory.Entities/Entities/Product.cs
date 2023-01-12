@@ -18,7 +18,7 @@ namespace Inventory.Entities.Entities
 
         [Required(ErrorMessage = "Price Cannot Be Empty.")]
         [Range(1, Int32.MaxValue, ErrorMessage = "Price Should Be a Positive Value.")]
-        public decimal? Price { get; set; } = 0;
+        public decimal? Rate { get; set; } = 0;
 
         [Required(ErrorMessage = "Quantity Cannot Be Empty.")]
         [Range(1, Int32.MaxValue, ErrorMessage = "Quantity Should Be a Positive Value.")]
