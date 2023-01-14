@@ -62,13 +62,4 @@ namespace Inventory.Web.Repositories.repoImplementation
         }
     }
 
-    /*SqlConnection con = new SqlConnection(configuration);
-          using(SqlCommand cmd = new SqlCommand("sp", con))
-          {
-              cmd.CommandType = CommandType.StoredProcedure;
-              cmd.Parameters.AddWithValue("@Parameter1", "value1");
-              con.Open();
-              await cmd.ExecuteNonQueryAsync();
-          }            */
-
 }

@@ -19,6 +19,8 @@ builder.Services.AddTransient<IUnit, UnitService>();
 builder.Services.AddTransient<IUnitRepository, UnitRepository>();
 builder.Services.AddTransient<ICategory, CategoryService>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddTransient<ISupplier, SupplierService>();
+builder.Services.AddTransient<ISupplierRepository, SupplierRepository>();
 
 
 

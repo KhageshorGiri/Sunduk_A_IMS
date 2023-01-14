@@ -1,0 +1,75 @@
+﻿
+@model IEnumerable<Inventory.Web.ViewModels.SupplierCustomerEmployeeViewModel>
+
+<div class="row mt-4">
+    <div class="table-responsive">
+        <table class="table table-sm table-striped table-bordered" id="supplierDetailsIndexTable">
+            <thead>
+                <tr>
+                    <th>S.N</th>
+                    <th>
+                        Supplier Name
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Phone
+                    </th>
+                    <th>
+                        PAN
+                    </th>
+                    <th>Address</th>
+                    <th>Total</th>
+                    <th>Paid</th>
+                    <th>Remaining</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int sn = 1;
+                }
+                @foreach(var supplier in Model)
+                {
+
+                    <tr>
+                        <td>@(sn++)</td>
+                        <td>@supplier.SupplierName</td>
+                        <td>@supplier.Email</td>
+                        <td>@supplier.PhoneNumber</td>
+                        <td>@supplier.PanNumber</td>
+                        <td>@supplier.Country, @supplier.City, @supplier.LocalAddress</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>                        
+                        <td>
+                            <a asp-action="Edit" asp-route-id="" class="btn btn-sm btn-info">Edit</a>
+                            <a asp-action="Delete" asp-route-id="" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+                
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+@section Scripts{
+
+
+    <script>
+
+        $(document).ready(function(){
+        
+            //creating a data table for supplier detais table
+            $("#supplierDetailsIndexTable").DataTable();
+
+        });
+
+    </script>
+
+
+}

@@ -54,12 +54,12 @@
                        
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseBuyLayouts" aria-expanded="false" aria-controls="collapseBuyLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Buy Products
+                            Add Products
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapseBuyLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="@Url.Action("Create", "Product")">Buy Product</a>
+                                <a class="nav-link" href="@Url.Action("Create", "Product")">Add Product</a>
                                 <a class="nav-link" href="@Url.Action("Index", "Product")">Product Details</a>
                             </nav>
                         </div>   
@@ -76,6 +76,7 @@
                                 <a class="nav-link" href="@Url.Action("Index", "Sell")">Invoice Details</a>
                             </nav>
                         </div>
+
                         <a class="nav-link" href="@Url.Action("", "")">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Stock
@@ -88,14 +89,30 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Unit
                         </a>
-                        <a class="nav-link" href="@Url.Action("", "")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Supplier
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSupplierLayouts" aria-expanded="false" aria-controls="collapseSupplierLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Suppliers
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <a class="nav-link" href="@Url.Action("", "")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Customer
+                        <div class="collapse" id="collapseSupplierLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="@Url.Action("Create", "Supplier")">Add Supplier</a>
+                                <a class="nav-link" href="@Url.Action("Index", "Supplier")">Supplier Details</a>
+                            </nav>
+                        </div>
+                     
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCustomerLayouts" aria-expanded="false" aria-controls="collapseCustomerLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Customers
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
+                        <div class="collapse" id="collapseCustomerLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="@Url.Action("", "")">Add Customer</a>
+                                <a class="nav-link" href="@Url.Action("", "")">Customer Details</a>
+                            </nav>
+                        </div>
                         <a class="nav-link" href="@Url.Action("", "")">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Employee

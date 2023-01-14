@@ -1,38 +1,48 @@
-﻿using Inventory.Entities.Entities;
+﻿using Inventory.Web.Services.ServiceInterface;
+using Inventory.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.Web.Controllers
 {
-    public class ProductController : Controller
+    public class SupplierController : Controller
     {
-        // GET: ProductController
-        public ActionResult Index()
+        private readonly ISupplier supplierService;
+
+        public SupplierController(ISupplier supplierServ)
         {
-            return View();
+            this.supplierService = supplierServ;
         }
 
-        // GET: ProductController/Details/5
+
+        // GET: Supplier
+        public async Task<ActionResult> Index()
+        {
+            var allSuppliersDetails = await supplierService.GetAllSuppliersAsync();
+            return View(allSuppliersDetails);
+        }
+
+        // GET: Supplier/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: ProductController/Create
+        // GET: Supplier/Create
         public ActionResult Create()
         {
-            ViewBag.SupplierList = new List<SupplierController>();
             return View();
         }
 
-        // POST: ProductController/Create
+        // POST: Supplier/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create([Bind] SupplierCustomerEmployeeViewModel supplier)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                await supplierService.CreateSupplierAsync(supplier);
+                return RedirectToAction("Create");
             }
             catch
             {
@@ -40,13 +50,13 @@ namespace Inventory.Web.Controllers
             }
         }
 
-        // GET: ProductController/Edit/5
+        // GET: Supplier/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: ProductController/Edit/5
+        // POST: Supplier/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -61,13 +71,13 @@ namespace Inventory.Web.Controllers
             }
         }
 
-        // GET: ProductController/Delete/5
+        // GET: Supplier/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: ProductController/Delete/5
+        // POST: Supplier/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

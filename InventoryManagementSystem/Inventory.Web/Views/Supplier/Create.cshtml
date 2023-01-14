@@ -1,0 +1,64 @@
+﻿@model Inventory.Web.ViewModels.SupplierCustomerEmployeeViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="card mt-3">
+    <div class="card-header">
+        <h6>Supplier Creating Form</h6>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label asp-for="SupplierName" class="form-label">Supplier Name <span class="text-danger">*</span></label>
+                    <input asp-for="SupplierName" class="form-control" type="text"/>
+                    <span asp-validation-for="SupplierName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Email" class="form-label">Email <span class="text-danger">*</span></label>
+                    <input asp-for="Email" class="form-control" type="email"/>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label asp-for="PhoneNumber" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label asp-for="PanNumber" class="form-label">PAN Number </label>
+                    <input asp-for="PanNumber" class="form-control" />
+                    <span asp-validation-for="PanNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <label><b><u>Address Details</u></b></label>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Country" class="form-label">Country</label>
+                    <input asp-for="Country" class="form-control" />
+                </div>
+                 <div class="col-md-4">
+                    <label asp-for="City" class="form-label">City <span class="text-danger">*</span></label>
+                    <input asp-for="City" class="form-control" />
+                </div>
+                 <div class="col-md-4">
+                    <label asp-for="LocalAddress" class="form-label">Local Address <span class="text-danger">*</span></label>
+                    <input asp-for="LocalAddress" class="form-control" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group d-flex justify-content-end me-md-5 mt-4">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    <input type="reset" value="Clear" class="btn btn-secondary ms-1" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
