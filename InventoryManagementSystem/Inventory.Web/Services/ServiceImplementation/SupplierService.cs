@@ -46,7 +46,24 @@ namespace Inventory.Web.Services.ServiceImplementation
         public async Task<SupplierCustomerEmployeeViewModel?> GetSupplierAsync(int Id)
         {
             var existingSupplier = await supplierRepository.GetSupplierAsync(Id);
-            throw new NotImplementedException();
+
+            SupplierCustomerEmployeeViewModel supplier = new SupplierCustomerEmployeeViewModel();
+            if(existingSupplier != null)
+            {
+                while (existingSupplier.Read())
+                {
+                    supplier.SupplierID = Convert.ToInt32(existingSupplier["SupplierId"]);
+                    supplier.SupplierName = existingSupplier["SupplierName"].ToString();
+                    supplier.Email = existingSupplier["Email"].ToString();
+                    supplier.PhoneNumber = existingSupplier["PhoneNumber"].ToString();
+                    supplier.PanNumber = existingSupplier["PanNumber"].ToString();
+                    supplier.AddressId = Convert.ToInt32(existingSupplier["AddressId"]);
+                    supplier.City = existingSupplier["City"].ToString();
+                    supplier.Country = existingSupplier["Country"].ToString();
+                    supplier.LocalAddress = existingSupplier["LocalAddress"].ToString();
+                }
+            }
+            return supplier;
         }
 
         public async Task UpddateSupplierAsync(SupplierCustomerEmployeeViewModel existingSupplier)

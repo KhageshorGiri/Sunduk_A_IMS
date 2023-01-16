@@ -1,4 +1,5 @@
 ﻿using Inventory.Entities.Entities;
+using Inventory.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,7 +29,7 @@ namespace Inventory.Web.Controllers
         // POST: ProductController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create([Bind] BuyBillViewModel buyBillItems)
         {
             try
             {

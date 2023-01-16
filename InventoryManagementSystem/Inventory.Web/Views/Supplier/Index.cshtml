@@ -23,7 +23,7 @@
                     <th>Total</th>
                     <th>Paid</th>
                     <th>Remaining</th>
-                    <th></th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,10 +42,11 @@
                         <td>@supplier.Country, @supplier.City, @supplier.LocalAddress</td>
                         <td>0</td>
                         <td>0</td>
-                        <td>0</td>                        
+                        <td>0</td>
+                      
                         <td>
-                            <a asp-action="Edit" asp-route-id="" class="btn btn-sm btn-info">Edit</a>
-                            <a asp-action="Delete" asp-route-id="" class="btn btn-sm btn-danger">Delete</a>
+                            <a asp-action="Details" asp-route-id="@supplier.SupplierID" class="btn btn-sm btn-secondary">View Details</a>
+                            <a asp-action="Edit" asp-route-id="@supplier.SupplierID" class="btn btn-sm btn-info">Edit</a>
                         </td>
                     </tr>
                 }

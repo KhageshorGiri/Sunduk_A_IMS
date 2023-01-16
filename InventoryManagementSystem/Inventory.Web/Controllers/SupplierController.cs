@@ -23,9 +23,14 @@ namespace Inventory.Web.Controllers
         }
 
         // GET: Supplier/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            var supplier = await supplierService.GetSupplierAsync(id);
+            if(supplier == null)
+            {
+                return NotFound();
+            }
+            return View(supplier);
         }
 
         // GET: Supplier/Create
@@ -41,8 +46,12 @@ namespace Inventory.Web.Controllers
         {
             try
             {
-                await supplierService.CreateSupplierAsync(supplier);
-                return RedirectToAction("Create");
+                if (ModelState.IsValid)
+                {
+                    await supplierService.CreateSupplierAsync(supplier);
+                    return RedirectToAction("Create");
+                }
+                return View(supplier);
             }
             catch
             {
@@ -51,18 +60,27 @@ namespace Inventory.Web.Controllers
         }
 
         // GET: Supplier/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            var supplier = await supplierService.GetSupplierAsync(id);
+            if (supplier == null)
+            {
+                return NotFound();
+            }
+            return View(supplier);
         }
 
         // POST: Supplier/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit([Bind] SupplierCustomerEmployeeViewModel existingSupplier)
         {
             try
             {
+                if (ModelState.IsValid)
+                {
+                    await supplierService.UpddateSupplierAsync(existingSupplier);
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -71,25 +89,5 @@ namespace Inventory.Web.Controllers
             }
         }
 
-        // GET: Supplier/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Supplier/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

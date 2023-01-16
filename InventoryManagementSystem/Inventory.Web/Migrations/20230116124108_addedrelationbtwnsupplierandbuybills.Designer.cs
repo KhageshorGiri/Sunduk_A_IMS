@@ -4,6 +4,7 @@ using Inventory.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Web.Migrations
 {
     [DbContext(typeof(InventorySystemDbContext))]
-    partial class InventorySystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230116124108_addedrelationbtwnsupplierandbuybills")]
+    partial class addedrelationbtwnsupplierandbuybills
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,7 +59,7 @@ namespace Inventory.Web.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BillId"), 1L, 1);
 
-                    b.Property<DateTime?>("BillIssueDate")
+                    b.Property<DateTime?>("BillDate")
                         .IsRequired()
                         .HasColumnType("datetime2");
 
@@ -65,21 +67,8 @@ namespace Inventory.Web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("PurchaseDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("SupplierID")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("VoucherDate")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
 
                     b.HasKey("BillId");
 

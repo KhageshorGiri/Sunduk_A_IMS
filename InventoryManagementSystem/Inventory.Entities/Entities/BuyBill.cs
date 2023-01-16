@@ -19,9 +19,25 @@ namespace Inventory.Entities.Entities
 
         [Required(ErrorMessage = "BillNumber Name Cannot be Empty.")]
         [DataType(DataType.DateTime, ErrorMessage = "Data Should Be In Correct Format.")]
-        public DateTime? BillDate { get; set; }
+        public DateTime? BillIssueDate { get; set; }
+
+        [Required(ErrorMessage = "Voucher Date Cannot be Empty.")]
+        [DataType(DataType.DateTime, ErrorMessage = "Voucher Date Should Be In Correct Format.")]
+        public DateTime? VoucherDate { get; set; }
+
+        [Required(ErrorMessage = "Purchase Date Name Cannot be Empty.")]
+        [DataType(DataType.DateTime, ErrorMessage = "Purchase Date Should Be In Correct Format.")]
+        public string? PurchaseDate { get; set; }
+
+        [Required(ErrorMessage = "BillNumber Name Cannot be Empty.")]
+        [StringLength(200, ErrorMessage = "Comment Should Be Under 200 Characters.")]
+        public string? Comment { get; set; }
+
 
         // adding relationship with other tables
         public virtual ICollection<Product> Products { get; set; }
+
+        public int? SupplierID { get; set; }
+        public virtual Supplier? Supplier { get; set; }
     }
 }
