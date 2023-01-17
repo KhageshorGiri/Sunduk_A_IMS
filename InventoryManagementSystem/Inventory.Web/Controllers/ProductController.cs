@@ -1,4 +1,5 @@
 ﻿using Inventory.Entities.Entities;
+using Inventory.Web.Services.ServiceInterface;
 using Inventory.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,20 @@ namespace Inventory.Web.Controllers
 {
     public class ProductController : Controller
     {
+
+        private readonly IBuyProduct buyProductService;
+        private readonly ISupplier supplierServiec;
+        private readonly IUnit unitService;
+        private readonly ICategory categoryService;
+        public ProductController(IBuyProduct productService, ISupplier supplierServiec, IUnit unitService, ICategory categoryService)
+        {
+            this.buyProductService = productService;
+            this.supplierServiec = supplierServiec;
+            this.unitService = unitService;
+            this.categoryService = categoryService;
+        }
+
+
         // GET: ProductController
         public ActionResult Index()
         {
@@ -20,9 +35,11 @@ namespace Inventory.Web.Controllers
         }
 
         // GET: ProductController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.SupplierList = new List<SupplierController>();
+            ViewBag.SupplierList = await supplierServiec.GetAllSuppliersAsync();
+            ViewBag.UnitList = await unitService.GetAllUnitsAsync();
+            ViewBag.CategoryList = await categoryService.GetAllCategoriesAsync();  
             return View();
         }
 

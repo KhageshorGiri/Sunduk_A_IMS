@@ -44,7 +44,7 @@
 
                                 @foreach (var item in ViewBag.SupplierList)
                                 {
-                                    <option class="selectSuppliername" data-contactperson="@item.Other_Info" data-address="@item.Address" data-vat="@item.PanNo" data-phone="@item.Contact" data-value="@item.Supplier_Id">@item.Name.Trim()</option>
+                                    <option class="selectSuppliername" data-vat="@item.PanNumber" data-phone="@item.PhoneNumber" data-value="@item.SupplierID">@item.SupplierName.Trim()</option>
                                 }
                             </datalist>
 
@@ -71,16 +71,16 @@
                                     <label class="form-label">Voucher Date</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <input class="form-control" />
+                                    <input id="VoucherDate" name="VoucherDate" class="form-control" />
                                 </div>
                             </div>
 
                             <div class="row mt-2">
                                 <div class="col-md-4">
-                                    <label class="form-label">Sell Date</label>
+                                    <label class="form-label">Buy Date</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <input class="form-control" />
+                                    <input id="PurchaseDate" name="PurchaseDate" class="form-control" />
                                 </div>
                             </div>
 
@@ -89,7 +89,7 @@
                                     <label class="form-label">Bill Number</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <input class="form-control" />
+                                    <input id="BillNumber" name="BillNumber" class="form-control" />
                                 </div>
                             </div>
                             
@@ -99,7 +99,7 @@
                                     <label class="form-label">Bill Issue Date</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <input class="form-control" />
+                                    <input id="BillIssueDate" name="BillIssueDate" class="form-control" />
                                 </div>
                             </div>
                         </div>
@@ -108,30 +108,30 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label class="form-label">Product Name</label>
-                            <input name="ProductName" class="form-control" />
-                            <span class="text-danger"></span>
+                            <input id="ProductName" name="ProductName" class="form-control" />
+                            <span id="productNameErrorMessage" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-6">
                             <label  class="form-label">Short Description</label>
-                            <input name="ProductDescription" class="form-control" />
+                            <input id="ProductDescription" name="ProductDescription" class="form-control" />
                             <span  class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-3">
                             <label  class="form-label">Unit</label>
-                            <select name="UnitId" class="form-control" asp-items="ViewBag.UnitId"></select>
+                            <select id="UnitId" name="UnitId" class="form-control" asp-items="ViewBag.UnitId"></select>
                         </div>
                         <div class="form-group col-md-3">
                             <label  class="form-label">Category</label>
-                            <select name="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                            <select id="CategoryId" name="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
                         </div>
                         <div class="form-group col-md-3">
                             <label  class="form-label">Rate</label>
-                            <input name="Rate" class="form-control" />
+                            <input id="Rate" name="Rate" class="form-control" />
                             <span  class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-3">
                             <label  class="form-label">Quantity</label>
-                            <input name="Quantity" class="form-control" />
+                            <input id="Quantity" name="Quantity" class="form-control" />
                             <span  class="text-danger"></span>
                         </div>
                         <div class="form-group mt-2">
@@ -142,7 +142,7 @@
                     <!-- Product Bill Table-->
                     <div class="row  mt-3">
                         <div class="table-responsive">
-                            <table class="table table-sm table-striped">
+                            <table class="table table-sm table-striped" id="buyBillItemsTable">
                                 <thead>
                                     <tr>
                                         <th>S.N</th>
@@ -176,7 +176,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label class="form-label">Comment</label>
-                            <input class="form-control" id="buyBillComment"/>
+                            <input class="form-control" name="Comment" id="Comment" />
                         </div>
                     </div>
                     <hr />
@@ -202,6 +202,138 @@
 
     <script>
 
+        $(document).ready(function(){
+            
+            $("#addProductToTable").click(function(){
+                var productName = $("#ProductName").val();
+                var shortDescription = $("#ProductDescription").val();
+                var unitId = $("#UnitId").val();
+                var category = $("#Category").val();
+                var rate = $("#Rate").val();
+                var quantity = $("#Quantity").val();
+
+                if (productName == "" || shortDescription == "" || unitId == "" || category == "" || rate == "" || quantity == "")
+                {
+                    productDetailsValidator(productName, shortDescription, unitId, category, rate, quantity);
+
+                }
+                else
+                {
+                    var buyBillTableDate = "<tr>"
+                        buyBillTableDate += "<td> 1  </td>"
+                        buyBillTableDate += "<td> 1  </td>"
+                        buyBillTableDate += "<td> 1  </td>"
+                        buyBillTableDate += "<td> 1  </td>"
+                        buyBillTableDate += "<td> 1  </td>"
+                        buyBillTableDate += "<td> 1  </td>"
+                        buyBillTableDate += "<td> 1  </td>"
+                        buyBillTableDate += "<td> 1  </td>"
+                        buyBillTableDate += "<td> 1  </td>"
+                        buyBillTableDate += "</tr>"
+
+                    $("#buyBillItemsTable").tbody.append(buyBillTableDate);
+                }
+            });
+
+        });
+
+
+        // function to validate the produtais before adding to the bill.
+        function productDetailsValidator(productName, shortDescription, unitId, category, rate, quantity) {
+            if (productName == "") {
+                $("#ProductName").css({ "border": "1px solid red" });
+            }
+            if (shortDescription == "") {
+                $("#ProductDescription").css({ "border-color": "red" });
+            }
+            if (unitId == "") {
+                $("#UnitId").css({ "border-color": "red" });
+            }
+            if (category == "") {
+                $("#CategoryId").css({ "border-color": "red" });
+            }
+            if (rate == "") {
+                $("#Rate").css({ "border-color": "red" });
+            }
+            if (quantity == "") {
+                $("#Quantity").css({ "border-color": "red" });
+            }
+
+        }
+
+        // functions to check if items are null or not and remove read borders if they are not null.
+        $("#ProductName").keyup(function () {
+            if ($("#ProductName").val() != "") {
+                $("#ProductName").css({ "border": "1px solid #e9ecef" });;
+            }
+
+        });
+        $("#ProductDescription").keyup(function () {
+            if ($("#ProductDescription").val() != "") {
+                $("#ProductDescription").css({ "border": "1px solid #e9ecef" });;
+            }
+
+        });
+        $("#UnitId").keyup(function () {
+            if ($("#UnitId").val() != "") {
+                $("#UnitId").css({ "border": "1px solid #e9ecef" });;
+            }
+
+        });
+        $("#Rate").keyup(function () {
+            if ($("#Rate").val() != "") {
+                $("#Rate").css({ "border": "1px solid #e9ecef" });;
+            }
+
+        });
+        $("#Category").keyup(function () {
+            if ($("#Category").val() != "") {
+                $("#Category").css({ "border": "1px solid #e9ecef" });;
+            }
+
+        });
+        $("#Quantity").keyup(function () {
+            if ($("#Quantity").val() != "") {
+                $("#Quantity").css({ "border": "1px solid #e9ecef" });;
+            }
+
+        });
+        $("#VoucherDate").keyup(function () {
+            if ($("#VoucherDate").val() != "") {
+                $("#VoucherDate").css({ "border": "1px solid #e9ecef" });;
+            }
+
+        });
+        $("#PurchaseDate").keyup(function () {
+            if ($("#PurchaseDate").val() != "") {
+                $("#PurchaseDate").css({ "border": "1px solid #e9ecef" });;
+            }
+
+        });
+        $("#BillNumber").keyup(function () {
+            if ($("#BillNumber").val() != "") {
+                $("#BillNumber").css({ "border": "1px solid #e9ecef" });;
+            }
+
+        });
+        $("#BillIssueDate").keyup(function () {
+            if ($("#BillIssueDate").val() != "") {
+                $("#BillIssueDate").css({ "border": "1px solid #e9ecef" });;
+            }
+
+        });
+        $("#buyernameinbill").keyup(function () {
+            if ($("#buyernameinbill").val() != "") {
+                $("#buyernameinbill").css({ "border": "1px solid #deepskyblue" });;
+            }
+
+        });
+        $("#Comment").keyup(function () {
+            if ($("#Comment").val() != "") {
+                $("#Comment").css({ "border": "1px solid #deepskyblue" });;
+            }
+
+        });
 
     </script>
 

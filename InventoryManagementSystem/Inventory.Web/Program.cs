@@ -21,6 +21,9 @@ builder.Services.AddTransient<ICategory, CategoryService>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<ISupplier, SupplierService>();
 builder.Services.AddTransient<ISupplierRepository, SupplierRepository>();
+builder.Services.AddTransient<IBuyProduct, BuyProductService>();
+builder.Services.AddTransient<IBuyBillRepository, BuyBillRepository>();
+
 
 
 
