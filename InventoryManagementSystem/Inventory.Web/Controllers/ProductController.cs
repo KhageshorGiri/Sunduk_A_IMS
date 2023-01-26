@@ -3,6 +3,7 @@ using Inventory.Web.Services.ServiceInterface;
 using Inventory.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Inventory.Web.Controllers
 {
@@ -38,8 +39,12 @@ namespace Inventory.Web.Controllers
         public async Task<ActionResult> Create()
         {
             ViewBag.SupplierList = await supplierServiec.GetAllSuppliersAsync();
-            ViewBag.UnitList = await unitService.GetAllUnitsAsync();
-            ViewBag.CategoryList = await categoryService.GetAllCategoriesAsync();  
+            var unitDetails = await unitService.GetAllUnitsAsync();
+            var categoryDetails = await categoryService.GetAllCategoriesAsync();
+
+            ViewBag.UnitList = new SelectList(unitDetails.ToList(), "UnitId", "ShortForm");
+            ViewBag.CategoryList = new SelectList(categoryDetails.ToList(), "CategoryId", "CategoryName");
+
             return View();
         }
 

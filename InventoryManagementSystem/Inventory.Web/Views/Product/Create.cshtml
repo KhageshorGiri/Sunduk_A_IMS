@@ -106,35 +106,38 @@
                     </div>
                     <hr />
                     <div class="row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-8">
                             <label class="form-label">Product Name</label>
                             <input id="ProductName" name="ProductName" class="form-control" />
                             <span id="productNameErrorMessage" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
+                            <label class="form-label">Rate</label>
+                            <input id="Rate" name="Rate" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="form-label">Quantity</label>
+                            <input id="Quantity" name="Quantity" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="form-label">Unit</label>
+                            @Html.DropDownList("UnitList",null, new { @class = "form-control" })
+                            @*  <select id="UnitId" name="UnitId" class="form-control" asp-items="ViewBag.UnitId"></select>*@
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="form-label">Category</label>
+                            @Html.DropDownList("CategoryList",null, new { @class = "form-control" })
+                           @* <select id="CategoryId" name="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>*@
+                        </div>
+                      @*  <div class="form-group col-md-6">
                             <label  class="form-label">Short Description</label>
                             <input id="ProductDescription" name="ProductDescription" class="form-control" />
                             <span  class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label  class="form-label">Unit</label>
-                            <select id="UnitId" name="UnitId" class="form-control" asp-items="ViewBag.UnitId"></select>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label  class="form-label">Category</label>
-                            <select id="CategoryId" name="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label  class="form-label">Rate</label>
-                            <input id="Rate" name="Rate" class="form-control" />
-                            <span  class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label  class="form-label">Quantity</label>
-                            <input id="Quantity" name="Quantity" class="form-control" />
-                            <span  class="text-danger"></span>
-                        </div>
-                        <div class="form-group mt-2">
+                        </div>*@
+                       
+                        <div class="form-group mt-3">
                             <button class="btn btn-info" id="addProductToTable">Add Product</button>
                         </div>
                     </div>
@@ -147,7 +150,6 @@
                                     <tr>
                                         <th>S.N</th>
                                         <th>Product Name</th>
-                                        <th>Desceiption</th>
                                         <th>Category</th>
                                         <th>Unit</th>
                                         <th>Rate</th>
@@ -157,27 +159,29 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                  
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6"></td>
+                                        <td>
+                                            <label class="fw-bold">Total Amount</label>
+                                        </td>
+                                        <td>
+                                            <label class="fw-bold">100.00</label>
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
                   
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <label class="form-label">Comment</label>
-                            <input class="form-control" name="Comment" id="Comment" />
+                            <input class="form-control" name="Comment" id="Comment" /> 
                         </div>
+                        
                     </div>
                     <hr />
 
@@ -198,8 +202,6 @@
 
 @section Scripts{
 
-    <script src="~/js/validation/addproductvalidationscripts.js"></script>
-
     <script>
 
         $(document).ready(function(){
@@ -207,8 +209,8 @@
             $("#addProductToTable").click(function(){
                 var productName = $("#ProductName").val();
                 var shortDescription = $("#ProductDescription").val();
-                var unitId = $("#UnitId").val();
-                var category = $("#Category").val();
+                var unitId = $("#UnitList").val();
+                var category = $("#CategoryList").val();
                 var rate = $("#Rate").val();
                 var quantity = $("#Quantity").val();
 
@@ -219,19 +221,18 @@
                 }
                 else
                 {
-                    var buyBillTableDate = "<tr>"
-                        buyBillTableDate += "<td> 1  </td>"
-                        buyBillTableDate += "<td> 1  </td>"
-                        buyBillTableDate += "<td> 1  </td>"
-                        buyBillTableDate += "<td> 1  </td>"
-                        buyBillTableDate += "<td> 1  </td>"
-                        buyBillTableDate += "<td> 1  </td>"
-                        buyBillTableDate += "<td> 1  </td>"
-                        buyBillTableDate += "<td> 1  </td>"
-                        buyBillTableDate += "<td> 1  </td>"
-                        buyBillTableDate += "</tr>"
+                    var buyBillTableDate = "<tr>";
+                        buyBillTableDate += "<td>" + 1. +"</td>";
+                        buyBillTableDate += "<td>" + productName + "</td>";
+                        buyBillTableDate += "<td>" + $("#CategoryList").find(":selected").text() + "</td>";
+                        buyBillTableDate += "<td>" + $("#UnitList").find(":selected").text() + "</td>"
+                        buyBillTableDate += "<td>" + rate +"</td>";
+                        buyBillTableDate += "<td>" + quantity + "</td>";
+                        buyBillTableDate += "<td>" + parseFloat(rate) * parseFloat(quantity) + "</td>";
+                    buyBillTableDate += '<td><a data-rowitemId="0" href="#" class="editTableItem"><i class="fa-solid fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;<a data-rowitemId="0" href = "#" class="deleteTableItem text-danger" ><i class="fa-solid fa-xmark"></i></a ></td>';
+                        buyBillTableDate += "</tr>";
 
-                    $("#buyBillItemsTable").tbody.append(buyBillTableDate);
+                    $("#buyBillItemsTable tbody").append(buyBillTableDate);
                 }
             });
 
@@ -247,10 +248,10 @@
                 $("#ProductDescription").css({ "border-color": "red" });
             }
             if (unitId == "") {
-                $("#UnitId").css({ "border-color": "red" });
+                $("#UnitList").css({ "border-color": "red" });
             }
             if (category == "") {
-                $("#CategoryId").css({ "border-color": "red" });
+                $("#CategoryList").css({ "border-color": "red" });
             }
             if (rate == "") {
                 $("#Rate").css({ "border-color": "red" });
@@ -274,9 +275,9 @@
             }
 
         });
-        $("#UnitId").keyup(function () {
-            if ($("#UnitId").val() != "") {
-                $("#UnitId").css({ "border": "1px solid #e9ecef" });;
+        $("#UnitList").change(function () {
+            if ($("#UnitList").val() != "") {
+                $("#UnitList").css({ "border": "1px solid #e9ecef" });;
             }
 
         });
@@ -286,9 +287,9 @@
             }
 
         });
-        $("#Category").keyup(function () {
-            if ($("#Category").val() != "") {
-                $("#Category").css({ "border": "1px solid #e9ecef" });;
+        $("#CategoryList").change(function () {
+            if ($("#CategoryList").val() != "") {
+                $("#CategoryList").css({ "border": "1px solid #e9ecef" });;
             }
 
         });
