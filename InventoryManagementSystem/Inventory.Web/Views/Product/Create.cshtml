@@ -123,12 +123,12 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label class="form-label">Unit</label>
-                            @Html.DropDownList("UnitList",null, new { @class = "form-control" })
+                            @Html.DropDownList("UnitList",null, "--Select Unit--", new { @class = "form-control" })
                             @*  <select id="UnitId" name="UnitId" class="form-control" asp-items="ViewBag.UnitId"></select>*@
                         </div>
                         <div class="form-group col-md-4">
                             <label class="form-label">Category</label>
-                            @Html.DropDownList("CategoryList",null, new { @class = "form-control" })
+                            @Html.DropDownList("CategoryList",null,"-- Select Category--", new { @class = "form-control" })
                            @* <select id="CategoryId" name="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>*@
                         </div>
                       @*  <div class="form-group col-md-6">
@@ -139,6 +139,7 @@
                        
                         <div class="form-group mt-3">
                             <button class="btn btn-info" id="addProductToTable">Add Product</button>
+                            <button class="btn btn-primary ms-2" id="addProductToTable">Update</button>
                         </div>
                     </div>
 
@@ -151,6 +152,8 @@
                                         <th>S.N</th>
                                         <th>Product Name</th>
                                         <th>Category</th>
+                                        <th>CategoryID</th>
+                                        <th>UnitID</th>
                                         <th>Unit</th>
                                         <th>Rate</th>
                                         <th>Quantity</th>
@@ -168,7 +171,7 @@
                                             <label class="fw-bold">Total Amount</label>
                                         </td>
                                         <td>
-                                            <label class="fw-bold">100.00</label>
+                                            <label class="fw-bold" id="billTotalAmount">0.00</label>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -205,47 +208,93 @@
     <script>
 
         $(document).ready(function(){
-            
+
+            var item_sn = 0;
             $("#addProductToTable").click(function(){
                 var productName = $("#ProductName").val();
-                var shortDescription = $("#ProductDescription").val();
                 var unitId = $("#UnitList").val();
                 var category = $("#CategoryList").val();
                 var rate = $("#Rate").val();
                 var quantity = $("#Quantity").val();
 
-                if (productName == "" || shortDescription == "" || unitId == "" || category == "" || rate == "" || quantity == "")
-                {
-                    productDetailsValidator(productName, shortDescription, unitId, category, rate, quantity);
+                if (productName == "" || unitId == "" || unitId == "--Select Unit--" || category == "" || category == "-- Select Category--" || rate == "" || quantity == "") {
+                    productDetailsValidator(productName, unitId, category, rate, quantity);
 
                 }
                 else
                 {
+                   
                     var buyBillTableDate = "<tr>";
-                        buyBillTableDate += "<td>" + 1. +"</td>";
+                        buyBillTableDate += "<td>" + ++item_sn +"</td>";
                         buyBillTableDate += "<td>" + productName + "</td>";
                         buyBillTableDate += "<td>" + $("#CategoryList").find(":selected").text() + "</td>";
+                        buyBillTableDate += "<td>" + $("#CategoryList").val() + "</td>";
+                        buyBillTableDate += "<td>" + $("#UnitList").val() + "</td>";
                         buyBillTableDate += "<td>" + $("#UnitList").find(":selected").text() + "</td>"
                         buyBillTableDate += "<td>" + rate +"</td>";
                         buyBillTableDate += "<td>" + quantity + "</td>";
                         buyBillTableDate += "<td>" + parseFloat(rate) * parseFloat(quantity) + "</td>";
-                    buyBillTableDate += '<td><a data-rowitemId="0" href="#" class="editTableItem"><i class="fa-solid fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;<a data-rowitemId="0" href = "#" class="deleteTableItem text-danger" ><i class="fa-solid fa-xmark"></i></a ></td>';
+                        buyBillTableDate += '<td><a data-rowitemId="1" href="#" class="editTableItem"><i class="fa-solid fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;<a data-rowitemId="0" href = "#" class="deleteTableItem text-danger" ><i class="fa-solid fa-xmark"></i></a ></td>';
                         buyBillTableDate += "</tr>";
 
                     $("#buyBillItemsTable tbody").append(buyBillTableDate);
+
+                    var totalAmount = parseFloat(rate) * parseFloat(quantity);
+                    var billTotalAmount = $("#billTotalAmount").html();;
+                   
+                    billTotalAmount = parseFloat(billTotalAmount) + parseFloat(totalAmount);
+                    $("#billTotalAmount").html(billTotalAmount.toFixed(2));
+
+                    $("#ProductName").val(" ");
+                    $("#Rate").val(" ");
+                    $("#Quantity").val(" ");
+
+                    $('#CategoryList option[value=""]').attr('selected', 'selected');
+                    $('#UnitList option[value=""]').attr('selected', 'selected');
+
                 }
             });
 
         });
 
 
+        /* edit tr from table */
+        $(document).on('click', 'a.editTableItem', function (e) {
+            e.preventDefault();
+            if ($(this).attr('data-rowitemId') == "1") {
+                $(this).parents('tr').css("background-color", "lightblue");
+                var productName = $(this).parents('tr').find('td:eq(1)').html();
+                var categoryId = $(this).parents('tr').find('td:eq(3)').html();
+                var unitId = $(this).parents('tr').find('td:eq(4)').html();
+                var rate = $(this).parents('tr').find('td:eq(6)').html();
+                var quantity = $(this).parents('tr').find('td:eq(7)').html();
+
+                $("#ProductName").val(productName);
+                $("#Rate").val(rate);
+                $("#Quantity").val(quantity);
+
+            };
+
+        });
+
+        /* Remove tr from table */
+        $(document).on('click', 'a.deleteTableItem', function (e) {
+            e.preventDefault();
+            if ($(this).attr('data-rowitemId') == "0") {
+                $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                    $(this).remove();
+                });
+            };
+
+        });
+
+
+
+
         // function to validate the produtais before adding to the bill.
-        function productDetailsValidator(productName, shortDescription, unitId, category, rate, quantity) {
+        function productDetailsValidator(productName, unitId, category, rate, quantity) {
             if (productName == "") {
                 $("#ProductName").css({ "border": "1px solid red" });
-            }
-            if (shortDescription == "") {
-                $("#ProductDescription").css({ "border-color": "red" });
             }
             if (unitId == "") {
                 $("#UnitList").css({ "border-color": "red" });
@@ -269,14 +318,8 @@
             }
 
         });
-        $("#ProductDescription").keyup(function () {
-            if ($("#ProductDescription").val() != "") {
-                $("#ProductDescription").css({ "border": "1px solid #e9ecef" });;
-            }
-
-        });
         $("#UnitList").change(function () {
-            if ($("#UnitList").val() != "") {
+            if ($("#UnitList").val() != "" || $("#UnitList").val() != "--Select Unit--") {
                 $("#UnitList").css({ "border": "1px solid #e9ecef" });;
             }
 
@@ -288,7 +331,7 @@
 
         });
         $("#CategoryList").change(function () {
-            if ($("#CategoryList").val() != "") {
+            if ($("#CategoryList").val() != "" || $("#CategoryList").val() != "--Select Category--") {
                 $("#CategoryList").css({ "border": "1px solid #e9ecef" });;
             }
 
