@@ -18,7 +18,7 @@ function successNotification(header, message) {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
-    toastr.success(header, message);
+    toastr.success(message, header);
 }
 
 // Function to display error notification from frontend
@@ -40,7 +40,7 @@ function errorNotification(header, message) {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
-    toastr.error(header, message);
+    toastr.error(message, header);
 } 
 
 // Function to display info notification from frontend
@@ -62,7 +62,7 @@ function infoNotification(header, message) {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
-    toastr.info(header, message);
+    toastr.info(message, header);
 }  
 
 // Function to display warning notification from frontend
@@ -84,5 +84,5 @@ function warningNotification(header, message) {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
-    toastr.warning(header, message);
+    toastr.warning(message, header);
 }

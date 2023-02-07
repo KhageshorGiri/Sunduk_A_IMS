@@ -1,0 +1,46 @@
+﻿
+
+<div class="row col-md-12">
+    <div class="row mt-3 text-end">
+        <div>
+            <a href="@Url.Action("Create","Employee")" class="btn btn-sm btn-primary">
+               Add Employee
+            </a>
+        </div>
+    </div>
+    <div class="table-responsive mt-2">
+        <table id="employeeDetailsIndexTable" class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>S.N</th>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Designation</th>
+                    <th>Phone</th>
+                    <th>View Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+
+
+    <script>
+
+        $("#employeeDetailsIndexTable").DataTable();
+
+    </script>
+
+}

@@ -51,11 +51,12 @@ namespace Inventory.Web.Controllers
         // POST: ProductController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind] BuyBillViewModel buyBillItems)
+        public ActionResult AddProducts([FromBody] BuyBillViewModel buyBill)//int SupplierId, string BillNumber, string VoucherDate, string PurchaseDate,
+            //string IssuedDate, string Comment, Product[] ProductsList)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
             catch
             {

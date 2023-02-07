@@ -20,6 +20,9 @@ namespace Inventory.Web.Data
         public virtual DbSet<Unit> Units { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<BuyBill> BuyBills { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeSalary> EmployeeSalaries { get; set; }
+        public DbSet<EmployeeSalaryPayment> EmployeeSalaryPayments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -32,5 +32,29 @@ namespace Inventory.Web.ViewModels
         [Required(ErrorMessage = "Local Address Cannot be null.")]
         [StringLength(550, ErrorMessage = "The Length of Local Address should be under 550 characters.")]
         public string? LocalAddress { get; set; }
+
+        // for employee 
+        public int EmployeeID { get; set; }
+
+        [Required(ErrorMessage = "Employee Name Cannot be Empty.")]
+        [StringLength(100, ErrorMessage = "Name Should be Under 100 Characters.")]
+        public string? EmployeeName { get; set; }
+
+        [Required(ErrorMessage = "Email Name Cannot be Empty.")]
+        [StringLength(30, ErrorMessage = "Email Should be Under 30 Characters.")]
+        public string? EmployeeEmail { get; set; }
+
+        [Required(ErrorMessage = "Post Cannot be Empty.")]
+        [StringLength(100, ErrorMessage = "Post Should be Under 100 Characters.")]
+        public string? Post { get; set; }
+
+        [Required(ErrorMessage = "Joining Date Cannot be Empty.")]
+        public DateTime? DateFoJoining { get; set; }
+
+        [Required(ErrorMessage = "Salary Cannot be Empty.")]
+        [Range(0, int.MaxValue, ErrorMessage ="Salary Amount cannot be Negative.")]
+        public decimal? CurrentSalary { get; set; }
+
+        public string? Image { get; set; }
     }
 }

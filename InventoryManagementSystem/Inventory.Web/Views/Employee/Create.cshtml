@@ -1,0 +1,98 @@
+﻿@model Inventory.Web.ViewModels.SupplierCustomerEmployeeViewModel
+
+@{
+    ViewData["Title"] = "Add Employee";
+}
+
+
+<div class="card mt-3">
+    <div class="card-header">
+        <h6>Employee Creating Form</h6>
+    </div>
+    <div class="card-body">
+         <form asp-action="Create" asp-controller="Employee" method="post" enctype="multipart/form-data">
+             @Html.AntiForgeryToken();
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label asp-for="EmployeeName" class="form-label">Employee Name <span class="text-danger">*</span></label>
+                    <input asp-for="EmployeeName" class="form-control" type="text" />
+                    <span asp-validation-for="EmployeeName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="EmployeeEmail" class="form-label">Email <span class="text-danger">*</span></label>
+                    <input asp-for="EmployeeEmail" class="form-control" type="email" />
+                    <span asp-validation-for="EmployeeEmail" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label asp-for="PhoneNumber" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label asp-for="PanNumber" class="form-label">PAN Number </label>
+                    <input asp-for="PanNumber" class="form-control" />
+                    <span asp-validation-for="PanNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Image" class="form-label">Image <span class="text-danger">*</span></label>
+                    <input asp-for="Image" class="form-control" type="file" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Post" class="form-label">Desgination <span class="text-danger">*</span></label>
+                    <select asp-for="Post" name="Post" id="Post" class="form-control">
+                        <option value="">--Select Desgination--</option>
+                        <option value="CEO">CEO</option>
+                        <option value="CTO">CTO</option>
+                        <option value="VP">VP</option>
+                        <option value="AVP">AVP</option>
+                        <option value="Project Manager">Project Manager</option>
+                        <option value="Software Developer">Software Developer</option>
+                    </select>
+                    <span asp-validation-for="Post" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label asp-for="DateFoJoining" class="form-label">Joining Date <span class="text-danger">*</span></label>
+                    <input asp-for="DateFoJoining" class="form-control" type="date" />
+                    <span asp-validation-for="DateFoJoining" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label asp-for="CurrentSalary" class="form-label">Current Salary <span class="text-danger">*</span></label>
+                    <input asp-for="CurrentSalary" class="form-control" />
+                    <span asp-validation-for="CurrentSalary" class="text-danger"></span>
+                </div>
+
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <label><b><u>Address Details</u></b></label>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Country" class="form-label">Country</label>
+                    <input asp-for="Country" class="form-control" />
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="City" class="form-label">City <span class="text-danger">*</span></label>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="LocalAddress" class="form-label">Local Address <span class="text-danger">*</span></label>
+                    <input asp-for="LocalAddress" class="form-control" />
+                    <span asp-validation-for="LocalAddress" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group d-flex justify-content-end me-md-5 mt-4">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    <input type="reset" value="Clear" class="btn btn-secondary ms-1" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

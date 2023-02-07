@@ -4,6 +4,7 @@ using Inventory.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Web.Migrations
 {
     [DbContext(typeof(InventorySystemDbContext))]
-    partial class InventorySystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230205161615_addedEmployeeModule")]
+    partial class addedEmployeeModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,16 +145,11 @@ namespace Inventory.Web.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<string>("Post")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.HasKey("EmployeeID");
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("Inventory.Entities.Entities.EmployeeSalary", b =>
@@ -177,7 +174,7 @@ namespace Inventory.Web.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("EmployeeSalaries");
+                    b.ToTable("EmployeeSalary");
                 });
 
             modelBuilder.Entity("Inventory.Entities.Entities.EmployeeSalaryPayment", b =>
@@ -207,7 +204,7 @@ namespace Inventory.Web.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("EmployeeSalaryPayments");
+                    b.ToTable("EmployeeSalaryPayment");
                 });
 
             modelBuilder.Entity("Inventory.Entities.Entities.Product", b =>

@@ -23,6 +23,8 @@ builder.Services.AddTransient<ISupplier, SupplierService>();
 builder.Services.AddTransient<ISupplierRepository, SupplierRepository>();
 builder.Services.AddTransient<IBuyProduct, BuyProductService>();
 builder.Services.AddTransient<IBuyBillRepository, BuyBillRepository>();
+builder.Services.AddTransient<IEmployee, EmployeeService>();
+builder.Services.AddTransient<IEmployeeRepositoty, EmployeeRepository>();
 
 
 

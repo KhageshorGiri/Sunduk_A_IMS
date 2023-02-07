@@ -31,12 +31,12 @@
             <h6>Unit Creating Form</h6>
         </div>
         <div class="card-body">
-
+            @Html.AntiForgeryToken()
             <div class="row">
                 <div>
                     <div class="row">
                         <div class="col-md-6 mt-1 mb-2 shadow" id="supplierSection">
-                            <input required style="font-size: 25px;" id="buyernameinbill" list="Suppliers" class="col-md-11 text-left" placeholder="Debtor's Name" autocomplete="off" />
+                            <input required style="font-size: 25px;" id="suppliernameinbill" list="Suppliers" class="col-md-11 text-left" placeholder="Debtor's Name" autocomplete="off" />
                             <button id="removeSupplierName" class="btn-sm bg-transparent" style="border:none;">
                                 <i class="fa fa-times" style="color:#0dad1a; font-size:16px;"></i>
                             </button>
@@ -44,7 +44,7 @@
 
                                 @foreach (var item in ViewBag.SupplierList)
                                 {
-                                    <option class="selectSuppliername" data-vat="@item.PanNumber" data-phone="@item.PhoneNumber" data-value="@item.SupplierID">@item.SupplierName.Trim()</option>
+                                    <option class="selectSuppliername" data-pan="@item.PanNumber" data-phone="@item.PhoneNumber" data-value="@item.SupplierID">@item.SupplierName.Trim()</option>
                                 }
                             </datalist>
 
@@ -53,14 +53,12 @@
 
                             <div class="row mt-lg-1 p-3 mt-2" id="contactsection">                              
                                 <div class="col-md-12 text-left" style="font-size:13px;">
-                                    <label>PAN No:</label> <lable id="buyervatinbill"></lable>
+                                    <label>PAN No:</label> <lable id="buyerpaninbill"></lable>
                                 </div>
                                 <div class=" col-md-12 text-left" style="font-size:13px;">
                                     <label>Contact:</label> <label id="buyerphoneinbill"></label>
                                 </div>
-                                <div class="col-md-12 text-left" style="font-size:13px;">
-                                    <label>Address:</label> <label id="buyeraddressinbill"></label>
-                                </div>
+                               
                                 
                             </div>
                         </div>
@@ -68,38 +66,37 @@
 
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label class="form-label">Voucher Date</label>
-                                </div>
-                                <div class="col-md-8">
-                                    <input id="VoucherDate" name="VoucherDate" class="form-control" />
-                                </div>
-                            </div>
-
-                            <div class="row mt-2">
-                                <div class="col-md-4">
-                                    <label class="form-label">Buy Date</label>
-                                </div>
-                                <div class="col-md-8">
-                                    <input id="PurchaseDate" name="PurchaseDate" class="form-control" />
-                                </div>
-                            </div>
-
-                            <div class="row mt-2">
-                                <div class="col-md-4">
-                                    <label class="form-label">Bill Number</label>
+                                    <label class="form-label">Bill Number <span class="text-danger">*</span></label>
                                 </div>
                                 <div class="col-md-8">
                                     <input id="BillNumber" name="BillNumber" class="form-control" />
                                 </div>
                             </div>
+
+                            <div class="row  mt-2">
+                                <div class="col-md-4">
+                                    <label class="form-label">Voucher Date <span class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="VoucherDate" name="VoucherDate" class="form-control" type="date"/>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-4">
+                                    <label class="form-label">Purchase Date <span class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="PurchaseDate" name="PurchaseDate" class="form-control" type="date"/>
+                                </div>
+                            </div>
                             
                             <div class="row mt-2">
                                 <div class="col-md-4">
-                                    <input id="issubillcheckbox" type="checkbox" style="width:17px; height:17px;" class="col-md-1" />
-                                    <label class="form-label">Bill Issue Date</label>
+                                    <label class="form-label">Bill Issue Date <span class="text-danger">*</span></label>
                                 </div>
                                 <div class="col-md-8">
-                                    <input id="BillIssueDate" name="BillIssueDate" class="form-control" />
+                                    <input id="BillIssueDate" name="BillIssueDate" class="form-control" type="date"/>
                                 </div>
                             </div>
                         </div>
@@ -107,27 +104,27 @@
                     <hr />
                     <div class="row">
                         <div class="form-group col-md-8">
-                            <label class="form-label">Product Name</label>
+                            <label class="form-label">Product Name <span class="text-danger">*</span></label>
                             <input id="ProductName" name="ProductName" class="form-control" />
                             <span id="productNameErrorMessage" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="form-label">Rate</label>
+                            <label class="form-label">Rate <span class="text-danger">*</span></label>
                             <input id="Rate" name="Rate" class="form-control" />
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="form-label">Quantity</label>
+                            <label class="form-label">Quantity <span class="text-danger">*</span></label>
                             <input id="Quantity" name="Quantity" class="form-control" />
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="form-label">Unit</label>
+                            <label class="form-label">Unit <span class="text-danger">*</span></label>
                             @Html.DropDownList("UnitList",null, "--Select Unit--", new { @class = "form-control" })
                             @*  <select id="UnitId" name="UnitId" class="form-control" asp-items="ViewBag.UnitId"></select>*@
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="form-label">Category</label>
+                            <label class="form-label">Category <span class="text-danger">*</span></label>
                             @Html.DropDownList("CategoryList",null,"-- Select Category--", new { @class = "form-control" })
                            @* <select id="CategoryId" name="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>*@
                         </div>
@@ -139,7 +136,7 @@
                        
                         <div class="form-group mt-3">
                             <button class="btn btn-info" id="addProductToTable">Add Product</button>
-                            <button class="btn btn-primary ms-2" id="addProductToTable">Update</button>
+                            <button class="btn btn-primary ms-2" id="updateProductToTable" style="display:none;">Update</button>
                         </div>
                     </div>
 
@@ -152,8 +149,8 @@
                                         <th>S.N</th>
                                         <th>Product Name</th>
                                         <th>Category</th>
-                                        <th>CategoryID</th>
-                                        <th>UnitID</th>
+                                        <th hidden>CategoryID</th>
+                                        <th hidden>UnitID</th>
                                         <th>Unit</th>
                                         <th>Rate</th>
                                         <th>Quantity</th>
@@ -181,7 +178,7 @@
                   
                     <div class="row">
                         <div class="col-md-8">
-                            <label class="form-label">Comment</label>
+                            <label class="form-label">Comment <span class="text-danger">*</span></label>
                             <input class="form-control" name="Comment" id="Comment" /> 
                         </div>
                         
@@ -190,8 +187,8 @@
 
                     <div class="row">
                         <div class="form-group d-flex justify-content-end me-md-5 mt-4">
-                            <input id="addProducts" type="submit" value="Create" class="btn btn-success" />
-                            <input id="clearAddProductForm" type="reset" value="Clear" class="btn btn-secondary ms-1" />
+                            <button id="addProducts" class="btn btn-success">Create</button>
+                            <button id="clearAddProductForm" class="btn btn-secondary ms-1">Clear</button>
                         </div>
                     </div>
                 </div>
@@ -208,6 +205,28 @@
     <script>
 
         $(document).ready(function(){
+
+            // code to get supplier detalis when user select a supplier from dropdown.
+            $('#suppliernameinbill').on('input', function (event) {
+                event.preventDefault();
+                var $input = $(event.target),
+                    $options = $('#Suppliers option'),
+                    $hiddenInput = $('#supplierID-hidden'),
+                    label = $input.val();
+                $hiddenInput.val(label);
+                for (var i = 0; i < $options.length; i++) {
+                    var $option = $options.eq(i);
+                    if ($option.text() === label) {
+
+                        $('#supplierID-hidden').val($option.attr('data-value'));
+                        $('#buyerpaninbill').html($option.attr('data-pan'));
+                        $('#buyerphoneinbill').html($option.attr('data-phone'));
+                        break;
+                    }
+                }
+
+            });
+
 
             var item_sn = 0;
             $("#addProductToTable").click(function(){
@@ -228,8 +247,8 @@
                         buyBillTableDate += "<td>" + ++item_sn +"</td>";
                         buyBillTableDate += "<td>" + productName + "</td>";
                         buyBillTableDate += "<td>" + $("#CategoryList").find(":selected").text() + "</td>";
-                        buyBillTableDate += "<td>" + $("#CategoryList").val() + "</td>";
-                        buyBillTableDate += "<td>" + $("#UnitList").val() + "</td>";
+                        buyBillTableDate += "<td hidden>" + $("#CategoryList").val() + "</td>";
+                        buyBillTableDate += "<td hidden>" + $("#UnitList").val() + "</td>";
                         buyBillTableDate += "<td>" + $("#UnitList").find(":selected").text() + "</td>"
                         buyBillTableDate += "<td>" + rate +"</td>";
                         buyBillTableDate += "<td>" + quantity + "</td>";
@@ -240,7 +259,7 @@
                     $("#buyBillItemsTable tbody").append(buyBillTableDate);
 
                     var totalAmount = parseFloat(rate) * parseFloat(quantity);
-                    var billTotalAmount = $("#billTotalAmount").html();;
+                    var billTotalAmount = $("#billTotalAmount").html();
                    
                     billTotalAmount = parseFloat(billTotalAmount) + parseFloat(totalAmount);
                     $("#billTotalAmount").html(billTotalAmount.toFixed(2));
@@ -273,6 +292,8 @@
                 $("#Rate").val(rate);
                 $("#Quantity").val(quantity);
 
+                $("#addProductToTable").hide();
+                $("#updateProductToTable").show();
             };
 
         });
@@ -284,7 +305,18 @@
                 $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
                     $(this).remove();
                 });
+
+                var rate = $(this).parents('tr').find('td:eq(6)').html();
+                var quantity = $(this).parents('tr').find('td:eq(7)').html();
+                var totalAmount = parseFloat(rate) * parseFloat(quantity);
+                var billTotalAmount = $("#billTotalAmount").html();
+                var updatedAmount = parseFloat(billTotalAmount) - parseFloat(totalAmount);
+                updatedAmount = Math.abs(updatedAmount);
+
+                $("#billTotalAmount").html(updatedAmount.toFixed(2));
             };
+            $("#addProductToTable").show();
+            $("#updateProductToTable").hide();
 
         });
 
@@ -314,69 +346,160 @@
         // functions to check if items are null or not and remove read borders if they are not null.
         $("#ProductName").keyup(function () {
             if ($("#ProductName").val() != "") {
-                $("#ProductName").css({ "border": "1px solid #e9ecef" });;
+                $("#ProductName").css({ "border": "1px solid #e9ecef" });
             }
 
         });
         $("#UnitList").change(function () {
             if ($("#UnitList").val() != "" || $("#UnitList").val() != "--Select Unit--") {
-                $("#UnitList").css({ "border": "1px solid #e9ecef" });;
+                $("#UnitList").css({ "border": "1px solid #e9ecef" });
             }
 
         });
         $("#Rate").keyup(function () {
             if ($("#Rate").val() != "") {
-                $("#Rate").css({ "border": "1px solid #e9ecef" });;
+                $("#Rate").css({ "border": "1px solid #e9ecef" });
             }
 
         });
         $("#CategoryList").change(function () {
             if ($("#CategoryList").val() != "" || $("#CategoryList").val() != "--Select Category--") {
-                $("#CategoryList").css({ "border": "1px solid #e9ecef" });;
+                $("#CategoryList").css({ "border": "1px solid #e9ecef" });
             }
 
         });
         $("#Quantity").keyup(function () {
             if ($("#Quantity").val() != "") {
-                $("#Quantity").css({ "border": "1px solid #e9ecef" });;
+                $("#Quantity").css({ "border": "1px solid #e9ecef" });
             }
 
         });
-        $("#VoucherDate").keyup(function () {
+        $("#VoucherDate").change(function () {
             if ($("#VoucherDate").val() != "") {
-                $("#VoucherDate").css({ "border": "1px solid #e9ecef" });;
+                $("#VoucherDate").css({ "border": "1px solid #e9ecef" });
             }
 
         });
-        $("#PurchaseDate").keyup(function () {
+        $("#PurchaseDate").change(function () {
             if ($("#PurchaseDate").val() != "") {
-                $("#PurchaseDate").css({ "border": "1px solid #e9ecef" });;
+                $("#PurchaseDate").css({ "border": "1px solid #e9ecef" });
             }
 
         });
         $("#BillNumber").keyup(function () {
             if ($("#BillNumber").val() != "") {
-                $("#BillNumber").css({ "border": "1px solid #e9ecef" });;
+                $("#BillNumber").css({ "border": "1px solid #e9ecef" });
             }
 
         });
-        $("#BillIssueDate").keyup(function () {
+        $("#BillIssueDate").change(function () {
             if ($("#BillIssueDate").val() != "") {
-                $("#BillIssueDate").css({ "border": "1px solid #e9ecef" });;
+                $("#BillIssueDate").css({ "border": "1px solid #e9ecef" });
             }
 
         });
-        $("#buyernameinbill").keyup(function () {
-            if ($("#buyernameinbill").val() != "") {
-                $("#buyernameinbill").css({ "border": "1px solid #deepskyblue" });;
+        $("#suppliernameinbill").change(function () {
+            if ($("#suppliernameinbill").val() != "") {
+                $("#suppliernameinbill").css({ "border": "1px solid #deepskyblue" });
             }
 
         });
         $("#Comment").keyup(function () {
             if ($("#Comment").val() != "") {
-                $("#Comment").css({ "border": "1px solid #deepskyblue" });;
+                $("#Comment").css({ "border": "1px solid #e9ecef" });
             }
 
+        });
+
+        // remove supplier name
+        $("#removeSupplierName").click(function () {
+            $("#suppliernameinbill").val('');
+            $("#saleBuyerID-hidden").val('');
+            $("#buyerpaninbill").html('');
+            $("#buyerphoneinbill").html('');
+            $("#buyeraddressinbill").html('');
+        });
+
+        // ajax post to send data to the server.
+        $("#addProducts").click(function(event){
+            event.preventDefault();
+
+            var supplierID = $("#supplierID-hidden").val();
+            var billerNumber = $("#BillNumber").val();
+            var voucherDate = $("#VoucherDate").val();
+            var purchaseDate = $("#PurchaseDate").val();
+            var issuedDate = $("#BillIssueDate").val();
+            var comment = $("#Comment").val();
+
+            if (supplierID == "" || billerNumber == "" || voucherDate == "" || purchaseDate == "" || issuedDate == "" || comment == ""){
+                if (supplierID == "") {
+                    warningNotification("Validation Error", "Please Enter Supplier Name First.");
+                }
+                if (billerNumber == "") {
+                    $("#BillNumber").css({ "border": "1px solid red" });
+                }
+                if (voucherDate == "") {
+                    $("#VoucherDate").css({ "border": "1px solid red" });
+                }
+                if (purchaseDate == "") {
+                    $("#PurchaseDate").css({ "border": "1px solid red" });
+                }
+                if (issuedDate == "") {
+                    $("#BillIssueDate").css({ "border": "1px solid red" });
+                }
+                if (comment == "") {
+                    $("#Comment").css({ "border": "1px solid red" });
+                }
+            }
+            else{
+                var tableProductsData = []
+
+                $("#buyBillItemsTable tbody tr").each(function () {
+                    var ProductName= $(this).find('td:eq(1)').html();
+                    tableProductsData.push({
+                        ProductName: $(this).find('td:eq(1)').html(),
+                        CategoryId: $(this).find('td:eq(3)').html(),
+                        UnitId: $(this).find('td:eq(4)').html(),
+                        Rate: $(this).find('td:eq(6)').html(),
+                        Quantity: $(this).find('td:eq(7)').html(),
+                    });
+                });
+
+                // data 
+                var dataToPost = JSON.stringify({
+                    SupplierId: supplierID,
+                    BillNumber: billerNumber,
+                    VoucherDate: voucherDate,
+                    PurchaseDate: purchaseDate,
+                    BillIssueDate: issuedDate,
+                    Comment: comment,
+                    Products: tableProductsData,
+                });
+
+               var requestVerificationToken = $('input[name="__RequestVerificationToken"]').val();
+                // ajax post
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: "/Product/AddProducts",
+                    type: "POST",
+                    dataType: "json",
+                    headers: { "RequestVerificationToken": requestVerificationToken },
+                    data: dataToPost,
+                    success: function (result) {
+                        alert(result);
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Error Occcured While Saving your Bill.");
+                    }
+                });
+            }
+        });
+
+        //clearing all input fields
+        $("#clearAddProductForm").click(function(){
+            $("input").val('');
+            $("input").css({ "border": "1px solid #e9ecef" });
         });
 
     </script>

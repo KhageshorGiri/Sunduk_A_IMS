@@ -33,6 +33,10 @@ namespace Inventory.Web.ViewModels
         [StringLength(200, ErrorMessage = "Description Should Be Under 200 Characters.")]
         public string? ProductDescription { get; set; }
 
+        [Required(ErrorMessage = "Comment Cannot Be Empty.")]
+        [StringLength(200, ErrorMessage = "Comment Should Be Under 200 Characters.")]
+        public string? Comment { get; set; }
+
         [Required(ErrorMessage = "Price Cannot Be Empty.")]
         [Range(1, Int32.MaxValue, ErrorMessage = "Price Should Be a Positive Value.")]
         public decimal? Rate { get; set; } = 0;
