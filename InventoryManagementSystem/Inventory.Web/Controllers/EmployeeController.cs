@@ -1,10 +1,21 @@
-﻿using Inventory.Web.ViewModels;
+﻿using Inventory.Web.Services.ServiceInterface;
+using Inventory.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.Web.Controllers
 {
     public class EmployeeController : Controller
     {
+
+        private readonly IWebHostEnvironment wenhostEnv;
+        private readonly IEmployee employeeService;
+
+        public EmployeeController(IWebHostEnvironment wenhostEnv, IEmployee employee)
+        {
+            this.wenhostEnv = wenhostEnv;
+            this.employeeService = employee;
+        }   
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -25,9 +36,22 @@ namespace Inventory.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind] SupplierCustomerEmployeeViewModel employee)
+        public async Task<ActionResult> Create([Bind] EmployeeViewModel employee)
         {
-            return View();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await employeeService.CreateEmployeeAsync(employee);
+                    return RedirectToAction("Index", "Employee");
+                }
+                return View();
+            }
+            catch
+            {
+                return View();
+
+            }
         }
 
         [HttpGet]
@@ -37,7 +61,7 @@ namespace Inventory.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit([Bind] SupplierCustomerEmployeeViewModel employee)
+        public ActionResult Edit([Bind] EmployeeViewModel employee)
         {
             return View();
         }

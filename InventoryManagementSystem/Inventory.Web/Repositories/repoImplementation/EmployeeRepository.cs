@@ -1,26 +1,41 @@
-﻿using Inventory.Web.Repositories.RepoInterface;
+﻿using Inventory.Entities.Entities;
+using Inventory.Web.Helper;
+using Inventory.Web.Repositories.RepoInterface;
 using Inventory.Web.ViewModels;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace Inventory.Web.Repositories.repoImplementation
 {
     public class EmployeeRepository : IEmployeeRepositoty
     {
-        public Task CreateEmployeeAsync(SupplierCustomerEmployeeViewModel employee)
+
+        string connectionString = GetDbConnectionString.ReadDbConnectionString().GetConnectionString("DataBaseConnection");
+
+        public async Task CreateEmployeeAsync(EmployeeViewModel employee)
+        {
+            SqlConnection con = new SqlConnection(connectionString);
+            using (SqlCommand cmd = new SqlCommand("procuder", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SupplierName", "Value");
+               
+                con.Open();
+                await cmd.ExecuteNonQueryAsync();
+            }
+        }
+
+        public Task<IEnumerable<EmployeeViewModel?>> GetAllEmployeesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<SupplierCustomerEmployeeViewModel?>> GetAllEmployeesAsync()
+        public Task<EmployeeViewModel?> GetEmployeeAsync(int Id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<SupplierCustomerEmployeeViewModel?> GetEmployeeAsync(int Id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpddateEmployeeAsync(SupplierCustomerEmployeeViewModel existingEmployee)
+        public Task UpddateEmployeeAsync(EmployeeViewModel existingEmployee)
         {
             throw new NotImplementedException();
         }

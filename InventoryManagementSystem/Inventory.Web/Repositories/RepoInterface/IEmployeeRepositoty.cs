@@ -4,13 +4,13 @@ namespace Inventory.Web.Repositories.RepoInterface
 {
     public interface IEmployeeRepositoty
     {
-        Task CreateEmployeeAsync(SupplierCustomerEmployeeViewModel employee);
+        Task CreateEmployeeAsync(EmployeeViewModel employee);
 
-        Task<IEnumerable<SupplierCustomerEmployeeViewModel?>> GetAllEmployeesAsync();
+        Task<IEnumerable<EmployeeViewModel?>> GetAllEmployeesAsync();
 
-        Task<SupplierCustomerEmployeeViewModel?> GetEmployeeAsync(int Id);
+        Task<EmployeeViewModel?> GetEmployeeAsync(int Id);
 
-        Task UpddateEmployeeAsync(SupplierCustomerEmployeeViewModel existingEmployee);
+        Task UpddateEmployeeAsync(EmployeeViewModel existingEmployee);
 
         Task DeleteEmployeeAsync(int Id);
     }
