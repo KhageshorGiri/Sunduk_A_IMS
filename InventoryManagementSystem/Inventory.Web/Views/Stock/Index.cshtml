@@ -2,3 +2,69 @@
 @{
     ViewData["Title"] = "Stock Index";
 }
+
+<div class="row mt-4">
+    <div class="card col-md-12">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped table-bordered" id="stockDetailsTable">
+                    <thead>
+                        <tr>
+                            <th colspan="4" class="text-center">Opening Stock</th>
+                            <th colspan="4" class="text-center">Sold Stock</th>
+                            <th colspan="4" class="text-center">Current Stock</th>
+                        </tr>
+                        <tr>
+                            <th>Product Item</th>
+                            <th>Purchase Date</th>
+                            <th>Rate</th>
+                            <th>Quntity</th>
+
+                            <th>Product Item</th>
+                            <th>Purchase Date</th>
+                            <th>Rate</th>
+                            <th>Quntity</th>
+
+                            <th>Product Item</th>
+                            <th>Purchase Date</th>
+                            <th>Rate</th>
+                            <th>Quntity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+
+        $(document).ready(function(){
+            $("#stockDetailsTable").DataTable();
+        });
+
+    </script>
+
+}

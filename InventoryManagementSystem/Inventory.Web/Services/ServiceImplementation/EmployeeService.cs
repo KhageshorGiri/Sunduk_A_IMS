@@ -1,4 +1,5 @@
-﻿using Inventory.Web.Repositories.repoImplementation;
+﻿using Inventory.Entities.Entities;
+using Inventory.Web.Repositories.repoImplementation;
 using Inventory.Web.Repositories.RepoInterface;
 using Inventory.Web.Services.ServiceInterface;
 using Inventory.Web.ViewModels;
@@ -83,40 +84,82 @@ namespace Inventory.Web.Services.ServiceImplementation
                 var existingEmployee = await employeeRepositoty.GetEmployeeAsync(Id);
 
                 EmployeeViewModel employee = new EmployeeViewModel();
-                if (existingEmployee != null)
+
+                if(existingEmployee != null)
                 {
-                    while (existingEmployee.Read())
+                    if (existingEmployee.Tables[0].Rows.Count > 0)
                     {
-                        employee.EmployeeID = Convert.ToInt32(existingEmployee["EmployeeId"]);
-                        employee.EmployeeName = existingEmployee["EmployeeName"].ToString();
-                        employee.EmployeeEmail = existingEmployee["Email"].ToString();
-                        employee.PhoneNumber = existingEmployee["PhoneNumber"].ToString();
-                        employee.PanNumber = existingEmployee["PanNumber"].ToString();
-                        employee.ImagePath = existingEmployee["ImageFile"].ToString();
-                        employee.DateFoJoining = Convert.ToDateTime(existingEmployee["DateFoJoining"]);
-                        employee.Post = existingEmployee["Post"].ToString();
-                        employee.CurrentSalary = Convert.ToDecimal(existingEmployee["SalaryAmount"]);
-                        employee.Country = existingEmployee["Country"].ToString();
-                        employee.City = existingEmployee["City"].ToString();
-                        employee.LocalAddress = existingEmployee["LocalAddress"].ToString();
+                        employee.EmployeeID = Convert.ToInt32(existingEmployee.Tables[0].Rows[0]["EmployeeId"]);
+                        employee.EmployeeName = existingEmployee.Tables[0].Rows[0]["EmployeeName"].ToString();
+                        employee.EmployeeEmail = existingEmployee.Tables[0].Rows[0]["Email"].ToString();
+                        employee.PhoneNumber = existingEmployee.Tables[0].Rows[0]["PhoneNumber"].ToString();
+                        employee.PanNumber = existingEmployee.Tables[0].Rows[0]["PanNumber"].ToString();
+                        employee.ImagePath = existingEmployee.Tables[0].Rows[0]["ImageFile"].ToString();
+                        employee.DateFoJoining = Convert.ToDateTime(existingEmployee.Tables[0].Rows[0]["DateFoJoining"]);
+                        employee.Post = existingEmployee.Tables[0].Rows[0]["Post"].ToString();
+                        employee.CurrentSalary = Convert.ToDecimal(existingEmployee.Tables[0].Rows[0]["SalaryAmount"]);
+                        employee.Country = existingEmployee.Tables[0].Rows[0]["Country"].ToString();
+                        employee.City = existingEmployee.Tables[0].Rows[0]["City"].ToString();
+                        employee.LocalAddress = existingEmployee.Tables[0].Rows[0]["LocalAddress"].ToString();
+
+                        var salayrDetalisTable = existingEmployee.Tables[1];
+                        if(salayrDetalisTable.Rows.Count > 0)
+                        {
+                            List<EmployeeSalary> salaryList = new List<EmployeeSalary>();
+                            for (int i = 0; i < salayrDetalisTable.Rows.Count; i++)
+                            {
+                                EmployeeSalary empSalary = new EmployeeSalary();
+                                empSalary.SalaryId = Convert.ToInt32(salayrDetalisTable.Rows[i]["SalaryId"]);
+                                empSalary.SalaryAmount = Convert.ToInt32(salayrDetalisTable.Rows[i]["SalaryAmount"]);
+                                empSalary.ActiveDate = (salayrDetalisTable.Rows[i]["ActiveDate"].ToString() == null ? Convert.ToDateTime(salayrDetalisTable.Rows[i]["ActiveDate"]) : null);
+                                salaryList.Add(empSalary);
+                            }
+                            employee.EmployeeSalary = salaryList;
+                        }
+                       
+                        var salayrPaymentTable = existingEmployee.Tables[2];
+                        if (salayrPaymentTable.Rows.Count > 0)
+                        {
+                            List<EmployeeSalaryPayment> paymentList = new List<EmployeeSalaryPayment>();
+                            for (int i = 0; i < salayrDetalisTable.Rows.Count; i++)
+                            {
+                                EmployeeSalaryPayment empPayment = new EmployeeSalaryPayment();
+                                empPayment.PaymentID = Convert.ToInt32(salayrPaymentTable.Rows[i]["PaymentID"]);
+                                empPayment.PayedAmount = Convert.ToDecimal(salayrPaymentTable.Rows[i]["PayedAmount"]);
+                                empPayment.PaymentDate = Convert.ToDateTime(salayrPaymentTable.Rows[i]["PaymentDate"]);
+                                empPayment.Remarks = salayrPaymentTable.Rows[i]["Remarks"].ToString();
+                                paymentList.Add(empPayment);
+                            }
+                            employee.SalaryPayment = paymentList;
+                        }
+                        
                     }
                 }
+                
                 return employee;
             }
             catch(Exception ex)
             {
                 string message = ex.Message;
+                return null;
             }
-            throw new NotImplementedException();
+            
         }
 
         public Task UpddateEmployeeAsync(EmployeeViewModel existingEmployee)
         {
             throw new NotImplementedException();
         }
-        public Task DeleteEmployeeAsync(int Id)
+        public async Task DeleteEmployeeAsync(int Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await employeeRepositoty.DeleteEmployeeAsync(Id);
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
         }
 
     }

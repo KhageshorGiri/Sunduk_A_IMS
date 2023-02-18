@@ -23,5 +23,6 @@ namespace Inventory.Entities.Entities
         public virtual Employee? Employee { get; set; }
         public int? EmployeeId { get; set; }
 
+        public DateTime? ActiveDate { get; set; }
     }
 }

@@ -23,26 +23,121 @@
                                 <td>Name</td>
                                 <td>@Model.EmployeeName</td>
                             </tr>
-                            <tr><td></td><td></td></tr>
-                            <tr><td></td><td></td></tr>
-                            <tr><td></td><td></td></tr>
-                            <tr><td></td><td></td></tr>
-                            <tr><td></td><td></td></tr>
-                            <tr><td></td><td></td></tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>@Model.EmployeeEmail</td>
+                            </tr>
+                            <tr>
+                                <td>Phone</td>
+                                <td>@Model.PhoneNumber</td>
+                            </tr>
+                            <tr>
+                                <td>Pan</td>
+                                <td>@Model.PanNumber</td>
+                            </tr>
+                            <tr>
+                                <td>Degisnation</td>
+                                <td>@Model.Post</td>
+                            </tr>
+                            <tr>
+                                <td>Current Salary</td>
+                                <td>@Model.CurrentSalary</td>
+                            </tr>
+                             <tr>
+                                <td>Address</td>
+                                <td>@Model.LocalAddress, @Model.City, @Model.Country</td>
+                            </tr>
                         </table>
                     </div>
                 </div>
-                <div class="col-md-12">
-
-                </div>
+                <hr />
                 <div class="row">
-                    <div class="form-group d-flex justify-content-end me-md-5 mt-4">
+                    <div class="col-md-6">
+                        <table class="table table-sm table-striped">
+                            <thead>
+                                <tr>
+                                    <td>S.N</td>
+                                    <td>Salary Amount</td>
+                                    <td>Date</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(Model.EmployeeSalary != null){
+                                    int sn = 1;
+                                    foreach(var salary in Model.EmployeeSalary)
+                                    {
+                                        <tr>
+                                            <td>@(sn++)</td>
+                                            <td>@salary.SalaryAmount</td>
+                                            <td>@salary.ActiveDate</td>
+                                        </tr>
+                                    }
+                                }
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-sm table-striped">
+                            <thead>
+                                <tr>
+                                    <td>S.N</td>
+                                    <td>Amount</td>
+                                    <td>Payed Date</td>
+                                    <td>Remrks</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.SalaryPayment != null)
+                                {
+                                    int sn = 1;
+                                    foreach (var salary in Model.SalaryPayment)
+                                    {
+                                        <tr>
+                                            <td>@(sn++)</td>
+                                            <td>@salary.PayedAmount</td>
+                                            <td>@salary.PaymentDate</td>
+                                            <td>@salary.Remarks</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group d-flex justify-content-center me-md-5 mt-4">
                         <a asp-action="Index"  class="btn btn-sm btn-secondary me-3">Go Back</a>
-                        <a asp-action="Delete"  class="btn btn-sm btn-danger">Delete</a>
-                      
+                        @using (Html.BeginForm("Delete", "Employee", new { Id = Model.EmployeeID }, FormMethod.Get))
+                        {
+                            <button id="deleteEmployeeBtn" type="submit" class="btn btn-sm btn-danger"> Delete</button>
+                        }
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts{
+
+
+    <script>
+
+        $(document).ready(function(){
+            $("#deleteEmployeeBtn").click(function(){
+
+                $("#deleteEmployeeBtn").prop("type", "button");
+                var userChoice = confirm("Do You Want To Delete This Employee?");
+                if(userChoice == true){
+                    $("#deleteEmployeeBtn").prop("type", "submit");
+                }
+                
+            });
+
+        });
+
+    </script>
+
+}

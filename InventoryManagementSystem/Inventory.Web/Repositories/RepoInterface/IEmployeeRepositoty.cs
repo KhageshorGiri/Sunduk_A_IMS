@@ -1,5 +1,6 @@
 ﻿using Inventory.Web.ViewModels;
 using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace Inventory.Web.Repositories.RepoInterface
 {
@@ -9,7 +10,7 @@ namespace Inventory.Web.Repositories.RepoInterface
 
         Task<SqlDataReader?> GetAllEmployeesAsync();
 
-        Task<SqlDataReader?> GetEmployeeAsync(int Id);
+        Task<DataSet?> GetEmployeeAsync(int Id);
 
         Task UpddateEmployeeAsync(EmployeeViewModel existingEmployee);
 

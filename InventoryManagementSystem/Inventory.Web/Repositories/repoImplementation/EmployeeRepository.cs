@@ -1,6 +1,7 @@
 ﻿using Inventory.Entities.Entities;
 using Inventory.Web.Helper;
 using Inventory.Web.Repositories.RepoInterface;
+using Inventory.Web.Services.ServiceInterface;
 using Inventory.Web.ViewModels;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Hosting;
@@ -32,6 +33,7 @@ namespace Inventory.Web.Repositories.repoImplementation
                 cmd.Parameters.AddWithValue("@City", employee.City);
                 cmd.Parameters.AddWithValue("@LocalAddress", employee.LocalAddress);
                 cmd.Parameters.AddWithValue("@ActiveStatus", true);
+                cmd.Parameters.AddWithValue("@SalaryActiveDate", employee.ActiveDate);
                 con.Open();
                 await cmd.ExecuteNonQueryAsync();
             }
@@ -51,18 +53,19 @@ namespace Inventory.Web.Repositories.repoImplementation
             return allEmployeeList;
         }
 
-        public async Task<SqlDataReader?> GetEmployeeAsync(int Id)
+        public async Task<DataSet?> GetEmployeeAsync(int Id)
         {
-            SqlDataReader existingEmployee;
-            SqlConnection con = new SqlConnection(connectionString);
-            using (SqlCommand cmd = new SqlCommand("App_Employee_GetEmployee", con))
+            DataSet existingEmployee = new DataSet();
+            using(SqlConnection con = new SqlConnection(connectionString))
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@EmployeeID", Id);
-                con.Open();
-                existingEmployee = await cmd.ExecuteReaderAsync();
-
+                await con.OpenAsync();
+                SqlCommand objSqlCommand = new SqlCommand("App_Employee_GetEmployee", con);
+                objSqlCommand.CommandType = CommandType.StoredProcedure;
+                objSqlCommand.Parameters.AddWithValue("@EmployeeID", Id);
+                SqlDataAdapter objSqlDataAdapter = new SqlDataAdapter(objSqlCommand);
+                objSqlDataAdapter.Fill(existingEmployee);
             }
+
             return existingEmployee;
         }
 
@@ -70,9 +73,17 @@ namespace Inventory.Web.Repositories.repoImplementation
         {
             throw new NotImplementedException();
         }
-        public Task DeleteEmployeeAsync(int Id)
+        public async Task DeleteEmployeeAsync(int Id)
         {
-            throw new NotImplementedException();
+            SqlConnection con = new SqlConnection(connectionString);
+            using (SqlCommand cmd = new SqlCommand("App_Employee_DeleteEmployee", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@EmployeeId", Id);
+                con.Open();
+                await cmd.ExecuteNonQueryAsync();
+
+            }
         }
 
     }

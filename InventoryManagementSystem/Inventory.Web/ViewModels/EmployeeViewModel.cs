@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Inventory.Entities.Entities;
 
 namespace Inventory.Web.ViewModels
 {
@@ -35,6 +36,8 @@ namespace Inventory.Web.ViewModels
         [Range(0, int.MaxValue, ErrorMessage = "Salary Amount cannot be Negative.")]
         public decimal? CurrentSalary { get; set; }
 
+        public DateTime? ActiveDate { get; set; }
+
         [NotMapped]
         public IFormFile? Image { get; set; }
 
@@ -51,5 +54,11 @@ namespace Inventory.Web.ViewModels
         [Required(ErrorMessage = "Local Address Cannot be null.")]
         [StringLength(550, ErrorMessage = "The Length of Local Address should be under 550 characters.")]
         public string? LocalAddress { get; set; }
+
+        // object to store salary data
+        public List<EmployeeSalary>? EmployeeSalary { get; set; }
+
+        // salary payment history
+        public List<EmployeeSalaryPayment>? SalaryPayment { get; set; }
     }
 }

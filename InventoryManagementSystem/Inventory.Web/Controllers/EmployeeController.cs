@@ -45,10 +45,11 @@ namespace Inventory.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind] EmployeeViewModel employee)
         {
-            try
-            {
+            try 
+            { 
                 if (ModelState.IsValid)
                 {
+                    employee.ActiveDate = DateTime.UtcNow;
                     await employeeService.CreateEmployeeAsync(employee);
                     return RedirectToAction("Index", "Employee");
                 }
@@ -79,9 +80,15 @@ namespace Inventory.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(int Id)
+        public async Task<ActionResult> Delete(int Id)
         {
-            return View();
+            var employee = await employeeService.GetEmployeeAsync(Id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            await employeeService.DeleteEmployeeAsync(Id);
+            return RedirectToAction("Index","Employee");
         }
     }
 }
