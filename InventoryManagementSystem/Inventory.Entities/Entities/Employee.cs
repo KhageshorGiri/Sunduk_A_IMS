@@ -38,6 +38,7 @@ namespace Inventory.Entities.Entities
 
         public DateTime? DateFoJoining { get; set; }
 
+        public string? ImageFile { get; set; }
         // Adding the relationship to others table
         public int? AddressId { get; set; }
         public Address? Address { get; set; }

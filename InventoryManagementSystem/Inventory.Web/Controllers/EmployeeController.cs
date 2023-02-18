@@ -1,4 +1,5 @@
-﻿using Inventory.Web.Services.ServiceInterface;
+﻿using Inventory.Web.Services.ServiceImplementation;
+using Inventory.Web.Services.ServiceInterface;
 using Inventory.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,15 +18,21 @@ namespace Inventory.Web.Controllers
         }   
 
         [HttpGet]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var allSuppliersDetails = await employeeService.GetAllEmployeesAsync();
+            return View(allSuppliersDetails);
         }
 
         [HttpGet]
-        public ActionResult Details(int Id)
+        public async Task<ActionResult> Details(int Id)
         {
-            return View();
+            var employee = await employeeService.GetEmployeeAsync(Id);
+            if(employee == null)
+            {
+                return NotFound();
+            }    
+            return View(employee);
         }
 
         [HttpGet]
@@ -55,9 +62,14 @@ namespace Inventory.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit()
+        public async Task<ActionResult> Edit(int Id)
         {
-            return View();
+            var employee = await employeeService.GetEmployeeAsync(Id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            return View(employee);
         }
 
         [HttpPost]

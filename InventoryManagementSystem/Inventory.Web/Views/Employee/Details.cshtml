@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Edit";
+}
+
+@model Inventory.Web.ViewModels.EmployeeViewModel;
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Employee Details</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div>
+                            <img src="~/@Model.ImagePath" style="width:100%; height:auto;" />
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <table class="table table-sm table-striped">
+                            <tr>
+                                <td>Name</td>
+                                <td>@Model.EmployeeName</td>
+                            </tr>
+                            <tr><td></td><td></td></tr>
+                            <tr><td></td><td></td></tr>
+                            <tr><td></td><td></td></tr>
+                            <tr><td></td><td></td></tr>
+                            <tr><td></td><td></td></tr>
+                            <tr><td></td><td></td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+
+                </div>
+                <div class="row">
+                    <div class="form-group d-flex justify-content-end me-md-5 mt-4">
+                        <a asp-action="Index"  class="btn btn-sm btn-secondary me-3">Go Back</a>
+                        <a asp-action="Delete"  class="btn btn-sm btn-danger">Delete</a>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<Inventory.Web.ViewModels.EmployeeViewModel>
 
 <div class="row col-md-12">
     <div class="row mt-3 text-end">
@@ -15,20 +15,34 @@
                     <th>S.N</th>
                     <th>Photo</th>
                     <th>Name</th>
+                    <th>Email</th>
                     <th>Designation</th>
                     <th>Phone</th>
                     <th>View Details</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                @{
+                    int sn = 1;
+                }
+                @foreach(var employee in Model)
+                {
+                    <tr>
+                        <td>@(sn++)</td>
+                        <td>
+                            <img src="@employee.ImagePath" style="width:100px; height:auto;"/>
+                        </td>
+                        <td>@employee.EmployeeName</td>
+                        <td>@employee.EmployeeEmail</td>
+                        <td>@employee.Post</td>
+                        <td>@employee.PhoneNumber</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@employee.EmployeeID" class="btn btn-sm btn-secondary">View Details</a>
+                            <a asp-action="Edit" asp-route-id="@employee.EmployeeID" class="btn btn-sm btn-info">Edit</a>
+                        </td>
+                    </tr>
+                }
+               
             </tbody>
         </table>
     </div>

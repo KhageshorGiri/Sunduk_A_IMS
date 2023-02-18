@@ -24,9 +24,6 @@ namespace Inventory.Web.ViewModels
         [StringLength(15, ErrorMessage = "Phone Number Should be Under 15 Characters.")]
         public string? PhoneNumber { get; set; }
 
-        [StringLength(30, ErrorMessage = "Email Should be Under 30 Characters.")]
-        public string? Email { get; set; }
-
         [StringLength(9, ErrorMessage = "Other Details Should be 9 Characters.")]
         public string? PanNumber { get; set; }
         public int? AddressId { get; set; }
