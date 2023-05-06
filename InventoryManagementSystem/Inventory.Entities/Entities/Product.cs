@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Inventory.Entities.Entities
 {
@@ -11,6 +12,10 @@ namespace Inventory.Entities.Entities
         [Required(ErrorMessage = "Product Name Cannot Be Empty.")]
         [StringLength(200, ErrorMessage = "Product Name Should Be Under 200 Characters.")]
         public string? ProductName { get; set; }
+
+        [Required(ErrorMessage = "Product Code Cannot Be Empty.")]
+        [StringLength(200, ErrorMessage = "Product Code Should Be Under 200 Characters.")]
+        public string? ProductCode { get; set; }
 
         [Required(ErrorMessage = "Description Cannot Be Empty.")]
         [StringLength(200, ErrorMessage = "Description Should Be Under 200 Characters.")]
@@ -25,6 +30,10 @@ namespace Inventory.Entities.Entities
         public int? Quantity { get; set; }
 
         // adding relationship with others tables.
+        [Required]
+        [ForeignKey("BuyBill")]
+        public int BillId { get; set; }
+        public virtual BuyBill? BuyBill { get; set; }
 
         [Required(ErrorMessage = "Unit Cannot Be Empty.")]
         public int UnitId { get; set; }
@@ -34,7 +43,6 @@ namespace Inventory.Entities.Entities
         public int CategoryId { get; set; }
         public virtual Category? Category { get; set; }
 
-        public int? BillId { get; set; }
-        public virtual BuyBill? BuyBill { get; set; }
+
     }
 }

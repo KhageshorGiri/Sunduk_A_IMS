@@ -7,10 +7,15 @@ namespace Inventory.Web.ViewModels
     public class SupplierCustomerEmployeeViewModel
     {
         public int SupplierID { get; set; }
+        public int CustomerID { get; set; }
 
         [Required(ErrorMessage = "Supplier Name Cannot be Empty.")]
         [StringLength(100, ErrorMessage = "Name Should be Under 100 Characters.")]
         public string? SupplierName { get; set; }
+
+        [Required(ErrorMessage = "Customer Name Cannot be Empty.")]
+        [StringLength(100, ErrorMessage = "Name Should be Under 100 Characters.")]
+        public string? CustomerName { get; set; }
 
         [Required(ErrorMessage = "Phone Number Cannot be Empty.")]
         [StringLength(15, ErrorMessage = "Phone Number Should be Under 15 Characters.")]

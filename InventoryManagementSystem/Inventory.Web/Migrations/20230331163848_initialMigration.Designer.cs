@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Web.Migrations
 {
     [DbContext(typeof(InventorySystemDbContext))]
-    [Migration("20230218103104_updatedEmployeeSalaryTable")]
-    partial class updatedEmployeeSalaryTable
+    [Migration("20230331163848_initialMigration")]
+    partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -226,10 +226,7 @@ namespace Inventory.Web.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"), 1L, 1);
 
-                    b.Property<int?>("BillId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("BuyBillBillId")
+                    b.Property<int>("BillId")
                         .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
@@ -258,7 +255,7 @@ namespace Inventory.Web.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.HasIndex("BuyBillBillId");
+                    b.HasIndex("BillId");
 
                     b.HasIndex("CategoryId");
 
@@ -370,7 +367,9 @@ namespace Inventory.Web.Migrations
                 {
                     b.HasOne("Inventory.Entities.Entities.BuyBill", "BuyBill")
                         .WithMany("Products")
-                        .HasForeignKey("BuyBillBillId");
+                        .HasForeignKey("BillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Inventory.Entities.Entities.Category", "Category")
                         .WithMany("Products")

@@ -1,4 +1,5 @@
 ﻿using Inventory.Entities.Entities;
+using Inventory.Web.Repositories.RepoInterface;
 using Inventory.Web.Services.ServiceInterface;
 using Inventory.Web.ViewModels;
 
@@ -6,9 +7,16 @@ namespace Inventory.Web.Services.ServiceImplementation
 {
     public class BuyProductService : IBuyProduct
     {
-        public Task AddBuyBillAsync(BuyBillViewModel buyBillItems)
+        private IBuyBillRepository buyBillRepository;
+
+        public BuyProductService(IBuyBillRepository buyBillRepository)
         {
-            throw new NotImplementedException();
+            this.buyBillRepository = buyBillRepository;
+        }
+
+        public async Task AddBuyBillAsync(BuyBillViewModel buyBillItems)
+        {
+            await buyBillRepository.AddBuyBillAsync(buyBillItems);
         }
 
         public Task<IEnumerable<BuyBill?>> GetAllBuyBillsAsync()

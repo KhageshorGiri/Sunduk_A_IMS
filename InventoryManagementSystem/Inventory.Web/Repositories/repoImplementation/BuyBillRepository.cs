@@ -14,10 +14,30 @@ namespace Inventory.Web.Repositories.repoImplementation
         public async Task AddBuyBillAsync(BuyBillViewModel buyBillItems)
         {
             SqlConnection con = new SqlConnection(connectionString);
+
+            DataTable productDataTable = new DataTable();
+            //Add columns  
+            productDataTable.Columns.Add(new DataColumn("ProductName", typeof(string)));
+            productDataTable.Columns.Add(new DataColumn("Rate", typeof(string)));
+            productDataTable.Columns.Add(new DataColumn("Quantity", typeof(string)));
+            productDataTable.Columns.Add(new DataColumn("UnitId", typeof(int)));
+            productDataTable.Columns.Add(new DataColumn("CategoryId", typeof(int)));
+            //Add rows  
+            if(buyBillItems.Products != null)
+            {
+                foreach (var product in buyBillItems.Products)
+                {
+                    productDataTable.Rows.Add(product.ProductName,product.Rate,product.Quantity,product.UnitId,product.CategoryId);
+                }
+            }
+           
             using (SqlCommand cmd = new SqlCommand("", con))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                //cmd.Parameters.AddWithValue("@", "Value");
+                cmd.Parameters.AddWithValue("@", "Value");
+                cmd.Parameters.AddWithValue("@", "Value");
+                cmd.Parameters.AddWithValue("@", "Value");
+                cmd.Parameters.AddWithValue("@productData", productDataTable);
                 con.Open();
                 await cmd.ExecuteNonQueryAsync();
             }

@@ -51,14 +51,18 @@ namespace Inventory.Web.Controllers
         // POST: ProductController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddProducts([FromBody] BuyBillViewModel buyBill)//int SupplierId, string BillNumber, string VoucherDate, string PurchaseDate,
+        public async Task<ActionResult> AddProducts([FromBody] BuyBillViewModel buyBill)//int SupplierId, string BillNumber, string VoucherDate, string PurchaseDate,
             //string IssuedDate, string Comment, Product[] ProductsList)
         {
             try
             {
+                if (ModelState.IsValid)
+                {
+                    await buyProductService.AddBuyBillAsync(buyBill);
+                }
                 return RedirectToAction(nameof(Create));
             }
-            catch
+            catch(Exception ex)
             {
                 return View();
             }

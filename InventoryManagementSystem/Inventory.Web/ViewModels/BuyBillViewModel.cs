@@ -29,6 +29,10 @@ namespace Inventory.Web.ViewModels
         [StringLength(200, ErrorMessage = "Product Name Should Be Under 200 Characters.")]
         public string? ProductName { get; set; }
 
+        [Required(ErrorMessage = "Product Code Cannot Be Empty.")]
+        [StringLength(200, ErrorMessage = "Product Code Should Be Under 200 Characters.")]
+        public string? ProductCode { get; set; }
+
         [Required(ErrorMessage = "Description Cannot Be Empty.")]
         [StringLength(200, ErrorMessage = "Description Should Be Under 200 Characters.")]
         public string? ProductDescription { get; set; }

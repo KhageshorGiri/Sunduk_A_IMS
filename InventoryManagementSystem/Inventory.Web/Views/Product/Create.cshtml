@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add Product";
 }
 
 <style>
@@ -28,7 +28,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h6>Unit Creating Form</h6>
+            <h6>Add Product</h6>
         </div>
         <div class="card-body">
             @Html.AntiForgeryToken()
@@ -36,7 +36,7 @@
                 <div>
                     <div class="row">
                         <div class="col-md-6 mt-1 mb-2 shadow" id="supplierSection">
-                            <input required style="font-size: 25px;" id="suppliernameinbill" list="Suppliers" class="col-md-11 text-left" placeholder="Debtor's Name" autocomplete="off" />
+                            <input required style="font-size: 25px;" id="suppliernameinbill" list="Suppliers" class="col-md-11 text-left" placeholder="Suppliers's Name" autocomplete="off" />
                             <button id="removeSupplierName" class="btn-sm bg-transparent" style="border:none;">
                                 <i class="fa fa-times" style="color:#0dad1a; font-size:16px;"></i>
                             </button>
@@ -108,7 +108,12 @@
                             <input id="ProductName" name="ProductName" class="form-control" />
                             <span id="productNameErrorMessage" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Product Code <span class="text-danger">*</span></label>
+                            <input id="ProductCode" name="ProductCode" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-2">
                             <label class="form-label">Rate <span class="text-danger">*</span></label>
                             <input id="Rate" name="Rate" class="form-control" />
                             <span class="text-danger"></span>
@@ -152,6 +157,7 @@
                                         <th hidden>CategoryID</th>
                                         <th hidden>UnitID</th>
                                         <th>Unit</th>
+                                        <th>Product Code</th>
                                         <th>Rate</th>
                                         <th>Quantity</th>
                                         <th>Price</th>
@@ -163,7 +169,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="6"></td>
+                                        <td colspan="7"></td>
                                         <td>
                                             <label class="fw-bold">Total Amount</label>
                                         </td>
@@ -234,10 +240,11 @@
                 var unitId = $("#UnitList").val();
                 var category = $("#CategoryList").val();
                 var rate = $("#Rate").val();
+                var code = $("#ProductCode").val();
                 var quantity = $("#Quantity").val();
 
                 if (productName == "" || unitId == "" || unitId == "--Select Unit--" || category == "" || category == "-- Select Category--" || rate == "" || quantity == "") {
-                    productDetailsValidator(productName, unitId, category, rate, quantity);
+                    productDetailsValidator(productName, unitId, category, code, rate, quantity);
 
                 }
                 else
@@ -250,6 +257,7 @@
                         buyBillTableDate += "<td hidden>" + $("#CategoryList").val() + "</td>";
                         buyBillTableDate += "<td hidden>" + $("#UnitList").val() + "</td>";
                         buyBillTableDate += "<td>" + $("#UnitList").find(":selected").text() + "</td>"
+                        buyBillTableDate += "<td>" + code + "</td>"
                         buyBillTableDate += "<td>" + rate +"</td>";
                         buyBillTableDate += "<td>" + quantity + "</td>";
                         buyBillTableDate += "<td>" + parseFloat(rate) * parseFloat(quantity) + "</td>";
@@ -266,6 +274,7 @@
 
                     $("#ProductName").val(" ");
                     $("#Rate").val(" ");
+                    $("#ProductCode").val(" ");
                     $("#Quantity").val(" ");
 
                     $('#CategoryList option[value=""]').attr('selected', 'selected');
@@ -285,11 +294,13 @@
                 var productName = $(this).parents('tr').find('td:eq(1)').html();
                 var categoryId = $(this).parents('tr').find('td:eq(3)').html();
                 var unitId = $(this).parents('tr').find('td:eq(4)').html();
-                var rate = $(this).parents('tr').find('td:eq(6)').html();
-                var quantity = $(this).parents('tr').find('td:eq(7)').html();
+                var code = $(this).parents('tr').find('td:eq(6)').html();
+                var rate = $(this).parents('tr').find('td:eq(7)').html();
+                var quantity = $(this).parents('tr').find('td:eq(8)').html();
 
                 $("#ProductName").val(productName);
-                $("#Rate").val(rate);
+                $("#ProductCode").val(rate);
+                $("#Rate").val(code);
                 $("#Quantity").val(quantity);
 
                 $("#addProductToTable").hide();
@@ -306,8 +317,8 @@
                     $(this).remove();
                 });
 
-                var rate = $(this).parents('tr').find('td:eq(6)').html();
-                var quantity = $(this).parents('tr').find('td:eq(7)').html();
+                var rate = $(this).parents('tr').find('td:eq(7)').html();
+                var quantity = $(this).parents('tr').find('td:eq(8)').html();
                 var totalAmount = parseFloat(rate) * parseFloat(quantity);
                 var billTotalAmount = $("#billTotalAmount").html();
                 var updatedAmount = parseFloat(billTotalAmount) - parseFloat(totalAmount);
@@ -324,7 +335,7 @@
 
 
         // function to validate the produtais before adding to the bill.
-        function productDetailsValidator(productName, unitId, category, rate, quantity) {
+        function productDetailsValidator(productName, unitId, category, code, rate, quantity) {
             if (productName == "") {
                 $("#ProductName").css({ "border": "1px solid red" });
             }
@@ -339,6 +350,9 @@
             }
             if (quantity == "") {
                 $("#Quantity").css({ "border-color": "red" });
+            }
+            if (code == "") {
+                $("#ProductCode").css({ "border-color": "red" });
             }
 
         }
@@ -460,8 +474,9 @@
                         ProductName: $(this).find('td:eq(1)').html(),
                         CategoryId: $(this).find('td:eq(3)').html(),
                         UnitId: $(this).find('td:eq(4)').html(),
-                        Rate: $(this).find('td:eq(6)').html(),
-                        Quantity: $(this).find('td:eq(7)').html(),
+                        ProductCode: $(this).find('td:eq(6)').html(),
+                        Rate: $(this).find('td:eq(7)').html(),
+                        Quantity: $(this).find('td:eq(8)').html(),
                     });
                 });
 
