@@ -16,7 +16,7 @@ namespace Inventory.Web.Controllers
 
 
         // GET: Customer
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             var allCustomersDetails = await customerService.GetAllCustomersAsync();
             return View(allCustomersDetails);
@@ -44,7 +44,7 @@ namespace Inventory.Web.Controllers
         // POST: Customer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind] SupplierCustomerEmployeeViewModel customer)
+        public async Task<ActionResult> Create([Bind] CustomerViewModel customer)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace Inventory.Web.Controllers
         // POST: Customer/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind] SupplierCustomerEmployeeViewModel existingCustomer)
+        public async Task<ActionResult> Edit([Bind] CustomerViewModel existingCustomer)
         {
             try
             {

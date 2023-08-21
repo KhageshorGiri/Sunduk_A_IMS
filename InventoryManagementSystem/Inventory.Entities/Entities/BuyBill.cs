@@ -5,11 +5,6 @@ namespace Inventory.Entities.Entities
 {
     public class BuyBill
     {
-        public BuyBill()
-        {
-            Products = new HashSet<Product>();
-        }
-
         [Key]
         public int BillId { get; set; }
 
@@ -35,7 +30,7 @@ namespace Inventory.Entities.Entities
 
 
         // adding relationship with other tables
-        public virtual ICollection<Product> Products { get; set; }
+        public List<Product>? Products { get; set; }
 
         public int? SupplierID { get; set; }
         public virtual Supplier? Supplier { get; set; }

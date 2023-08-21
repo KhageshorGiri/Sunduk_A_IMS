@@ -12,13 +12,13 @@ namespace Inventory.Web.Repositories.repoImplementation
     public class CustomerRepository : ICustomerRepository
     {
         string connectionString = GetDbConnectionString.ReadDbConnectionString().GetConnectionString("DataBaseConnection");
-        public async Task CreateCustomerAsync(SupplierCustomerEmployeeViewModel supplier)
+        public async Task CreateCustomerAsync(CustomerViewModel supplier)
         {
             SqlConnection con = new SqlConnection(connectionString);
             using (SqlCommand cmd = new SqlCommand("App_Customer_AddCustomer", con))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CustomerName", supplier.SupplierName);
+                cmd.Parameters.AddWithValue("@CustomerName", supplier.CustomerName);
                 cmd.Parameters.AddWithValue("@Email", supplier.Email);
                 cmd.Parameters.AddWithValue("@PhoneNumber", supplier.PhoneNumber);
                 cmd.Parameters.AddWithValue("@PanNumber", supplier.PanNumber);
@@ -58,14 +58,14 @@ namespace Inventory.Web.Repositories.repoImplementation
             return supplier;
         }
 
-        public async Task UpdateCustomerAsync(SupplierCustomerEmployeeViewModel existingSupplier)
+        public async Task UpdateCustomerAsync(CustomerViewModel existingSupplier)
         {
             SqlConnection con = new SqlConnection(connectionString);
             using (SqlCommand cmd = new SqlCommand("App_Customer_UpdateCustomer", con))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CustomerId", existingSupplier.SupplierID);
-                cmd.Parameters.AddWithValue("@CustomerName", existingSupplier.SupplierName);
+                cmd.Parameters.AddWithValue("@CustomerId", existingSupplier.CustomerID);
+                cmd.Parameters.AddWithValue("@CustomerName", existingSupplier.CustomerName);
                 cmd.Parameters.AddWithValue("@Email", existingSupplier.Email);
                 cmd.Parameters.AddWithValue("@PhoneNumber", existingSupplier.PhoneNumber);
                 cmd.Parameters.AddWithValue("@PanNumber", existingSupplier.PanNumber);

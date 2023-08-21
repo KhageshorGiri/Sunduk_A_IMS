@@ -14,21 +14,21 @@ namespace Inventory.Web.Services.ServiceImplementation
             this.supplierRepository = supplierRepo;
         }
 
-        public async Task CreateSupplierAsync(SupplierCustomerEmployeeViewModel supplier)
+        public async Task CreateSupplierAsync(SupplierViewModel supplier)
         {
             await supplierRepository.CreateSupplierAsync(supplier);
         }
-        public async Task<IEnumerable<SupplierCustomerEmployeeViewModel?>> GetAllSuppliersAsync()
+        public async Task<IEnumerable<SupplierViewModel?>> GetAllSuppliersAsync()
         {
             var suppliersDataReader = await supplierRepository.GetAllSuppliersAsync();
 
-            List<SupplierCustomerEmployeeViewModel> allSuppliers = new();
+            List<SupplierViewModel> allSuppliers = new();
             if(suppliersDataReader != null)
             {
                 while (suppliersDataReader.Read())
                 {
-                    SupplierCustomerEmployeeViewModel supplier = new SupplierCustomerEmployeeViewModel();
-                    supplier.SupplierID = Convert.ToInt32(suppliersDataReader["SupplierId"]);
+                    SupplierViewModel supplier = new SupplierViewModel();
+                    supplier.SupplierID = Convert.ToInt32(suppliersDataReader["SupplierId"].ToString());
                     supplier.SupplierName = suppliersDataReader["SupplierName"].ToString();
                     supplier.Email = suppliersDataReader["Email"].ToString();
                     supplier.PhoneNumber = suppliersDataReader["PhoneNumber"].ToString();
@@ -43,11 +43,11 @@ namespace Inventory.Web.Services.ServiceImplementation
             return allSuppliers;
         }
 
-        public async Task<SupplierCustomerEmployeeViewModel?> GetSupplierAsync(int Id)
+        public async Task<SupplierViewModel?> GetSupplierAsync(int Id)
         {
             var existingSupplier = await supplierRepository.GetSupplierAsync(Id);
 
-            SupplierCustomerEmployeeViewModel supplier = new SupplierCustomerEmployeeViewModel();
+            SupplierViewModel supplier = new SupplierViewModel();
             if(existingSupplier != null)
             {
                 while (existingSupplier.Read())
@@ -66,7 +66,7 @@ namespace Inventory.Web.Services.ServiceImplementation
             return supplier;
         }
 
-        public async Task UpddateSupplierAsync(SupplierCustomerEmployeeViewModel existingSupplier)
+        public async Task UpddateSupplierAsync(SupplierViewModel existingSupplier)
         {
             await supplierRepository.UpddateSupplierAsync(existingSupplier);
         }

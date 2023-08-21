@@ -3,7 +3,9 @@ using Inventory.Web.Services.ServiceInterface;
 using Inventory.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace Inventory.Web.Controllers
 {
@@ -24,9 +26,10 @@ namespace Inventory.Web.Controllers
 
 
         // GET: ProductController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var productDetails =  await buyProductService.GetAllBuyBillsAsync();
+            return View(productDetails);
         }
 
         // GET: ProductController/Details/5
@@ -51,20 +54,18 @@ namespace Inventory.Web.Controllers
         // POST: ProductController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddProducts([FromBody] BuyBillViewModel buyBill)//int SupplierId, string BillNumber, string VoucherDate, string PurchaseDate,
-            //string IssuedDate, string Comment, Product[] ProductsList)
-        {
+        public async Task<ActionResult> AddProducts( [FromBody] BuyBillViewModel buyBillView)
+        { 
             try
             {
-                if (ModelState.IsValid)
-                {
-                    await buyProductService.AddBuyBillAsync(buyBill);
-                }
-                return RedirectToAction(nameof(Create));
+                await buyProductService.AddBuyBillAsync(buyBillView);
+                TempData["Success"] = "Create Sucess";
+                return Json(new { Success=true, Message = TempData["Success"] });
             }
             catch(Exception ex)
             {
-                return View();
+                TempData["Error"] = "Create Error";
+                return Json(new { Success = false, Message = TempData["Error"] });
             }
         }
 

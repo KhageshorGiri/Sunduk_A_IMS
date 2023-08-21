@@ -482,7 +482,7 @@
 
                 // data 
                 var dataToPost = JSON.stringify({
-                    SupplierId: supplierID,
+                    SupplierID: supplierID,
                     BillNumber: billerNumber,
                     VoucherDate: voucherDate,
                     PurchaseDate: purchaseDate,
@@ -501,11 +501,11 @@
                     headers: { "RequestVerificationToken": requestVerificationToken },
                     data: dataToPost,
                     success: function (result) {
-                        alert(result);
+                        successNotification("Sucess!!", "Product Added Sucessifyly.");
                         location.reload();
                     },
                     error: function () {
-                        alert("Error Occcured While Saving your Bill.");
+                        errorNotification("Error!!", "Something Went wrong. Try later.");
                     }
                 });
             }

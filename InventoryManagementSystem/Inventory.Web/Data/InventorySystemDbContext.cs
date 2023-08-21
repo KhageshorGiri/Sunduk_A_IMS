@@ -17,6 +17,7 @@ namespace Inventory.Web.Data
 
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public  DbSet<Unit> Units { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -28,6 +29,11 @@ namespace Inventory.Web.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Product>()
+            .HasOne(p => p.BuyBill)
+            .WithMany(b => b.Products)
+            .HasForeignKey(p => p.BillId);
         }
     }
 }

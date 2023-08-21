@@ -8,13 +8,13 @@ namespace Inventory.Web.Controllers
     {
 
         private readonly IBuyProduct buyProductService;
-        private readonly ISupplier supplierServiec;
+        private readonly ICustomer customerServiec;
         private readonly IUnit unitService;
         private readonly ICategory categoryService;
-        public SellsController(IBuyProduct productService, ISupplier supplierServiec, IUnit unitService, ICategory categoryService)
+        public SellsController(IBuyProduct productService, ICustomer customerServiec, IUnit unitService, ICategory categoryService)
         {
             this.buyProductService = productService;
-            this.supplierServiec = supplierServiec;
+            this.customerServiec = customerServiec;
             this.unitService = unitService;
             this.categoryService = categoryService;
         }
@@ -24,9 +24,15 @@ namespace Inventory.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult GetProductByProductCode(string ProductCode)
         {
-            ViewBag.CustomerList =  supplierServiec.GetAllSuppliersAsync();
+            return View();
+        }
+       
+        [HttpGet]
+        public async Task<ActionResult> Create()
+        {
+            ViewBag.CustomerList =  await customerServiec.GetAllCustomersAsync();
             return View();
         }
     }

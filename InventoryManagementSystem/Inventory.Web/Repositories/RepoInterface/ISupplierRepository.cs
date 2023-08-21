@@ -7,13 +7,13 @@ namespace Inventory.Web.Repositories.RepoInterface
 {
     public interface ISupplierRepository
     {
-        Task CreateSupplierAsync(SupplierCustomerEmployeeViewModel supplier);
+        Task CreateSupplierAsync(SupplierViewModel supplier);
 
         Task<SqlDataReader?> GetAllSuppliersAsync();
 
         Task<SqlDataReader?> GetSupplierAsync(int Id);
 
-        Task UpddateSupplierAsync(SupplierCustomerEmployeeViewModel existingSupplier);
+        Task UpddateSupplierAsync(SupplierViewModel existingSupplier);
 
         Task DeleteSupplierAsync(int Id);
     }

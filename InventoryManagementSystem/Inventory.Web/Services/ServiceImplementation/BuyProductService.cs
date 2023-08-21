@@ -19,9 +19,9 @@ namespace Inventory.Web.Services.ServiceImplementation
             await buyBillRepository.AddBuyBillAsync(buyBillItems);
         }
 
-        public Task<IEnumerable<BuyBill?>> GetAllBuyBillsAsync()
+        public async Task<IEnumerable<BuyBill?>> GetAllBuyBillsAsync()
         {
-            throw new NotImplementedException();
+            return await buyBillRepository.GetAllBuyBillsAsync();
         }
 
         public Task<BuyBill?> GetBuyBillAsync()

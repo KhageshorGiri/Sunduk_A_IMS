@@ -8,6 +8,7 @@ namespace Inventory.Entities.Entities
         public Address()
         {
             Suppliers = new HashSet<Supplier>();
+            Customers = new HashSet<Customer>();
             Employees = new HashSet<Employee>();
         }
 
@@ -27,6 +28,7 @@ namespace Inventory.Entities.Entities
 
         // adding the relationship with other tables
         public virtual ICollection<Supplier> Suppliers { get; set; }
+        public virtual ICollection<Customer> Customers { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
     }
 }

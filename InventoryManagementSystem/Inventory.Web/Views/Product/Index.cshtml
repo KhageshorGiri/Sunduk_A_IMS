@@ -1,71 +1,252 @@
-﻿@model IEnumerable<Inventory.Entities.Entities.Product>
+﻿@model IEnumerable<Inventory.Entities.Entities.BuyBill>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Unit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BillId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unit.ShortForm)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BillId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-            </td>
-        </tr>
+@{
+    ViewBag.Title = "Purchase Bill Report";
 }
-    </tbody>
-</table>
+
+
+<style>
+    
+    #suppliers {
+        border-radius: 15px;
+        padding: 30px;
+        padding-left: 10px;
+    }
+
+    .billCard{
+        border-radius: 0.15rem;
+        border-color:cadetblue;
+    }
+    
+</style>
+@*
+@Html.Action("CompanyDetail", "Account")*@
+
+<div class="card my-3">
+    <div class="card-header">
+        <h4> Purchase Invoice</h4>
+    </div>
+</div>
+
+@foreach (var bill in Model)
+{
+    <div class="card shadow-md rounded p-3 mb-3 billCard">
+        <div class="row col-md-12">
+            <div class="col-md-6 shadow p-3" id="suppliers">
+                <div class="mt-2 text-center" id="supplierpaymentsection">
+                    <label style="font-size:18px;" class="text-center"><b>Supplier : </b> @bill.Supplier.SupplierName</label>
+                </div>
+               <hr class="bg-info" style="width:70%;"/>
+                <div class="mt-lg-2" id="contactsection">
+                    <div class="col-md-12 text-left" style="font-size:13px;">
+                        <label class="col-md-4"><b>Email : </b>@bill.Supplier.Email</label>
+                        <label class="col-md-3"><b>Vat Number : </b>@bill.Supplier.PanNumber</label>
+                        <label class="col-md-3"><b>Contact : </b>@bill.Supplier.PhoneNumber</label>
+                        <label class="col-md-12"><b>Address : </b>@bill.Supplier.Address</label>
+                    </div>                   
+                </div>
+            </div>
+            <div class="col-md-6 mt-3" id="billInfo">
+                <div class="mt-4 ml-4" style="font-size:18px;">
+                    <label><b>Payment Date : </b>@bill.PurchaseDate</label>
+                </div>
+                <div class="mt-2 ml-4" style="font-size:18px;">
+                    <label><b>Bill No : </b>@bill.BillNumber</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <table class=" table table-bordered mt-2" border="1">
+                <thead>
+                    <tr>
+                        <th>S.N</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Unit</th>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody style="font-size:0.9rem;">
+                    @{
+                        int? sn = 1;
+                        //decimal? GrandTotal = 0;
+                        //decimal? vatAmount = 0;
+
+                        //vatAmount = bill.to * 13 / 100;
+                        //GrandTotal = bill.TaxableAmount + vatAmount;
+
+
+                    }
+                    @{
+                        if(bill.Products != null)
+                        {
+                            @foreach (var item in bill.Products)
+                            {
+
+                                <tr>
+                                    <td>@(sn++)</td>
+                                    <td>@item.ProductName</td>
+                                    <td>item.Category.CategoryName</td>
+                                    <td>item.Unit.UnitName</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.Rate</td>
+                                    <td>@(item.Quantity * item.Rate)</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td rowspan="6" colspan="5">
+                            <b>Comment : </b>@bill.Comment
+                        </td>
+                        <th>Total</th>
+                        <td>total amount</td>
+                    </tr>
+                    <tr>
+
+                        <th>Discount</th>
+                        <td>discount</td>
+                    </tr>
+                                      
+                    <tr>
+
+                        <th>Grand Total</th>
+                        <td>Grand Total</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+       
+    </div>
+
+   
+}
+@* Models For Others Bills*@
+
+
+
+<!-- Modal for Payment Bill-->
+<div class="modal fade" id="PaymentReportModel" tabindex="-1" role="dialog" aria-labelledby="PaymentReportModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PaymentReportModelLabel">Payment Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id='myModalT' class='modal fade'>
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <b><i class="fas fa-tasks"></i> &nbsp; Transportation</b>
+            </div>
+            <div class="modal-body">
+                <div id='myModalContentT'>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id='myModal' class='modal fade'>
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <b><i class="fas fa-tasks"></i> &nbsp; Expenses</b>
+            </div>
+            <div class="modal-body">
+                <div id='myModalContent'>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    
+    <script>
+        $(".PaymnetBillReport").click(function () {
+            var paybill = $(this).attr('data-billId');
+            alert(paybill);
+        });
+
+        $(".TransportBillReport").click(function () {
+            var bill_id = $(this).attr('data-billId');
+            alert(bill_id)
+            $.ajax({
+                type: "GET",
+                url: '/Reports/TransportReport/',
+                contentType: "application/json; charset=utf-8",
+                data: { ID: bill_id },
+                datatype: "json",
+                success: function (data) {
+                    $('#myModalContentT').html(data);
+                    $('#myModalT').modal('show');
+
+                },
+                error: function () {
+                    alert("We are not able to load your Expanses reports.");
+                }
+            });
+        });
+
+
+        $(".DirectExpanseBillRepot").click(function () {
+            var bill_id = $(this).attr('data-billId');
+            alert(bill_id)
+            $.ajax({
+                type: "GET",
+                url: '/Reports/ExpenseReport/',
+                contentType: "application/json; charset=utf-8",
+                data: { Id: bill_id },
+                datatype: "json",
+                success: function (data) {
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("We are not able to load your Expanses reports.");
+                }
+            });
+        });
+    </script>
+    
+    
+    }

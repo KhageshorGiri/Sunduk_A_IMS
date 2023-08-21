@@ -12,7 +12,7 @@ namespace Inventory.Web.Repositories.repoImplementation
     public class SupplierRepository : ISupplierRepository
     {
         string connectionString = GetDbConnectionString.ReadDbConnectionString().GetConnectionString("DataBaseConnection");
-        public async Task CreateSupplierAsync(SupplierCustomerEmployeeViewModel supplier)
+        public async Task CreateSupplierAsync(SupplierViewModel supplier)
         {
             SqlConnection con = new SqlConnection(connectionString);
             using (SqlCommand cmd = new SqlCommand("App_Supplier_AddSupplier", con))
@@ -58,7 +58,7 @@ namespace Inventory.Web.Repositories.repoImplementation
             return supplier;
         }
 
-        public async Task UpddateSupplierAsync(SupplierCustomerEmployeeViewModel existingSupplier)
+        public async Task UpddateSupplierAsync(SupplierViewModel existingSupplier)
         {
             SqlConnection con = new SqlConnection(connectionString);
             using (SqlCommand cmd = new SqlCommand("App_Supplier_UpdateSupplier", con))

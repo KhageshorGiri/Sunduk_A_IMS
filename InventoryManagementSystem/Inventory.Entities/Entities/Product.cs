@@ -31,7 +31,7 @@ namespace Inventory.Entities.Entities
 
         // adding relationship with others tables.
         [Required]
-        [ForeignKey("BuyBill")]
+        //[ForeignKey("BuyBill")]
         public int BillId { get; set; }
         public virtual BuyBill? BuyBill { get; set; }
 

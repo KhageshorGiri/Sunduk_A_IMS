@@ -42,7 +42,7 @@ namespace Inventory.Web.Controllers
         // POST: Supplier/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind] SupplierCustomerEmployeeViewModel supplier)
+        public async Task<ActionResult> Create([Bind (include: "SupplierName, PhoneNumber, Email, PanNumber, Country, City, LocalAddress")] SupplierViewModel supplier)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace Inventory.Web.Controllers
         // POST: Supplier/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind] SupplierCustomerEmployeeViewModel existingSupplier)
+        public async Task<ActionResult> Edit([Bind] SupplierViewModel existingSupplier)
         {
             try
             {

@@ -6,13 +6,13 @@ namespace Inventory.Web.Services.ServiceInterface
 {
     public interface ISupplier
     {
-        Task CreateSupplierAsync(SupplierCustomerEmployeeViewModel supplier);
+        Task CreateSupplierAsync(SupplierViewModel supplier);
 
-        Task<IEnumerable<SupplierCustomerEmployeeViewModel?>> GetAllSuppliersAsync();
+        Task<IEnumerable<SupplierViewModel?>> GetAllSuppliersAsync();
 
-        Task<SupplierCustomerEmployeeViewModel?> GetSupplierAsync(int Id);
+        Task<SupplierViewModel?> GetSupplierAsync(int Id);
 
-        Task UpddateSupplierAsync(SupplierCustomerEmployeeViewModel existingSupplier);
+        Task UpddateSupplierAsync(SupplierViewModel existingSupplier);
 
         Task DeleteSupplierAsync(int Id);
     }
