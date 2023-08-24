@@ -51,11 +51,14 @@
                 </div>
             </div>
             <div class="col-md-6 mt-3" id="billInfo">
-                <div class="mt-4 ml-4" style="font-size:18px;">
-                    <label><b>Payment Date : </b>@bill.PurchaseDate</label>
-                </div>
-                <div class="mt-2 ml-4" style="font-size:18px;">
+                <div class="mt-2 ml-4" style="font-size:17px;">
                     <label><b>Bill No : </b>@bill.BillNumber</label>
+                </div>
+                <div class="mt-1 ml-4" style="font-size:17px;">
+                    <label><b>Bill Issue Date : </b>@bill.BillIssueDate</label>
+                </div>
+                <div class="mt-1 ml-4" style="font-size:17px;">
+                    <label><b>Purchase Date : </b>@bill.PurchaseDate</label>
                 </div>
             </div>
         </div>
@@ -66,6 +69,7 @@
                     <tr>
                         <th>S.N</th>
                         <th>Product</th>
+                        <th>Product Code</th>
                         <th>Category</th>
                         <th>Unit</th>
                         <th>Quantity</th>
@@ -77,12 +81,9 @@
                 <tbody style="font-size:0.9rem;">
                     @{
                         int? sn = 1;
-                        //decimal? GrandTotal = 0;
-                        //decimal? vatAmount = 0;
-
-                        //vatAmount = bill.to * 13 / 100;
-                        //GrandTotal = bill.TaxableAmount + vatAmount;
-
+                        decimal? totalAmount = 0;
+                        decimal? GrandTotal = 0;
+                        decimal? dsicountAmount = 0;
 
                     }
                     @{
@@ -90,10 +91,13 @@
                         {
                             @foreach (var item in bill.Products)
                             {
+                                GrandTotal += (item.Quantity * item.Rate);
+                                totalAmount = GrandTotal;
 
                                 <tr>
                                     <td>@(sn++)</td>
                                     <td>@item.ProductName</td>
+                                    <td>@item.ProductCode</td>
                                     <td>item.Category.CategoryName</td>
                                     <td>item.Unit.UnitName</td>
                                     <td>@item.Quantity</td>
@@ -102,26 +106,27 @@
                                 </tr>
                             }
                         }
+                        GrandTotal = GrandTotal - dsicountAmount;
                     }
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td rowspan="6" colspan="5">
+                        <td rowspan="6" colspan="6">
                             <b>Comment : </b>@bill.Comment
                         </td>
                         <th>Total</th>
-                        <td>total amount</td>
+                        <td>@totalAmount</td>
                     </tr>
                     <tr>
 
                         <th>Discount</th>
-                        <td>discount</td>
+                        <td>@dsicountAmount</td>
                     </tr>
                                       
                     <tr>
 
                         <th>Grand Total</th>
-                        <td>Grand Total</td>
+                        <td>@GrandTotal</td>
                     </tr>
                 </tfoot>
             </table>

@@ -53,10 +53,10 @@
 
                             <div class="row mt-lg-1 p-3 mt-2" id="contactsection">
                                 <div class="col-md-12 text-left" style="font-size:13px;">
-                                    <label>PAN No:</label> <lable id="buyerpaninbill"></lable>
+                                    <label>PAN No:</label> <lable id="supplierpaninbill"></lable>
                                 </div>
                                 <div class=" col-md-12 text-left" style="font-size:13px;">
-                                    <label>Contact:</label> <label id="buyerphoneinbill"></label>
+                                    <label>Contact:</label> <label id="supplierphoneinbill"></label>
                                 </div>
                             </div>
                         </div>
@@ -213,6 +213,28 @@
 
         $(document).ready(function(){
 
+            // code to get supplier detalis when user select a supplier from dropdown.
+            $('#customernameinbill').on('input', function (event) {
+                event.preventDefault();
+                var $input = $(event.target),
+                    $options = $('#Customers option'),
+                    $hiddenInput = $('#customerID-hidden'),
+                    label = $input.val();
+                $hiddenInput.val(label);
+                for (var i = 0; i < $options.length; i++) {
+                    var $option = $options.eq(i);
+                    if ($option.text() === label) {
+
+                        $('#customerID-hidden').val($option.attr('data-value'));
+                        $('#supplierpaninbill').html($option.attr('data-pan'));
+                        $('#supplierphoneinbill').html($option.attr('data-phone'));
+                        break;
+                    }
+                }
+
+            });
+
+
             var item_sn = 0;
             $("#addProductsToInvoice").click(function () {
                 var productName = $("#ProductName").val();
@@ -305,13 +327,28 @@
                     url: '/Sells/GetProductByProductCode',
                     data: { ProductCode: productCode },
                     success: function(result){
-                        alert("hello");
+                        PopulateInvoiceProductTable(JSON.parse(result));
                     },
                     error: function(result){
                         alert("Error Occured!");
                     }
                 });
             });
+
+            function PopulateInvoiceProductTable(product){
+                var item_sn = 0;
+                var buyBillTableDate = "<tr>";
+                buyBillTableDate += "<td>" + ++item_sn + "</td>";
+                buyBillTableDate += "<td>" + product["ProductName"] + "</td>";
+                buyBillTableDate += "<td>" + product["Category"].CategoryName + "</td>";
+                buyBillTableDate += "<td>" + product["Unit"].ShortForm + "</td>";
+                buyBillTableDate += "<td>" + product["Rate"] + "</td>";
+                buyBillTableDate += "<td>" + product["Quantity"] + "</td>";
+                buyBillTableDate += '<td><a data-rowitemId="1" href="#" class="editTableItem"><i class="fa-solid fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;<a data-rowitemId="0" href = "#" class="deleteTableItem text-danger" ><i class="fa-solid fa-xmark"></i></a ></td>';
+                buyBillTableDate += "</tr>";
+
+                $("#productListTable tbody").append(buyBillTableDate);
+            }
 
         });
 

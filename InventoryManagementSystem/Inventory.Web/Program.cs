@@ -25,6 +25,8 @@ builder.Services.AddTransient<ICustomer, CustomerService>();
 builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 builder.Services.AddTransient<IBuyProduct, BuyProductService>();
 builder.Services.AddTransient<IBuyBillRepository, BuyBillRepository>();
+builder.Services.AddTransient<ISellProduct, SellService>();
+builder.Services.AddTransient<ISellRepository, SellRepository>();
 builder.Services.AddTransient<IEmployee, EmployeeService>();
 builder.Services.AddTransient<IEmployeeRepositoty, EmployeeRepository>();
 

@@ -1,6 +1,23 @@
-﻿namespace Inventory.Web.Services.ServiceInterface
+﻿using Inventory.Entities.Entities;
+using Inventory.Web.ViewModels;
+
+namespace Inventory.Web.Services.ServiceInterface
 {
-    public interface SellService
+    public interface ISellProduct
     {
+        //CRUD
+
+        Task AddSellBillAsync(SellBillViewModel buyBillItems);
+
+        Task<IEnumerable<Invoice?>> GetAllSellBillsAsync();
+
+        Task<Invoice?> GetSellBillAsync();
+
+        Task UpdateSellBill(SellBillViewModel buyBill);
+
+        Task DeleteSellBillAsync(int Id);
+
+        // additional services
+        Task<Product?> GetProductByProductCode(string productCode);
     }
 }

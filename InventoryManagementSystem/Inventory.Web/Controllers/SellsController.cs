@@ -1,19 +1,20 @@
 ﻿using Inventory.Web.Services.ServiceInterface;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace Inventory.Web.Controllers
 {
     public class SellsController : Controller
     {
 
-        private readonly IBuyProduct buyProductService;
+        private readonly ISellProduct sellProductService;
         private readonly ICustomer customerServiec;
         private readonly IUnit unitService;
         private readonly ICategory categoryService;
-        public SellsController(IBuyProduct productService, ICustomer customerServiec, IUnit unitService, ICategory categoryService)
+        public SellsController(ISellProduct productService, ICustomer customerServiec, IUnit unitService, ICategory categoryService)
         {
-            this.buyProductService = productService;
+            this.sellProductService = productService;
             this.customerServiec = customerServiec;
             this.unitService = unitService;
             this.categoryService = categoryService;
@@ -24,9 +25,17 @@ namespace Inventory.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetProductByProductCode(string ProductCode)
+        public async Task<JsonResult> GetProductByProductCode(string ProductCode)
         {
-            return View();
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                WriteIndented = true
+            };
+
+            var product = await sellProductService.GetProductByProductCode(ProductCode);
+            var result = JsonSerializer.Serialize(product, options);
+            return new JsonResult(result);
         }
        
         [HttpGet]
@@ -34,6 +43,7 @@ namespace Inventory.Web.Controllers
         {
             ViewBag.CustomerList =  await customerServiec.GetAllCustomersAsync();
             return View();
+            
         }
     }
 }
