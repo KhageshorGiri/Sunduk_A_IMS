@@ -57,7 +57,8 @@ namespace Inventory.Web.ViewModels
 
         [Required(ErrorMessage = "Category Cannot Be Empty.")]
         public int CategoryId { get; set; }
-        public int? SupplierID { get; set; }
+        public int? CustomerID { get; set; }
+        public virtual Customer? Customer { get; set; }
 
         public List<SellProductList>? Products { get; set; }
     }

@@ -61,7 +61,16 @@
                             </div>
                         </div>
                         <div class="col-md-5 mt-4 ms-4">
-                            <div class="row  mt-2">
+                            <div class="row mt-2">
+                                <div class="col-md-4">
+                                    <label class="form-label">Bill Number <span class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="BillNumber" name="BillNumber" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row  mt-3">
                                 <div class="col-md-4">
                                     <label class="form-label">Voucher Date <span class="text-danger">*</span></label>
                                 </div>
@@ -77,15 +86,7 @@
                                     <input id="BillIssueDate" name="BillIssueDate" class="form-control" type="date" />
                                 </div>
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-md-4">
-                                    <label class="form-label">Bill Number <span class="text-danger">*</span></label>
-                                </div>
-                                <div class="col-md-8">
-                                    <input id="BillNumber" name="BillNumber" class="form-control" />
-                                </div>
-                            </div>
-
+                            
                         </div>
 
                         <div class=row>
@@ -116,12 +117,12 @@
                                     <thead>
                                         <tr>
                                             <th>S.N</th>
+                                            <th hidden>ProductID</th>
                                             <th>Product Name</th>
                                             <th>Category</th>
                                             <th>Unit</th>
-                                            <th>Rate</th>
-                                            <th>Quantity</th>
-                                            <th>Action</th>
+                                            <th>Buy Rate</th>
+                                            <th>Stock Quantity</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -133,12 +134,13 @@
                     <hr />
                    
                     <div class="row">
-                        <div class="form-group col-md-8">
+                        <div class="form-group col-md-6">
                             <label class="form-label">Product Name <span class="text-danger">*</span></label>
                             <input id="ProductName" name="ProductName" class="form-control" readonly/>
+                            <input id="ProductId" name="ProductId" class="form-control" readonly hidden/>
                             <span id="productNameErrorMessage" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-md-4">
+                       @* <div class="form-group col-md-4">
                             <label class="form-label">Category<span class="text-danger">*</span></label>
                             <input id="Category" name="Category" class="form-control" readonly/>
                             <span class="text-danger"></span>
@@ -147,14 +149,14 @@
                             <label class="form-label">Unit <span class="text-danger">*</span></label>
                             <input id="Unit" name="Unit" class="form-control" readonly/>
                             <span class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label class="form-label">Quantity <span class="text-danger">*</span></label>
+                        </div>*@
+                        <div class="form-group col-md-3">
+                            <label class="form-label">Sell Quantity <span class="text-danger">*</span></label>
                             <input id="Quantity" name="Quantity" class="form-control" />
                             <span class="text-danger"></span>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label class="form-label">Rate <span class="text-danger">*</span></label>
+                        <div class="form-group col-md-3">
+                            <label class="form-label">Sell Rate <span class="text-danger">*</span></label>
                             <input id="Rate" name="Rate" class="form-control" />
                             <span class="text-danger"></span>
                         </div>
@@ -172,22 +174,38 @@
                                 <thead>
                                     <tr>
                                         <th>S.N</th>
+                                        <th hidden>ProductId</th>
                                         <th>Product Name</th>
-                                        <th>Category</th>
-                                        <th>Unit</th>
-                                        <th>Rate</th>
-                                        <th>Quantity</th>
-                                        <th>Action</th>
+                                        <th>Sell Rate</th>
+                                        <th>Sell Quantity</th>
+                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td rowspan="3" colspan="3">
+                                        </td>
+                                        <th>Total</th>
+                                        <td><input readonly class="form-control" id="invoiceSellTotal" value="0.00"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Discount</th>
+                                       
+                                        <td><input class ="form-control" id="invoiceSellDiscount" value="0.00" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Grand Total</th>
+                                        <td><input class="form-control" readonly id="invoiceSellGrandTotal" value="0.00" /></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-8">
-                            <label class="form-label">Comment <span class="text-danger">*</span></label>
+                            <label class="form-label">Remarks <span class="text-danger">*</span></label>
                             <input class="form-control" name="Comment" id="Comment" />
                         </div>
                     </div>
@@ -238,10 +256,12 @@
             var item_sn = 0;
             $("#addProductsToInvoice").click(function () {
                 var productName = $("#ProductName").val();
+                var productId = $("#ProductId").val();
                 var unitId = $("#Unit").val();
                 var category = $("#Category").val();
                 var rate = $("#Rate").val();
                 var quantity = $("#Quantity").val();
+                var totalAmount = parseFloat(rate) * parseFloat(quantity);
 
                 if (productName == "" || unitId == "" || category == "" || rate == "" || quantity == "") {
                     productDetailsValidator(productName, unitId, category, rate, quantity);
@@ -250,23 +270,25 @@
 
                     var invoiceableDate = "<tr>";
                     invoiceableDate += "<td>" + ++item_sn + "</td>";
+                    invoiceableDate += "<td hidden>" + productId + "</td>";
                     invoiceableDate += "<td>" + productName + "</td>";
-                    invoiceableDate += "<td>" + $("#CategoryList").find(":selected").text() + "</td>";
-                    invoiceableDate += "<td hidden>" + $("#CategoryList").val() + "</td>";
-                    invoiceableDate += "<td hidden>" + $("#Unit").val() + "</td>";
-                    invoiceableDate += "<td>" + $("#Unit").find(":selected").text() + "</td>"
                     invoiceableDate += "<td>" + rate + "</td>";
                     invoiceableDate += "<td>" + quantity + "</td>";
-                    invoiceableDate += '<td><a data-rowitemId="1" href="#" class="editTableItem"><i class="fa-solid fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;<a data-rowitemId="0" href = "#" class="deleteTableItem text-danger" ><i class="fa-solid fa-xmark"></i></a ></td>';
+                    invoiceableDate += "<td>" + totalAmount + "</td>";
+                    invoiceableDate += '<td><a data-rowitemId="0" href = "#" class="deleteInvoiceTableItem text-danger" ><i class="fa-solid fa-xmark"></i></a ></td>';
                     invoiceableDate += "</tr>";
 
-                    $("#buyBillItemsTable tbody").append(buyBillTableDate);
+                    $("#invoiceListTable tbody").append(invoiceableDate);
 
-                    var totalAmount = parseFloat(rate) * parseFloat(quantity);
-                    var billTotalAmount = $("#billTotalAmount").html();
 
-                    billTotalAmount = parseFloat(billTotalAmount) + parseFloat(totalAmount);
-                    $("#billTotalAmount").html(billTotalAmount.toFixed(2));
+                    var invoiceSellTotal = $("#invoiceSellTotal").val();
+                    var discountAmount = $("#invoiceSellDiscount").val();
+                    var invoiceSellGrandTotal = $("#invoiceSellGrandTotal").val();
+
+
+                    billTotalAmount = parseFloat(invoiceSellTotal) + parseFloat(totalAmount);
+                    $("#invoiceSellTotal").val(billTotalAmount.toFixed(2));
+                    $("#invoiceSellGrandTotal").val((parseFloat(billTotalAmount) - parseFloat(discountAmount)).toFixed(2));
 
                     $("#ProductName").val(" ");
                     $("#Rate").val(" ");
@@ -279,6 +301,39 @@
                 }
             });
 
+
+            $(document).on('click', 'a.deleteInvoiceTableItem', function (e) {
+                e.preventDefault();
+                sn = $(this).closest('tr').next('tr').find('td:eq(0)').html();
+                sn = sn - 1;
+                $(this).closest('tr').next('tr').find('td:eq(0)').html(sn)
+                if ($(this).attr('data-rowitemId') == "0") {
+                    $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                        var row_sn = $(this).closest('tr').next('tr').find('td:eq(0)').html();
+                        
+                        $(this).remove();
+
+                        var total_amount = $("#invoiceSellTotal").val();
+                        var removed_amount = $(this).find('td:eq(5)').html();
+                        var discountAmount = $("#invoiceSellDiscount").val();
+
+                        total_amount = parseFloat(total_amount) - parseFloat(removed_amount);
+                        $("#invoiceSellTotal").val(total_amount.toFixed(2));
+
+                        var grand_total = parseFloat(total_amount) - parseFloat(discountAmount);
+                        $("#invoiceSellGrandTotal").val(grand_total);
+                    });
+                };
+
+            });
+
+            $("#invoiceSellDiscount").keyup(function (){
+                var total_amount = $("#invoiceSellTotal").val();
+                var discountAmount = $("#invoiceSellDiscount").val();
+
+                var grand_total = parseFloat(total_amount) - parseFloat(discountAmount);
+                $("#invoiceSellGrandTotal").val(grand_total);
+            });
 
             // function to validate the produtais before adding to the bill.
             function productDetailsValidator(productName, unitId, category, rate, quantity) {
@@ -315,6 +370,7 @@
 
             });
 
+          
             // serach product using product code
             $("#searchProducts").click(function(event){
                 event.preventDefault();
@@ -339,17 +395,96 @@
                 var item_sn = 0;
                 var buyBillTableDate = "<tr>";
                 buyBillTableDate += "<td>" + ++item_sn + "</td>";
+                buyBillTableDate += "<td hidden>" + product["ProductId"] + "</td>";
                 buyBillTableDate += "<td>" + product["ProductName"] + "</td>";
                 buyBillTableDate += "<td>" + product["Category"].CategoryName + "</td>";
                 buyBillTableDate += "<td>" + product["Unit"].ShortForm + "</td>";
                 buyBillTableDate += "<td>" + product["Rate"] + "</td>";
                 buyBillTableDate += "<td>" + product["Quantity"] + "</td>";
-                buyBillTableDate += '<td><a data-rowitemId="1" href="#" class="editTableItem"><i class="fa-solid fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;<a data-rowitemId="0" href = "#" class="deleteTableItem text-danger" ><i class="fa-solid fa-xmark"></i></a ></td>';
+                buyBillTableDate += '<td><a data-rowitemId="1" href="#" class="editProductTableItem"><i class="fa-solid fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;<a data-rowitemId="0" href = "#" class="deleteProductIndexTableItem text-danger" ><i class="fa-solid fa-xmark"></i></a ></td>';
                 buyBillTableDate += "</tr>";
 
                 $("#productListTable tbody").append(buyBillTableDate);
-            }
+            };
 
+            $(document).on('click', 'a.editProductTableItem', function (e) {
+                var productId = $(this).parents('tr').find('td:eq(1)').html();
+                var productName = $(this).parents('tr').find('td:eq(2)').html();
+                var rate = $(this).parents('tr').find('td:eq(5)').html();
+                var quantity = $(this).parents('tr').find('td:eq(6)').html();
+
+                $("#ProductId").val(productId);
+                $("#ProductName").val(productName);
+                $("#Rate").val(rate);
+                $("#Quantity").val(quantity);
+            });
+
+            $(document).on('click', 'a.deleteProductIndexTableItem', function (e) {
+                e.preventDefault();
+                sn = $(this).closest('tr').next('tr').find('td:eq(0)').html();
+                sn = sn - 1;
+                $(this).closest('tr').next('tr').find('td:eq(0)').html(sn)
+                if ($(this).attr('data-rowitemId') == "0") {
+                    $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                        var row_sn = $(this).closest('tr').next('tr').find('td:eq(0)').html();
+                       
+                        $(this).remove();
+                       
+                    });
+                };
+
+            });
+
+            // ajax post to for sell
+            $("#sellProducts").click(function (event) {
+                event.preventDefault();
+                $("#sellProducts").prop("disabled", true);
+
+                var customerID = $("#customerID-hidden").val();
+                var billNumber = $("#BillNumber").val();
+                var voucherDate = $("#VoucherDate").val();
+                var billIssueDate = $("#BillIssueDate").val();
+                var remarks = $("#Comment").val();
+
+                var invoiceTableData = [];
+
+                $("invoiceListTable tody tr").each(function(){
+                    productData = {
+                        ProductId: "1",
+                        Rate: "0.00",
+                        Quantity: "0.00",
+                    };
+
+                    invoiceTableData.push(productData);
+                });
+
+                var invoiceData = JSON.stringify({
+                    CustomerID: customerID,
+                    BillNumber: billNumber,
+                    VoucherDate: voucherDate,
+                    BillIssueDate: billIssueDate,
+                    Comment: remarks,
+                    Products: invoiceTableData
+
+                });
+
+                // ajax call
+                $.ajax({
+                    contentType: "application/json",
+                    url: "/Sell/SaveSell",
+                    type: "POST",
+                    dataType: "json",
+                    data: invoiceData,
+                    success: function (result) {
+                        alert(result);
+                        location.reload();
+                    },
+                    error: function (result) {
+                        alert(result);
+                    }
+                });
+            });
+          
         });
 
     </script>

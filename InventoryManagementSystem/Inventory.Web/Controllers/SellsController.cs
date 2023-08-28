@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Inventory.Web.ViewModels;
 
 namespace Inventory.Web.Controllers
 {
@@ -44,6 +45,14 @@ namespace Inventory.Web.Controllers
             ViewBag.CustomerList =  await customerServiec.GetAllCustomersAsync();
             return View();
             
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveSell([FromBody] SellBillViewModel invoiceBill)
+        {
+            
+            return Ok("Sucess");
+
         }
     }
 }
