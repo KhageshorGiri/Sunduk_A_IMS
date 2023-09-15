@@ -54,7 +54,7 @@ namespace Inventory.Web.Controllers
         // POST: ProductController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddProducts( [FromBody] BuyBillViewModel buyBillView)
+        public async Task<ActionResult> AddProducts([FromBody] BuyBillViewModel buyBillView)
         { 
             try
             {

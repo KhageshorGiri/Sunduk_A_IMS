@@ -13,9 +13,9 @@ namespace Inventory.Web.Services.ServiceImplementation
             this.sellRepository = sellRepo;
         }
 
-        public Task AddSellBillAsync(SellBillViewModel buyBillItems)
+        public async Task AddSellBillAsync(SellBillViewModel buyBillItems)
         {
-            throw new NotImplementedException();
+            await sellRepository.AddSellBillAsync(buyBillItems);
         }
 
         public Task DeleteSellBillAsync(int Id)

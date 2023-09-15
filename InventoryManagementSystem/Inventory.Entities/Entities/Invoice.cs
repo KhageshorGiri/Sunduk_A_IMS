@@ -34,7 +34,7 @@ namespace Inventory.Entities.Entities
 
 
         // adding relationship with other tables
-        public List<Product>? Products { get; set; }
+        public List<InvoiceProducts>? InvoiceProducts { get; set; }
 
         public int? CustomerID { get; set; }
         public virtual Customer? Customer { get; set; }

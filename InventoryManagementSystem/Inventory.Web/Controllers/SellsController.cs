@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using Inventory.Web.ViewModels;
+using Inventory.Entities.Entities;
 
 namespace Inventory.Web.Controllers
 {
@@ -44,14 +45,23 @@ namespace Inventory.Web.Controllers
         {
             ViewBag.CustomerList =  await customerServiec.GetAllCustomersAsync();
             return View();
-            
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveSell([FromBody] SellBillViewModel invoiceBill)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SaveSell([FromBody] SellBillViewModel invoiceBill)//(int? CustomerID, string BillNumber, string VoucherDate, string BillIssueDate, string Comment, SellProductList[] Products)
         {
-            
-            return Ok("Sucess");
+            try
+            {
+                await sellProductService.AddSellBillAsync(invoiceBill);
+
+                return Ok("Sucess");
+            }
+            catch (Exception ex)
+            {
+                string mgs = ex.Message;
+                throw;
+            }
 
         }
     }

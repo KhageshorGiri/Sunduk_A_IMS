@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Inventory.Web.Migrations
 {
-    public partial class initialMigration : Migration
+    public partial class initialSetup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,6 +50,29 @@ namespace Inventory.Web.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Units", x => x.UnitId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    CustomerID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    PanNumber = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: true),
+                    OtherDetails = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    AddressId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.CustomerID);
+                    table.ForeignKey(
+                        name: "FK_Customers_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "AddressId");
                 });
 
             migrationBuilder.CreateTable(
@@ -98,6 +121,29 @@ namespace Inventory.Web.Migrations
                         column: x => x.AddressId,
                         principalTable: "Addresses",
                         principalColumn: "AddressId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Invoices",
+                columns: table => new
+                {
+                    InvoiceBillId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BillNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BillIssueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    VoucherDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SellDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    CustomerID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoices", x => x.InvoiceBillId);
+                    table.ForeignKey(
+                        name: "FK_Invoices_Customers_CustomerID",
+                        column: x => x.CustomerID,
+                        principalTable: "Customers",
+                        principalColumn: "CustomerID");
                 });
 
             migrationBuilder.CreateTable(
@@ -166,12 +212,34 @@ namespace Inventory.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "InvoiceProducts",
+                columns: table => new
+                {
+                    InvoiceProductsId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StockProductId = table.Column<int>(type: "int", nullable: true),
+                    Rate = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: true),
+                    InvoiceBillId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InvoiceProducts", x => x.InvoiceProductsId);
+                    table.ForeignKey(
+                        name: "FK_InvoiceProducts_Invoices_InvoiceBillId",
+                        column: x => x.InvoiceBillId,
+                        principalTable: "Invoices",
+                        principalColumn: "InvoiceBillId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
                     ProductId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    ProductCode = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     ProductDescription = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Rate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
@@ -208,6 +276,11 @@ namespace Inventory.Web.Migrations
                 column: "SupplierID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Customers_AddressId",
+                table: "Customers",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Employees_AddressId",
                 table: "Employees",
                 column: "AddressId");
@@ -221,6 +294,16 @@ namespace Inventory.Web.Migrations
                 name: "IX_EmployeeSalaryPayments_EmployeeId",
                 table: "EmployeeSalaryPayments",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InvoiceProducts_InvoiceBillId",
+                table: "InvoiceProducts",
+                column: "InvoiceBillId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_CustomerID",
+                table: "Invoices",
+                column: "CustomerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_BillId",
@@ -252,10 +335,16 @@ namespace Inventory.Web.Migrations
                 name: "EmployeeSalaryPayments");
 
             migrationBuilder.DropTable(
+                name: "InvoiceProducts");
+
+            migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "Invoices");
 
             migrationBuilder.DropTable(
                 name: "BuyBills");
@@ -265,6 +354,9 @@ namespace Inventory.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "Units");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Suppliers");

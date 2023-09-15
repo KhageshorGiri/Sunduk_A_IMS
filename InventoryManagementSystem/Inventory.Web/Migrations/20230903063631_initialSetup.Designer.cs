@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Web.Migrations
 {
     [DbContext(typeof(InventorySystemDbContext))]
-    [Migration("20230514105246_customerTableSetup")]
-    partial class customerTableSetup
+    [Migration("20230903063631_initialSetup")]
+    partial class initialSetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -258,6 +258,72 @@ namespace Inventory.Web.Migrations
                     b.ToTable("EmployeeSalaryPayments");
                 });
 
+            modelBuilder.Entity("Inventory.Entities.Entities.Invoice", b =>
+                {
+                    b.Property<int>("InvoiceBillId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InvoiceBillId"), 1L, 1);
+
+                    b.Property<DateTime?>("BillIssueDate")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("BillNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SellDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("VoucherDate")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("InvoiceBillId");
+
+                    b.HasIndex("CustomerID");
+
+                    b.ToTable("Invoices");
+                });
+
+            modelBuilder.Entity("Inventory.Entities.Entities.InvoiceProducts", b =>
+                {
+                    b.Property<int?>("InvoiceProductsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("InvoiceProductsId"), 1L, 1);
+
+                    b.Property<int?>("InvoiceBillId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Rate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("StockProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("InvoiceProductsId");
+
+                    b.HasIndex("InvoiceBillId");
+
+                    b.ToTable("InvoiceProducts");
+                });
+
             modelBuilder.Entity("Inventory.Entities.Entities.Product", b =>
                 {
                     b.Property<int>("ProductId")
@@ -417,6 +483,24 @@ namespace Inventory.Web.Migrations
                     b.Navigation("Employee");
                 });
 
+            modelBuilder.Entity("Inventory.Entities.Entities.Invoice", b =>
+                {
+                    b.HasOne("Inventory.Entities.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerID");
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("Inventory.Entities.Entities.InvoiceProducts", b =>
+                {
+                    b.HasOne("Inventory.Entities.Entities.Invoice", "Invoice")
+                        .WithMany("InvoiceProducts")
+                        .HasForeignKey("InvoiceBillId");
+
+                    b.Navigation("Invoice");
+                });
+
             modelBuilder.Entity("Inventory.Entities.Entities.Product", b =>
                 {
                     b.HasOne("Inventory.Entities.Entities.BuyBill", "BuyBill")
@@ -477,6 +561,11 @@ namespace Inventory.Web.Migrations
                     b.Navigation("EmployeeSalaries");
 
                     b.Navigation("EmployeeSalaryPaments");
+                });
+
+            modelBuilder.Entity("Inventory.Entities.Entities.Invoice", b =>
+                {
+                    b.Navigation("InvoiceProducts");
                 });
 
             modelBuilder.Entity("Inventory.Entities.Entities.Supplier", b =>

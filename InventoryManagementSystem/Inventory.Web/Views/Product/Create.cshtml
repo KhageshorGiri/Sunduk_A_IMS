@@ -469,7 +469,6 @@
                 var tableProductsData = []
 
                 $("#buyBillItemsTable tbody tr").each(function () {
-                    var ProductName= $(this).find('td:eq(1)').html();
                     tableProductsData.push({
                         ProductName: $(this).find('td:eq(1)').html(),
                         CategoryId: $(this).find('td:eq(3)').html(),
@@ -481,25 +480,27 @@
                 });
 
                 // data 
-                var dataToPost = JSON.stringify({
+                var buyBillData = JSON.stringify({
                     SupplierID: supplierID,
                     BillNumber: billerNumber,
                     VoucherDate: voucherDate,
                     PurchaseDate: purchaseDate,
                     BillIssueDate: issuedDate,
                     Comment: comment,
-                    Products: tableProductsData,
+                    Products: tableProductsData
                 });
+
+               // console.log(dataToPost);
 
                var requestVerificationToken = $('input[name="__RequestVerificationToken"]').val();
                 // ajax post
                 $.ajax({
-                    contentType: "application/json; charset=utf-8",
+                    contentType: "application/json",
                     url: "/Product/AddProducts",
                     type: "POST",
                     dataType: "json",
+                    data: buyBillData,
                     headers: { "RequestVerificationToken": requestVerificationToken },
-                    data: dataToPost,
                     success: function (result) {
                         successNotification("Sucess!!", "Product Added Sucessifyly.");
                         location.reload();

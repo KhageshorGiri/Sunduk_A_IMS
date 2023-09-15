@@ -448,15 +448,15 @@
 
                 var invoiceTableData = [];
 
-                $("invoiceListTable tody tr").each(function(){
-                    productData = {
-                        ProductId: "1",
-                        Rate: "0.00",
-                        Quantity: "0.00",
-                    };
-
-                    invoiceTableData.push(productData);
+                $("#invoiceListTable tbody tr").each(function () {
+                    invoiceTableData.push({
+                        ProductId: $(this).find('td:eq(1)').html(),
+                        Rate: $(this).find('td:eq(3)').html(),
+                        Quantity: $(this).find('td:eq(4)').html(),
+                    });
                 });
+
+               // console.log(invoiceTableData);
 
                 var invoiceData = JSON.stringify({
                     CustomerID: customerID,
@@ -465,16 +465,18 @@
                     BillIssueDate: billIssueDate,
                     Comment: remarks,
                     Products: invoiceTableData
-
                 });
+
+                var requestVerificationToken = $('input[name="__RequestVerificationToken"]').val();
 
                 // ajax call
                 $.ajax({
                     contentType: "application/json",
-                    url: "/Sell/SaveSell",
+                    url: "/Sells/SaveSell",
                     type: "POST",
                     dataType: "json",
                     data: invoiceData,
+                    headers: { "RequestVerificationToken": requestVerificationToken },
                     success: function (result) {
                         alert(result);
                         location.reload();
@@ -483,6 +485,8 @@
                         alert(result);
                     }
                 });
+
+                $("#sellProducts").prop("disabled", false);
             });
           
         });
