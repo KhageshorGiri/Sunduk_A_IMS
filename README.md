@@ -44,6 +44,10 @@ Ensure you have the following software installed on your machine before setting 
 #### Sell Product
 ![sellproduct](https://github.com/KhageshorGiri/Sunduk_A_IMS/assets/49892149/5f3057e3-a060-4626-aa8e-d84c943ce12b)
 
+#### Purchase Invoice
+![PurchaseInvoice](https://github.com/KhageshorGiri/Sunduk_A_IMS/assets/49892149/c6ac60f3-76fc-4c26-bb89-c81b45973b43)
+
+
 #### Stock Management
 ![stock](https://github.com/KhageshorGiri/Sunduk_A_IMS/assets/49892149/c2d96787-421c-4af4-99d4-3072e089f702)
 
