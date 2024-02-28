@@ -4,6 +4,8 @@ using Inventory.Web.Repositories.RepoInterface;
 using Inventory.Web.Services.ServiceImplementation;
 using Inventory.Web.Services.ServiceInterface;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Inventory.Entities.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +49,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 

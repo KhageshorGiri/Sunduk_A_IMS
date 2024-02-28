@@ -1,11 +1,12 @@
 ﻿
 
 using Inventory.Entities.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Web.Data
 {
-    public class InventorySystemDbContext : DbContext
+    public class InventorySystemDbContext : IdentityDbContext<Users, Role, string>
     {
         public InventorySystemDbContext(DbContextOptions<InventorySystemDbContext> options) 
             : base(options)

@@ -2,11 +2,7 @@
 using Inventory.Entities.Entities;
 using Inventory.Web.Data;
 using Inventory.Web.Repositories.RepoInterface;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.Data;
 
 namespace Inventory.Web.Repositories.repoImplementation
 {

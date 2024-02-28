@@ -1,10 +1,7 @@
 ﻿using Inventory.Entities.Entities;
-using Inventory.Web.Data;
 using Inventory.Web.Repositories.RepoInterface;
 using Inventory.Web.Services.ServiceInterface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.ProjectModel;
 
 namespace Inventory.Web.Controllers
 {
