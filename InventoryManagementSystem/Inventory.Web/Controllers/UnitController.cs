@@ -1,10 +1,12 @@
 ﻿using Inventory.Entities.Entities;
 using Inventory.Web.Repositories.RepoInterface;
 using Inventory.Web.Services.ServiceInterface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.Web.Controllers
 {
+    [Authorize]
     public class UnitController : Controller
     {
         private readonly IUnit unitService;

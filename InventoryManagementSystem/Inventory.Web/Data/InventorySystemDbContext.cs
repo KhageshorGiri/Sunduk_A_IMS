@@ -14,6 +14,8 @@ namespace Inventory.Web.Data
 
         }
 
+        #region Register DbSet
+
         // adding models that will maped into database tables
 
         public DbSet<Address>? Addresses { get; set; }
@@ -28,6 +30,8 @@ namespace Inventory.Web.Data
         public DbSet<Employee>? Employees { get; set; }
         public DbSet<EmployeeSalary>? EmployeeSalaries { get; set; }
         public DbSet<EmployeeSalaryPayment>? EmployeeSalaryPayments { get; set; }
+
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

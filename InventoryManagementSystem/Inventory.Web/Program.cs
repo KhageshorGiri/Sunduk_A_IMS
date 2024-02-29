@@ -16,6 +16,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<InventorySystemDbContext>(option =>
         option.UseSqlServer(builder.Configuration.GetConnectionString("DataBaseConnection")));
 
+// add identity configuration
+builder.Services.AddDefaultIdentity<Users>()
+    .AddDefaultTokenProviders().AddRoles<Role>()
+    .AddEntityFrameworkStores<InventorySystemDbContext>();
+
 // adding services as a DI
 builder.Services.AddTransient<IUnit, UnitService>();
 builder.Services.AddTransient<IUnitRepository, UnitRepository>();
@@ -56,5 +61,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();

@@ -1,8 +1,8 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Inventory.Web.Areas.Identity.Data
+﻿@using Inventory.Entities.Entities;
+@using Microsoft.AspNetCore.Identity
 
-@inject SignInManager<InventoryWebUser> SignInManager
-@inject UserManager<InventoryWebUser> UserManager
+@inject SignInManager<Users> SignInManager
+@inject UserManager<Users> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

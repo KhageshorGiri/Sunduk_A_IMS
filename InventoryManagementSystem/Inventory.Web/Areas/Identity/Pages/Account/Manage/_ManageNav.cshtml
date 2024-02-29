@@ -1,4 +1,6 @@
-﻿@inject SignInManager<InventoryWebUser> SignInManager
+﻿@using Inventory.Entities.Entities;
+
+@inject SignInManager<Users> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
