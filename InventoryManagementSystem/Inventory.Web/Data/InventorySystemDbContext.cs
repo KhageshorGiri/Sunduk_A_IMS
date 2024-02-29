@@ -1,17 +1,20 @@
 ﻿
 
 using Inventory.Entities.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Web.Data
 {
-    public class InventorySystemDbContext : DbContext
+    public class InventorySystemDbContext : IdentityDbContext<Users, Role, string>
     {
         public InventorySystemDbContext(DbContextOptions<InventorySystemDbContext> options) 
             : base(options)
         {
 
         }
+
+        #region Register DbSet
 
         // adding models that will maped into database tables
 
@@ -27,6 +30,8 @@ namespace Inventory.Web.Data
         public DbSet<Employee>? Employees { get; set; }
         public DbSet<EmployeeSalary>? EmployeeSalaries { get; set; }
         public DbSet<EmployeeSalaryPayment>? EmployeeSalaryPayments { get; set; }
+
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

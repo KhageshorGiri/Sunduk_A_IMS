@@ -4,6 +4,8 @@ using Inventory.Web.Repositories.RepoInterface;
 using Inventory.Web.Services.ServiceImplementation;
 using Inventory.Web.Services.ServiceInterface;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Inventory.Entities.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,11 @@ builder.Services.AddControllersWithViews();
 // adding database throug connection string
 builder.Services.AddDbContext<InventorySystemDbContext>(option =>
         option.UseSqlServer(builder.Configuration.GetConnectionString("DataBaseConnection")));
+
+// add identity configuration
+builder.Services.AddDefaultIdentity<Users>()
+    .AddDefaultTokenProviders().AddRoles<Role>()
+    .AddEntityFrameworkStores<InventorySystemDbContext>();
 
 // adding services as a DI
 builder.Services.AddTransient<IUnit, UnitService>();
@@ -47,11 +54,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();
