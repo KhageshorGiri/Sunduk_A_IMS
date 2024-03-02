@@ -38,6 +38,9 @@
     }
 }
 
+.field-validation-error{
+    font-size: 0.86rem;
+}
 
 .form-label {
     font-weight: 500;

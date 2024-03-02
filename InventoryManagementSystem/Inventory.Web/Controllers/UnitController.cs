@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.Web.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class UnitController : Controller
     {
         private readonly IUnit unitService;
@@ -39,7 +39,7 @@ namespace Inventory.Web.Controllers
             try
             {
                 await unitService.CreateUnitAsync(newUnit);
-                TempData["Message"] = "Create Sucess";
+                TempData["Message"] = "Create Success";
                 return RedirectToAction(nameof(Create));
             }
             catch
@@ -77,7 +77,7 @@ namespace Inventory.Web.Controllers
 
                 await unitService.UpdateUnitAsync(existingUnit);
 
-                TempData["Message"] = "Edit Sucess";               
+                TempData["Message"] = "Edit Success";               
                 return RedirectToAction(nameof(Create));
             }
             catch
@@ -93,7 +93,7 @@ namespace Inventory.Web.Controllers
             try
             {              
                 await unitService.DeleteUnitAsync(id);
-                TempData["Message"] = "Delete Sucess";
+                TempData["Message"] = "Delete Success";
                 return RedirectToAction("Create");
             }
             catch

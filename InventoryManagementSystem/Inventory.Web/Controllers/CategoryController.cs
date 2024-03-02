@@ -32,14 +32,13 @@ namespace Inventory.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     await _categoryService.CreateCategoryAsync(category);
-                    TempData["Success"] = "Create Sucess";                    
+                    TempData["Message"] = "Create Success";                    
                 }
-                TempData["Error"] = "Create Error";
                 return RedirectToAction("Create");
             }
             catch
             {
-                TempData["Error"] = "Create Error";
+                TempData["Message"] = "Create Error";
                 return View();
             }
         }
@@ -63,12 +62,12 @@ namespace Inventory.Web.Controllers
             try
             {
                 await _categoryService.UpdateCategoryAsync(id, existingCateory);
-                TempData["Sucess"] = "Edit Sucess";
+                TempData["Message"] = "Edit Success";
                 return RedirectToAction(nameof(Create));
             }
             catch
             {
-                TempData["Error"] = "Edit Error";
+                TempData["Message"] = "Edit Error";
                 return View();
             }
         }
@@ -79,12 +78,12 @@ namespace Inventory.Web.Controllers
             try
             {
                 _categoryService.DeleteCategoryAsync(id);
-                TempData["Sucess"] = "Delete Sucess";
+                TempData["Message"] = "Delete Success";
                 return RedirectToAction(nameof(Create));
             }
             catch
             {
-                TempData["Error"] = "Delete Error";
+                TempData["Message"] = "Delete Error";
                 return View();
             }
         }
