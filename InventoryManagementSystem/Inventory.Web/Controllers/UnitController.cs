@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.Web.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class UnitController : Controller
     {
         private readonly IUnit unitService;

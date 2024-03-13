@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Web.Data
 {
-    public class InventorySystemDbContext : IdentityDbContext<Users, Role, string>
+    public class InventorySystemDbContext : IdentityDbContext<Users, Role, int>
     {
         public InventorySystemDbContext(DbContextOptions<InventorySystemDbContext> options) 
             : base(options)

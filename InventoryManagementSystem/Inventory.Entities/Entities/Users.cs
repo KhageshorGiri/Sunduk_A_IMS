@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Inventory.Entities.Entities
 {
-    public class Users : IdentityUser<string>
+    public class Users : IdentityUser<int>
     {
         
         [Required(ErrorMessage = "Name value cannot be empty.")]
