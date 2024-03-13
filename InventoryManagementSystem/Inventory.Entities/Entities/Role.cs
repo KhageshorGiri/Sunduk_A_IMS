@@ -5,6 +5,6 @@ namespace Inventory.Entities.Entities
 {
     public class Role : IdentityRole<int>
     {
-        
+        // Additional Properties
     }
 }
