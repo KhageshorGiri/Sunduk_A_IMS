@@ -1,4 +1,8 @@
-﻿
+﻿@using Inventory.Entities.Entities
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Users> SignInManager
+@inject UserManager<Users> UserManager
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,13 +34,18 @@
         </form>
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="#!">Settings</a></li>
                     <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                     <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    <li>
+                        <a class="dropdown-item">
+                            <partial name="_LoginPartial" />
+                        </a>
+                    <li>
                 </ul>
             </li>
         </ul>
@@ -134,7 +143,16 @@
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>
-                    User Name
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        var username = UserManager.GetUserName(User);
+                        var user = await UserManager.FindByNameAsync(username); // Get the user object
+
+                        if (user != null)
+                        {
+                            @($"{user.Name}");
+                        }
+                    }
                 </div>
             </nav>
         </div>
