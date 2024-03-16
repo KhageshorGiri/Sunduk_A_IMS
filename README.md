@@ -29,6 +29,13 @@ Ensure you have the following software installed on your machine before setting 
 
 ## Screenshots
 
+#### Login
+![login](https://github.com/KhageshorGiri/Sunduk_A_IMS/assets/49892149/c3100d9c-2578-46bb-84b6-8a4ccc718b23)
+
+#### Register
+![Register](https://github.com/KhageshorGiri/Sunduk_A_IMS/assets/49892149/5716e471-58e4-4867-b002-1a9af2a3988c)
+
+
 #### Dashbord
 ![Dashbord](https://github.com/KhageshorGiri/Sunduk_A_IMS/assets/49892149/f9b6f1fa-670b-4e07-8ea0-f97836b8d5c6)
 
@@ -47,10 +54,8 @@ Ensure you have the following software installed on your machine before setting 
 #### Purchase Invoice
 ![PurchaseInvoice](https://github.com/KhageshorGiri/Sunduk_A_IMS/assets/49892149/c6ac60f3-76fc-4c26-bb89-c81b45973b43)
 
-
 #### Stock Management
-![stock](https://github.com/KhageshorGiri/Sunduk_A_IMS/assets/49892149/c2d96787-421c-4af4-99d4-3072e089f702)
-
+![stock](https://github.com/KhageshorGiri/Sunduk_A_IMS/assets/49892149/51dd8855-935b-46a7-b5ac-2430a642ada3)
 
 
 ## Thank You for Visiting!

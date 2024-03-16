@@ -18,5 +18,7 @@ namespace Inventory.Entities.Entities
 
         [NotMapped]
         public string? DisplayRole { get; set; }
+
+        // Additional Properties
     }
 }
