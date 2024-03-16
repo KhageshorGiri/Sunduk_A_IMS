@@ -16,35 +16,58 @@ namespace Inventory.Web.Repositories.repoImplementation
         }
         public async Task AddSellBillAsync(SellBillViewModel invoiceBillItems)
         {
-            var invoice = new Invoice();
-            invoice.BillNumber = invoiceBillItems.BillNumber;
-            invoice.BillIssueDate = Convert.ToDateTime(invoiceBillItems.BillIssueDate);
-            invoice.VoucherDate = Convert.ToDateTime(invoiceBillItems.VoucherDate);
-            invoice.CustomerID = invoiceBillItems.CustomerID;
-            invoice.Comment = invoiceBillItems.Comment;
-            invoice.SellDate = DateTime.UtcNow.ToString();
-            _dbContext.Invoices.Add(invoice);
 
-            await _dbContext.SaveChangesAsync();
 
-            int invoiceBillId = invoice.InvoiceBillId;
-
-            // adding into product table
-            if (invoiceBillItems.Products != null)
+            // Begin transaction
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            try
             {
-                foreach (var item in invoiceBillItems.Products)
+                var invoice = new Invoice();
+                invoice.BillNumber = invoiceBillItems.BillNumber;
+                invoice.BillIssueDate = Convert.ToDateTime(invoiceBillItems.BillIssueDate);
+                invoice.VoucherDate = Convert.ToDateTime(invoiceBillItems.VoucherDate);
+                invoice.CustomerID = invoiceBillItems.CustomerID;
+                invoice.Comment = invoiceBillItems.Comment;
+                invoice.SellDate = DateTime.UtcNow.ToString();
+                _dbContext.Invoices.Add(invoice);
+
+                await _dbContext.SaveChangesAsync();
+
+                int invoiceBillId = invoice.InvoiceBillId;
+
+                // adding into product table
+                if (invoiceBillItems.Products != null)
                 {
-                    var product = new InvoiceProducts();
-                    product.StockProductId = item.ProductId;
-                    product.Rate = item.Rate;
-                    product.Quantity = item.Quantity;
-                    product.InvoiceBillId = invoiceBillId;
-                    _dbContext.InvoiceProducts.Add(product);
+                    foreach (var item in invoiceBillItems.Products)
+                    {
+                        var product = new InvoiceProducts();
+                        product.StockProductId = item.ProductId;
+                        product.Rate = item.Rate;
+                        product.Quantity = item.Quantity;
+                        product.InvoiceBillId = invoiceBillId;
+                        _dbContext.InvoiceProducts.Add(product);
+
+                        // update prduct table for sold quantity
+                        var strockProduct = await _dbContext.Products.FindAsync(item.ProductId);
+                        if (strockProduct != null)
+                        {
+                            strockProduct.SoldQuantity = strockProduct.SoldQuantity + (int)item.Quantity;
+                            _dbContext.Products.Update(strockProduct);
+                        }
+                    }
                 }
+
+                await _dbContext.SaveChangesAsync();
+
+                // Commit transaction if all operations succeed
+                await transaction.CommitAsync();
             }
-
-            await _dbContext.SaveChangesAsync();
-
+            catch (Exception ex)
+            {
+                // Handle any exceptions and roll back the transaction
+                await transaction.RollbackAsync();
+                // Log or handle the exception as needed
+            }
         }
 
         public Task DeleteSellBillAsync(int Id)
@@ -52,9 +75,15 @@ namespace Inventory.Web.Repositories.repoImplementation
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Invoice?>> GetAllSellBillsAsync()
+        public async Task<IEnumerable<Invoice?>> GetAllSellBillsAsync()
         {
-            throw new NotImplementedException();
+            var allInvocies = await _dbContext.Invoices
+                .Include(i=>i.Customer)
+                .Include(invoice => invoice.InvoiceProducts)
+                .OrderByDescending(i=>i.InvoiceBillId)
+                .ToArrayAsync();
+
+            return allInvocies;
         }
 
         public Task<Invoice?> GetSellBillAsync()

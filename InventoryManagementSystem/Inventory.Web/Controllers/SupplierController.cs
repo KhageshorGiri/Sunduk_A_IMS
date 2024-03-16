@@ -1,10 +1,11 @@
 ﻿using Inventory.Web.Services.ServiceInterface;
 using Inventory.Web.ViewModels;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SupplierController : Controller
     {
         private readonly ISupplier supplierService;

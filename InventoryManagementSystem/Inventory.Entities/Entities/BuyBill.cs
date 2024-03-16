@@ -22,7 +22,7 @@ namespace Inventory.Entities.Entities
 
         [Required(ErrorMessage = "Purchase Date Name Cannot be Empty.")]
         [DataType(DataType.DateTime, ErrorMessage = "Purchase Date Should Be In Correct Format.")]
-        public string? PurchaseDate { get; set; }
+        public DateTime? PurchaseDate { get; set; }
 
         [Required(ErrorMessage = "BillNumber Name Cannot be Empty.")]
         [StringLength(200, ErrorMessage = "Comment Should Be Under 200 Characters.")]

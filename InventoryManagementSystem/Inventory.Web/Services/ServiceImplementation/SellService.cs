@@ -23,9 +23,9 @@ namespace Inventory.Web.Services.ServiceImplementation
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Invoice?>> GetAllSellBillsAsync()
+        public async Task<IEnumerable<Invoice?>> GetAllSellBillsAsync()
         {
-            throw new NotImplementedException();
+            return await sellRepository.GetAllSellBillsAsync();
         }
 
         public Task<Invoice?> GetSellBillAsync()

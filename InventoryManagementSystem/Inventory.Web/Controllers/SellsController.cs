@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using Inventory.Web.ViewModels;
-using Inventory.Entities.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Inventory.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SellsController : Controller
     {
 
@@ -21,9 +22,11 @@ namespace Inventory.Web.Controllers
             this.unitService = unitService;
             this.categoryService = categoryService;
         }
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var sellInvocieDetails = await sellProductService.GetAllSellBillsAsync();
+            return View(sellInvocieDetails);
         }
 
         [HttpGet]

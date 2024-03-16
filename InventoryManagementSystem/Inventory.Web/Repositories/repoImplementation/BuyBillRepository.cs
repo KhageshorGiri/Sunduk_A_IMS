@@ -27,7 +27,7 @@ namespace Inventory.Web.Repositories.repoImplementation
             buyBill.BillNumber = buyBillItems.BillNumber;
             buyBill.BillIssueDate = Convert.ToDateTime(buyBillItems.BillIssueDate);
             buyBill.VoucherDate = Convert.ToDateTime(buyBillItems.VoucherDate);
-            buyBill.PurchaseDate = buyBillItems.PurchaseDate;
+            buyBill.PurchaseDate = Convert.ToDateTime(buyBillItems.PurchaseDate);
             buyBill.SupplierID = buyBillItems.SupplierID;
             buyBill.Comment = buyBillItems.Comment;
             dbContext.BuyBills.Add(buyBill);
@@ -61,8 +61,9 @@ namespace Inventory.Web.Repositories.repoImplementation
         {
             var billList = dbContext.BuyBills
                 .Include(x => x.Products)
-                .Include(x => x.Supplier);
-               // .Include(x=>x.);
+                .Include(x => x.Supplier)
+                .OrderByDescending(x => x.BillId);
+               
             return await billList.ToArrayAsync();
         }
 

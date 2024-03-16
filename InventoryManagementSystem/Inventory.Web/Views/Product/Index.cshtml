@@ -206,51 +206,7 @@
 @section scripts{
     
     <script>
-        $(".PaymnetBillReport").click(function () {
-            var paybill = $(this).attr('data-billId');
-            alert(paybill);
-        });
-
-        $(".TransportBillReport").click(function () {
-            var bill_id = $(this).attr('data-billId');
-            alert(bill_id)
-            $.ajax({
-                type: "GET",
-                url: '/Reports/TransportReport/',
-                contentType: "application/json; charset=utf-8",
-                data: { ID: bill_id },
-                datatype: "json",
-                success: function (data) {
-                    $('#myModalContentT').html(data);
-                    $('#myModalT').modal('show');
-
-                },
-                error: function () {
-                    alert("We are not able to load your Expanses reports.");
-                }
-            });
-        });
-
-
-        $(".DirectExpanseBillRepot").click(function () {
-            var bill_id = $(this).attr('data-billId');
-            alert(bill_id)
-            $.ajax({
-                type: "GET",
-                url: '/Reports/ExpenseReport/',
-                contentType: "application/json; charset=utf-8",
-                data: { Id: bill_id },
-                datatype: "json",
-                success: function (data) {
-                    $('#myModalContent').html(data);
-                    $('#myModal').modal('show');
-
-                },
-                error: function () {
-                    alert("We are not able to load your Expanses reports.");
-                }
-            });
-        });
+       
     </script>
     
     

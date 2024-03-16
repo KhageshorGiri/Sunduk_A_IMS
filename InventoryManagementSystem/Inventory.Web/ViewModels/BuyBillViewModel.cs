@@ -48,7 +48,7 @@ namespace Inventory.Web.ViewModels
 
         [Required(ErrorMessage = "Quantity Cannot Be Empty.")]
         [Range(1, Int32.MaxValue, ErrorMessage = "Quantity Should Be a Positive Value.")]
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
 
         // adding relationship with others tables.
 
@@ -81,7 +81,7 @@ namespace Inventory.Web.ViewModels
         public decimal? Rate { get; set; } = 0;
 
         [Range(1, Int32.MaxValue, ErrorMessage = "Quantity Should Be a Positive Value.")]
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
 
         public int? BillId { get; set; }
         public int? UnitId { get; set; }

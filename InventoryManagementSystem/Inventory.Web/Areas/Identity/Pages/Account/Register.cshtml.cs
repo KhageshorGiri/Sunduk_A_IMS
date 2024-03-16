@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Inventory.Entities.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Inventory.Web.Areas.Identity.Pages.Account
 {
@@ -110,14 +111,31 @@ namespace Inventory.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                Users user = new Users
+                {
+                    Name = Input.Email,
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                };
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                //await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                //await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
+                    if (!string.IsNullOrWhiteSpace(Input.Role))
+                    {
+                        await _userManager.AddToRoleAsync(user, Input.Role);
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Please choose at least one user rights.");
+                        return Page();
+                    }
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

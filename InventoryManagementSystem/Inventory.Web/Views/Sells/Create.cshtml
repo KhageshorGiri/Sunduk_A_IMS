@@ -392,6 +392,7 @@
             });
 
             function PopulateInvoiceProductTable(product){
+                var stockQuantity = parseInt(product["Quantity"]) - parseInt(product["SoldQuantity"]);
                 var item_sn = 0;
                 var buyBillTableDate = "<tr>";
                 buyBillTableDate += "<td>" + ++item_sn + "</td>";
@@ -400,7 +401,7 @@
                 buyBillTableDate += "<td>" + product["Category"].CategoryName + "</td>";
                 buyBillTableDate += "<td>" + product["Unit"].ShortForm + "</td>";
                 buyBillTableDate += "<td>" + product["Rate"] + "</td>";
-                buyBillTableDate += "<td>" + product["Quantity"] + "</td>";
+                buyBillTableDate += "<td>" + stockQuantity  + "</td>";
                 buyBillTableDate += '<td><a data-rowitemId="1" href="#" class="editProductTableItem"><i class="fa-solid fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;<a data-rowitemId="0" href = "#" class="deleteProductIndexTableItem text-danger" ><i class="fa-solid fa-xmark"></i></a ></td>';
                 buyBillTableDate += "</tr>";
 

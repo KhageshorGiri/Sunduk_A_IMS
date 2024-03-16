@@ -1,14 +1,12 @@
-﻿using Inventory.Entities.Entities;
-using Inventory.Web.Services.ServiceInterface;
+﻿using Inventory.Web.Services.ServiceInterface;
 using Inventory.Web.ViewModels;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
 
 namespace Inventory.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
 

@@ -1,10 +1,11 @@
-﻿using Inventory.Web.Services.ServiceImplementation;
-using Inventory.Web.Services.ServiceInterface;
+﻿using Inventory.Web.Services.ServiceInterface;
 using Inventory.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CustomersController : Controller
     {
         private readonly ICustomer customerService;

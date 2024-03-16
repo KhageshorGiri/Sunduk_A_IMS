@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<Inventory.Web.ViewModels.StockViewModel>
+
 @{
     ViewData["Title"] = "Stock Index";
 }
@@ -6,48 +7,42 @@
 <div class="row mt-4">
     <div class="card col-md-12">
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="table-responsive p-3">
                 <table class="table table-sm table-striped table-bordered" id="stockDetailsTable">
                     <thead>
                         <tr>
-                            <th colspan="4" class="text-center">Opening Stock</th>
-                            <th colspan="4" class="text-center">Sold Stock</th>
-                            <th colspan="4" class="text-center">Current Stock</th>
+                            <th colspan="5" class="text-center">Opening Stock</th>
+                            <th colspan="1" class="text-center">Sold Stock</th>
+                            <th colspan="1" class="text-center">Current Stock</th>
                         </tr>
                         <tr>
                             <th>Product Item</th>
+                            <th>Product Code</th>
                             <th>Purchase Date</th>
                             <th>Rate</th>
                             <th>Quntity</th>
 
-                            <th>Product Item</th>
-                            <th>Purchase Date</th>
-                            <th>Rate</th>
                             <th>Quntity</th>
-
-                            <th>Product Item</th>
-                            <th>Purchase Date</th>
-                            <th>Rate</th>
+                          
                             <th>Quntity</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        @foreach(var item in Model)
+                        {
+                            <tr>
+                                <td>@item.ProductName</td>
+                                <td>@item.ProductCode</td>
+                                <td>@item.PurchaseDate</td>
+                                <td>@item.Rate</td>
+                                <td>@item.Quantity</td>
 
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                                <td>@item.SoldQuantity</td>
 
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                                <td>@(item.Quantity - item.SoldQuantity)</td>
+                            </tr>
+                        }
+                       
                     </tbody>
                 </table>
             </div>

@@ -6,6 +6,7 @@ using Inventory.Web.Services.ServiceInterface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Inventory.Entities.Entities;
+using Inventory.Web.XOptionsConfiguration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +19,9 @@ builder.Services.AddDbContext<InventorySystemDbContext>(option =>
 
 // add identity configuration
 builder.Services.AddDefaultIdentity<Users>()
-    .AddDefaultTokenProviders().AddRoles<Role>()
-    .AddEntityFrameworkStores<InventorySystemDbContext>();
+    .AddRoles<Role>()
+    .AddEntityFrameworkStores<InventorySystemDbContext>()
+    .AddDefaultTokenProviders();
 
 // adding services as a DI
 builder.Services.AddTransient<IUnit, UnitService>();
@@ -36,12 +38,14 @@ builder.Services.AddTransient<ISellProduct, SellService>();
 builder.Services.AddTransient<ISellRepository, SellRepository>();
 builder.Services.AddTransient<IEmployee, EmployeeService>();
 builder.Services.AddTransient<IEmployeeRepositoty, EmployeeRepository>();
+builder.Services.AddTransient<IStock, StockService>();
+builder.Services.AddTransient<IStockRepository, StockRepository>();
 
 
 
 
 var app = builder.Build();
-
+await app.Seed();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

@@ -27,8 +27,9 @@ namespace Inventory.Entities.Entities
 
         [Required(ErrorMessage = "Quantity Cannot Be Empty.")]
         [Range(1, Int32.MaxValue, ErrorMessage = "Quantity Should Be a Positive Value.")]
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
 
+        public int SoldQuantity { get; set; } = 0;
         // adding relationship with others tables.
         [Required]
         //[ForeignKey("BuyBill")]

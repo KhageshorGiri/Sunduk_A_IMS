@@ -1,5 +1,144 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<Inventory.Entities.Entities.Invoice>
+
 @{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    ViewBag.Title = "Purchase Bill Report";
+}
+
+
+<style>
+
+    #suppliers {
+        border-radius: 15px;
+        padding: 30px;
+        padding-left: 10px;
+    }
+
+    .billCard {
+        border-radius: 0.15rem;
+        border-color: cadetblue;
+    }
+</style>
+@*
+@Html.Action("CompanyDetail", "Account")*@
+
+<div class="card my-3">
+    <div class="card-header">
+        <h4> Purchase Invoice</h4>
+    </div>
+</div>
+
+@foreach (var bill in Model)
+{
+    <div class="card shadow-md rounded p-3 mb-3 billCard">
+        <div class="row col-md-12">
+            <div class="col-md-6 shadow p-3" id="suppliers">
+                <div class="mt-2 text-center" id="supplierpaymentsection">
+                    <label style="font-size:18px;" class="text-center"><b>Supplier : </b> @bill.Customer.CustomerName</label>
+                </div>
+                <hr class="bg-info" style="width:70%;" />
+                <div class="mt-lg-2" id="contactsection">
+                    <div class="col-md-12 text-left" style="font-size:13px;">
+                        <label class="col-md-4"><b>Email : </b>@bill.Customer.Email</label>
+                        <label class="col-md-3"><b>Vat Number : </b>@bill.Customer.PanNumber</label>
+                        <label class="col-md-3"><b>Contact : </b>@bill.Customer.PhoneNumber</label>
+                        <label class="col-md-12"><b>Address : </b>@bill.Customer.Address</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mt-3" id="billInfo">
+                <div class="mt-2 ml-4" style="font-size:17px;">
+                    <label><b>Bill No : </b>@bill.BillNumber</label>
+                </div>
+                <div class="mt-1 ml-4" style="font-size:17px;">
+                    <label><b>Bill Issue Date : </b>@bill.BillIssueDate</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <table class=" table table-bordered mt-2" border="1">
+                <thead>
+                    <tr>
+                        <th>S.N</th>
+                        <th>Product</th>
+                        <th>Product Code</th>
+                        <th>Category</th>
+                        <th>Unit</th>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody style="font-size:0.9rem;">
+                    @{
+                        int? sn = 1;
+                        decimal? totalAmount = 0;
+                        decimal? GrandTotal = 0;
+                        decimal? dsicountAmount = 0;
+
+                    }
+                    @{
+                        if (bill.InvoiceProducts != null)
+                        {
+                            @foreach (var item in bill.InvoiceProducts)
+                            {
+                                GrandTotal += (item.Quantity * item.Rate);
+                                totalAmount = GrandTotal;
+
+                                <tr>
+                                    <td>@(sn++)</td>
+                                    <td>ProductName</td>
+                                    <td>ProductCode</td>
+                                    <td>item.Category.CategoryName</td>
+                                    <td>item.Unit.UnitName</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.Rate</td>
+                                    <td>@(item.Quantity * item.Rate)</td>
+                                </tr>
+                            }
+                        }
+                        GrandTotal = GrandTotal - dsicountAmount;
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td rowspan="6" colspan="6">
+                            <b>Comment : </b>@bill.Comment
+                        </td>
+                        <th>Total</th>
+                        <td>@totalAmount</td>
+                    </tr>
+                    <tr>
+
+                        <th>Discount</th>
+                        <td>@dsicountAmount</td>
+                    </tr>
+
+                    <tr>
+
+                        <th>Grand Total</th>
+                        <td>@GrandTotal</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+
+    </div>
+
+
+}
+
+@section scripts {
+
+    <script>
+
+    </script>
+
+
 }
