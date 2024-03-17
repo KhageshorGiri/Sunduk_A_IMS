@@ -37,7 +37,7 @@ Ensure you have the following software installed on your machine before setting 
 
 
 #### Dashbord
-![Dashbord](https://github.com/KhageshorGiri/Sunduk_A_IMS/assets/49892149/f9b6f1fa-670b-4e07-8ea0-f97836b8d5c6)
+![dahnbord](https://github.com/KhageshorGiri/Sunduk_A_IMS/assets/49892149/7ebf9f5d-71d0-4063-bf53-4356b840826b)
 
 #### CRM(Customer Relation Management)
 ![Coustomer](https://github.com/KhageshorGiri/Sunduk_A_IMS/assets/49892149/f8cd1479-ab7e-4e50-94f1-cb5a3e7a26c1)
